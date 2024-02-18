@@ -7,11 +7,19 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   module: {
     rules: [
         {
             test: /\.tsx?/i,
-            use: ['ts-loader'],
+            use: {
+              loader: 'ts-loader',
+              options: {
+                experimentalWatchApi: true,
+              }
+            },
             exclude: /node_modules/
         },
         {
