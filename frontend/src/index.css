@@ -1,3 +1,25 @@
 .color {
     background-color: red;
 }
+
+.hotelCard{
+
+    background-color: rgb(238, 227, 242);
+    width: 550px;
+    border-radius: 10px;
+    margin: 1%;
+    display: flex;
+}
+.img{
+    display: block;
+    width: 240px;
+}
+.hotelsContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.info{
+    padding: 2%;
+}

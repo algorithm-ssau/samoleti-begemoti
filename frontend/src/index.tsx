@@ -1,19 +1,14 @@
 import { createRoot } from "react-dom/client";
-import { test } from "./data";
-import { Card } from "./components/Card";
-
+import { City } from "./components/Card";
+import { HotelList } from "./components/Card";
+import './index.css';
 function App() {
-    let x: number = 1;
-    console.log(test())
-    console.log(x);
-    return <div className="color">
-        <Card 
-           title="Да не умер"
-           id="да не умер он"
-           description="он в конце драйва" 
-           onClick={ (text) => alert(text) }
-        />
-    </div>
+
+    
+     return <div>
+        < HotelList  city={City.Moscow} />;
+     </div>;
+    
 }
 
 let container = document.getElementById("root");
