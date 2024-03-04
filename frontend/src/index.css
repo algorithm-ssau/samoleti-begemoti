@@ -2,7 +2,7 @@
     background-color: red;
 }
 
-.cardHotel{
+.hotelCard{
 
     background-color: rgb(238, 227, 242);
     width: 550px;
@@ -14,7 +14,7 @@
     display: block;
     width: 240px;
 }
-.containerHotels{
+.hotelsContainer{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
