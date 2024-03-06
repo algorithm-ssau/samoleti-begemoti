@@ -20,15 +20,16 @@ type SelectProps = {
 
 function DateSelect (props: SelectProps) {
     return (
-        <input type='date' onChange={(e) => {props.onInput(e.target.value)}}></input>
+        <input type='date' onChange={e => props.onInput(e.target.value)}></input>
     )
 }
 
 function SmartSelect (props: SelectProps) {
     const minSelect = props.selectList?.map(item => <option key={item}>{item}</option>)
     return (
-        <select onChange={(e) => {props.onInput(e.target.value)}}>
-            <option value="" selected disabled hidden>{props.emptySelectSlot}</option>{minSelect}
+        <select onChange={e => props.onInput(e.target.value)}>
+            <option value="" selected disabled hidden>{props.emptySelectSlot}</option>
+            {minSelect}
         </select>
     )
 }
@@ -43,10 +44,10 @@ export const PlacePicker = (props: Props) => {
     const minutesList = ['00','15', '30', '45']
     return (
         <div>
-            <text>Выбор места: </text>
+            <span>Выбор места: </span>
             <SmartSelect selectList={props.listOfPlaces} onInput={setPlace} emptySelectSlot="место"/>
             <br/>
-            <text>Выбор времени: </text>
+            <span>Выбор времени: </span>
             <DateSelect onInput={setDate}/>
             <SmartSelect selectList={hoursList}  onInput={setHours} emptySelectSlot="--"/>
             <SmartSelect selectList={minutesList}  onInput={setMinutes} emptySelectSlot="--"/>

@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import { City } from "./components/Card";
 import { HotelList } from "./components/Card";
 import { PlacePicker } from "./components/PlacePicker";
-import  type {DataType}  from "./components/PlacePicker";
+import type {DataType} from "./components/PlacePicker";
 import './index.css';
 
 function onSubmitHandle (data: DataType) {
@@ -11,12 +11,12 @@ function onSubmitHandle (data: DataType) {
 
 function App() {
    const listOfPlaces = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
-     return <div>
-
-        < HotelList  city={City.Moscow} />;
+     return (
+     <div>
+        <HotelList city={City.Moscow} />;
         <PlacePicker onSubmit = {onSubmitHandle} listOfPlaces= {listOfPlaces}/>
-     </div>;
-    
+     </div>
+     );
 }
 
 let container = document.getElementById("root");
