@@ -10,9 +10,9 @@ MongoConnector.connect(mongoURL, dbNameTest);
 
 app.get("/", async (req, res) => {
     res.send(test());
-    const rese = await get("/hotels");
-    console.log(Object.keys(rese.data[0]));
-    console.log(rese.data[0]);
+    await get("/search/hotel");
+    // console.log(rese.status);
+    // console.log(rese.data[0]);
 });
 
 app.use("/", Routers.addressRouter);
