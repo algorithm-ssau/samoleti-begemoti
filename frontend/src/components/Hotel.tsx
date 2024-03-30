@@ -48,11 +48,11 @@ const Container = styled.div`
     display: flex;
     padding-left: 3%;
     box-shadow: 0px 2px 4px ${lightPrimary};
-    width: 60%;
-    height: 603px;  
+    width: 60%;      
     margin:auto;  
     margin-top:5%;
     margin-bottom:5%;
+    
 `
 
 const ContainerHalf = styled.div`    
@@ -85,6 +85,7 @@ const Ico = styled.img`
     height: 40px;
     margin-right:5%;
     margin-left:5%;
+    background-color: ${lightPrimary};
 `
 const Link  = styled.a`
     text-decoration:none;
