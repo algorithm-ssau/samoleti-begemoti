@@ -16,19 +16,18 @@ class MongoConnector {
     }
 
     static disconnect(dbConnection: typeof mongoose) {
-        if (!dbConnection){
-            console.log("Соединение с БД отсутствует!")
-        }
-        else{
-            dbConnection.disconnect()
-            .then(() => {
-                console.log("Соединение с БД разорвано");
-            })
-            .catch((err) => {
-                console.log("Ошибка разрыва соединения с БД", err);
-            });
+        if (!dbConnection) {
+            console.log("Соединение с БД отсутствует!");
+        } else {
+            dbConnection
+                .disconnect()
+                .then(() => {
+                    console.log("Соединение с БД разорвано");
+                })
+                .catch((err) => {
+                    console.log("Ошибка разрыва соединения с БД", err);
+                });
         }
     }
-        
 }
 export default MongoConnector;

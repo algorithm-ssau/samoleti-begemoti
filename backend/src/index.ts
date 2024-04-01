@@ -1,18 +1,15 @@
 import express from "express";
-import { test, get } from "./util";
-import { mongoURL, dbNameTest } from "./config";
+import { test } from "./util";
+import { mongoURL, dbNameTest, port } from "./config";
 import MongoConnector from "./dbConnector";
 import * as Routers from "./routers/index";
 
-let app = express();
+export const app = express();
 app.use(express.json());
 MongoConnector.connect(mongoURL, dbNameTest);
 
 app.get("/", async (req, res) => {
     res.send(test());
-    await get("/search/hotel");
-    // console.log(rese.status);
-    // console.log(rese.data[0]);
 });
 
 app.use("/", Routers.addressRouter);
@@ -22,7 +19,7 @@ app.use("/", Routers.roomCategoryRouter);
 app.use("/", Routers.roomRouter);
 app.use("/", Routers.photoRouter);
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log(
         "ехал гослинг навстречу концовке\n сценарист сказал не переживай\n гослинг ответил не переживу"
     );
