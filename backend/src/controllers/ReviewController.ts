@@ -1,124 +1,52 @@
 import ReviewModel from "../models/Reviews";
 import { Request, Response } from "express";
+import * as functionCRUD from "./utilsControllers";
 
 export const create = async (req: Request, res: Response) => {
-    try {
-        const doc = new ReviewModel({
-            category: req.body.category,
-            price: req.body.price,
-            bedAmount: req.body.bedAmount,
-            facilities: req.body.facilities,
-            number: req.body.number,
-        });
-        const review = await doc.save();
-        res.json(review);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Не удалось добавить отзыв",
-        });
-    }
+    await functionCRUD.funcForCreate(
+        req,
+        res,
+        ReviewModel,
+        ["user", "topText", "bottomText", "photos", "rating"],
+        "Не удалось добавить отзыв"
+    );
 };
 
 export const getAll = async (_: Request, res: Response) => {
-    try {
-        const reviews = await ReviewModel.find().exec();
-        res.json(reviews);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Не удалось получить комнату",
-        });
-    }
+    await functionCRUD.funcForGetAll(
+        _,
+        res,
+        ReviewModel,
+        "Не удалось получить отзывы"
+    );
 };
 
 export const getOne = async (req: Request, res: Response) => {
-    try {
-        const reviewId = req.params.id;
-        ReviewModel.findOne({ _id: reviewId })
-            .then((doc) => {
-                if (!doc) {
-                    return res.status(404).json({
-                        message: "Комната не найдена",
-                    });
-                }
-                res.json(doc);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({
-                    message: "Не удалось вернуть комнату",
-                });
-            });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Не удалось получить комнату",
-        });
-    }
+    await functionCRUD.funcForGetOne(req, res, ReviewModel, [
+        "Отзыв не найден",
+        "Не удалось вернуть отзыв",
+        "Не удалось получить отзыв",
+    ]);
 };
 
 export const deleteOne = async (req: Request, res: Response) => {
-    try {
-        const reviewId = req.params.id;
-        ReviewModel.findOneAndDelete({
-            _id: reviewId,
-        })
-            .then((doc) => {
-                if (!doc) {
-                    return res.status(404).json({
-                        message: "Комната не найдена",
-                    });
-                }
-                res.json(doc);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({
-                    message: "Не удалось вернуть комнату",
-                });
-            });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Не удалось получить комнату",
-        });
-    }
+    await functionCRUD.funcForDeleteOne(req, res, ReviewModel, [
+        "Отзыв не найден",
+        "Не удалось вернуть отзыв",
+        "Не удалось получить отзыв",
+    ]);
 };
 
 export const updateOne = async (req: Request, res: Response) => {
-    try {
-        const reviewId = req.params.id;
-        ReviewModel.findOneAndUpdate(
-            {
-                _id: reviewId,
-            },
-            {
-                category: req.body.category,
-                price: req.body.price,
-                bedAmount: req.body.bedAmount,
-                facilities: req.body.facilities,
-                number: req.body.number,
-            }
-        )
-            .then((doc) => {
-                if (!doc) {
-                    return res.status(404).json({
-                        message: "Комната не найдена",
-                    });
-                }
-                res.json(doc);
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json({
-                    message: "Не удалось вернуть комнату",
-                });
-            });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: "Не удалось получить комнату",
-        });
-    }
+    await functionCRUD.funcForUpdateOne(
+        req,
+        res,
+        ReviewModel,
+        ["user", "topText", "bottomText", "photos", "rating"],
+        [
+            "Отзыв не найден",
+            "Не удалось вернуть отзыв",
+            "Не удалось получить отзыв",
+        ]
+    );
 };
