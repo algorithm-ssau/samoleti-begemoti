@@ -60,5 +60,5 @@ export interface Room {
 }
 
 export interface Photo {
-    imageUrl: String,
+    imageUrl: String;
 }

@@ -1,7 +1,7 @@
 import { HotelBooking, Photo, SomeTransaction } from "./db_types";
 
 export interface User {
-    id: number;
+    email: string;
     passwordHash: string;
     info: PersonalInfo;
     reviews: Review[];
@@ -32,10 +32,15 @@ export interface Passport {
     number: number;
 }
 
+export interface UserForReview {
+    profilePicture: Photo;
+    name: string;
+}
+
 export interface Review {
-    user: User;
-    title: string;
-    content: string;
-    mark: number;
+    user: UserForReview;
+    topText: string;
+    bottomText: string;
+    rating: number;
     photos: Photo[];
 }
