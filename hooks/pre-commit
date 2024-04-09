@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# dir, command, error_message
+npm_run()
+{
+    npm_run_cwd=$(pwd);
+    cd $1;
+    1>&2;
+    npm run $2;
+    
+
+    if [ $? -ne 0 ]; then
+        echo $3;
+        exit 1;
+    fi
+
+    cd $npm_run_cwd;
+}
+
+npm_run frontend format "Ошибка при форматировании."
+if [ $? -ne 0 ]; then
+    exit 100;
+fi
