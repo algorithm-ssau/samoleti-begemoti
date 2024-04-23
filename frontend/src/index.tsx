@@ -3,9 +3,9 @@ import { City } from "./components/Card";
 import { HotelList } from "./components/Card";
 import { PlacePicker } from "./components/PlacePicker";
 import type { DataType } from "./components/PlacePicker";
-import { Header } from "./components/Header";
-import { HotelPage } from "./components/HotelPage";
 import "./index.css";
+import { HotelPage } from "./components/HotelPage";
+import { Header } from "./components/Header";
 
 function onSubmitHandle(data: DataType) {
     console.log(
@@ -28,6 +28,14 @@ function App() {
     ];
     return (
         <div>
+            <Header
+                login={false}
+                onTicketClicked={() => {}}
+                onHotelClicked={() => {}}
+                onRoutClicked={() => {}}
+                onProfileClicked={() => {}}
+            />
+            <HotelPage id={0} />
             <HotelList city={City.Moscow} />;
             <PlacePicker
                 onSubmit={onSubmitHandle}
