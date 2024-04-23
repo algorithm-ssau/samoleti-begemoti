@@ -9,8 +9,8 @@ export const funcForCreate = async (
     errorMessage: string
 ) => {
     try {
-        let modelData: { [key: string]: any } = {};
-        objKeys.map((key) => {
+        let modelData: Record<string, any> = {};
+        objKeys.map(key => {
             modelData[key] = req.body[key];
         });
         const doc = new Model(modelData);
@@ -27,11 +27,12 @@ export const funcForCreate = async (
 export const funcForGetAll = async (
     _: Request,
     res: Response,
-    Model: Model<any>,
+    mmmodel: Model<any>,
     errorMessage: string
 ) => {
     try {
-        const values = await Model.find().exec();
+        const values = await mmmodel.find({}).exec();
+        console.log(`found documents: ${values.length}`);
         res.status(200).json(values);
     } catch (error) {
         console.log(error);
@@ -161,11 +162,11 @@ export const funcForUpdateOne = async (
     res: Response,
     Model: Model<any>,
     objKeys: Array<string>,
-    errorMessage: Array<string>
+    errorMessage: [string, string, string]
 ) => {
     try {
         let modelData: { [key: string]: any } = {};
-        objKeys.map((key) => {
+        objKeys.map(key => {
             modelData[key] = req.body[key];
         });
         const valueId = req.params.id;

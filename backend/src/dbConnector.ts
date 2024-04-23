@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 class MongoConnector {
     constructor() {}
-    static connect(dbURL: String, dbName: String) {
+    static connect(dbUrl: String, dbName: String) {
         mongoose
-            .connect(`${dbURL}${dbName}`)
+            .connect(`${dbUrl}${dbName}`)
             .then((dbConnection) => {
                 console.log("Соединение с БД установлено");
                 return dbConnection;
@@ -15,7 +15,7 @@ class MongoConnector {
             });
     }
 
-    static disconnect(dbConnection: typeof mongoose) {
+    static disconnect(dbConnection: Mongoose) {
         if (!dbConnection) {
             console.log("Соединение с БД отсутствует!");
         } else {

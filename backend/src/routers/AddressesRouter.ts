@@ -3,8 +3,9 @@ import { AddressController } from "../controllers/index";
 
 export const addressRouter = express.Router();
 
-addressRouter.post("/addresses", AddressController.create);
-addressRouter.get("/addresses", AddressController.getAll);
-addressRouter.get("/addresses/:id", AddressController.getOne);
-addressRouter.delete("/addresses/:id", AddressController.deleteOne);
-addressRouter.patch("/addresses/:id", AddressController.updateOne);
+addressRouter
+    .post("/addresses", AddressController.create)
+    .get("/addresses", AddressController.getAll)
+    .get("/addresses/:id", AddressController.getOne)
+    .delete("/addresses/:id", AddressController.deleteOne)
+    .patch("/addresses/:id", AddressController.updateOne);
