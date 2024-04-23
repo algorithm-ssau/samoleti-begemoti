@@ -32,8 +32,8 @@ export let hotels : Hotel[]= [
 ];
 
 export function getHotels(city: City): Hotel[]{
-    let resHotels: Hotel[] = hotels.filter((aHotel)=>aHotel.city===city);
-    return resHotels;
+    return hotels.filter((aHotel)=>aHotel.city===city);
+    
 }
 
 export function HotelCard(props: HotelCardProps) {
