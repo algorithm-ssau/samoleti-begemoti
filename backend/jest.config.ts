@@ -6,6 +6,6 @@ const config: Config.InitialOptions = {
     testEnvironment: "node",
     verbose: true,
     // automock: true,
-    testMatch: ["**/?(*.)+(spec|test).[j]s?(x)"],
+    testMatch: ["**/?(*.)+(spec|test).[t]s?(x)"],
 };
 export default config;
