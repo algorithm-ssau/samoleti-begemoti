@@ -1,5 +1,24 @@
 import type {HotelInfoProps} from "./Hotel";
 import {HotelInfoCard} from "./Hotel";
+
+export function getHotel(id:number):HotelInfo{
+   
+    return {info: hotelInfo.find(aHotel=>aHotel.id===id)!};
+}
+interface HotelInfo{
+    info: HotelInfoProps,
+}
+interface IdProps{
+    id: number,
+
+}
+export function HotelPage(props: IdProps){
+    let hotel = getHotel(props.id);
+    return(
+        <HotelInfoCard {...hotel.info}/>
+    );
+}
+
 export let hotelInfo: HotelInfoProps[] = [
     { name: "ОЧЕНЬ ДЛИННОЕ НАЗВАНИЕ",    
         id: 0,
@@ -47,20 +66,3 @@ export let hotelInfo: HotelInfoProps[] = [
         link: "https://ssau.ru/",
         onHotelClicked: (text)=> alert(text)}
 ]
-export function getHotel(id:number):HotelInfo{
-   
-    return {info: hotelInfo.find(aHotel=>aHotel.id===id)!};
-}
-interface HotelInfo{
-    info: HotelInfoProps,
-}
-interface IdProps{
-    id: number,
-
-}
-export function HotelPage(props: IdProps){
-    let hotel = getHotel(props.id);
-    return(
-        <HotelInfoCard {...hotel.info}/>
-    );
-}

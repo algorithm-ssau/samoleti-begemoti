@@ -1,5 +1,4 @@
 
-
 export const lightPrimary = `
      #D1C4E9
 `;

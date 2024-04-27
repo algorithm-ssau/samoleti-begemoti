@@ -10,6 +10,38 @@ export interface HeaderProps{
     onRoutClicked: ()=>void,
     onProfileClicked: (login:boolean)=>void,
 }   
+export function Header(props: HeaderProps){
+    return(
+        <Container>
+            <ContainerIco>                    
+                    <Ico 
+                        src='hippopotamus.ico'
+                        alt='hippopotamus'
+                    />
+                    <PName>samoleti-begemoti</PName>
+            </ContainerIco>
+            <ContainerCenter>
+                <Button onClick={()=>props.onTicketClicked()}>Отели</Button>
+                <Button onClick={()=>props.onHotelClicked()}>Билеты</Button>
+                <Button onClick={()=>props.onRoutClicked()}>Маршруты</Button>
+            </ContainerCenter>
+            <ContainerProfile >
+               {props.login ?
+                (<Profile 
+                    src='key.ico'
+                    alt='key'
+                    onClick={()=>props.onProfileClicked(props.login)}
+                />):
+                (<Profile
+                    src='profile.ico'
+                    alt='profile'
+                    onClick={()=>props.onProfileClicked(props.login)}
+                />)
+                }
+            </ContainerProfile>
+        </Container>
+    )
+}
 const Ico = styled.img`
     width: 71px;
     height: 71px;
@@ -34,12 +66,12 @@ const Container = styled.div`
     display: flex;
     padding-left: 3%;
     padding-right: 3%;
-    box-shadow: 0px 2px 4px ${lightPrimary};
+    //box-shadow: 0px 2px 4px ${lightPrimary};
     border-radius: 30px;
     width: 80%;
     height: 86px;  
     margin:auto;  
-    margin-top:5%;
+    margin-top:2%;
     margin-bottom:5%;
     background-color: ${lightPrimary}
 `
@@ -71,35 +103,3 @@ const Profile = styled.img`
     height: 45px;   
     background-color: rgba(0, 0, 0 , 0 );
 `
-export function Header(props: HeaderProps){
-    return(
-        <Container>
-            <ContainerIco>                    
-                    <Ico 
-                        src='hippopotamus.ico'
-                        alt='hippopotamus'
-                    />
-                    <PName>samoleti-begemoti</PName>
-            </ContainerIco>
-            <ContainerCenter>
-                <Button onClick={()=>props.onTicketClicked()}>Отели</Button>
-                <Button onClick={()=>props.onHotelClicked()}>Билеты</Button>
-                <Button onClick={()=>props.onRoutClicked()}>Маршруты</Button>
-            </ContainerCenter>
-            <ContainerProfile >
-               {props.login ?
-                (<Profile
-                    src='key.ico'
-                    alt='key'
-                    onClick={()=>props.onProfileClicked(props.login)}
-                />):
-                (<Profile
-                    src='profile.ico'
-                    alt='profile'
-                    onClick={()=>props.onProfileClicked(props.login)}
-                />)
-                }
-            </ContainerProfile>
-        </Container>
-    )
-}

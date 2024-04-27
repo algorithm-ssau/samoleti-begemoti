@@ -13,14 +13,17 @@ function onSubmitHandle (data: DataType) {
 
 function App() {
    const listOfPlaces = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
-   
+   let log : boolean = false;
      return (
      <div>
-         <Header login={false} onHotelClicked ={()=> alert("Здесь будет страница поиска билетов")} 
-         onTicketClicked = {()=> alert("Здесь будет страница поиска отелей")} 
-         onRoutClicked = {()=> alert("Здесь будет страница построения маршрутов")} 
-         onProfileClicked = {(profile) => profile ? (alert("Здесь будет страница профиля"))
-         :(alert("Здесь будет страница Авторизации/регистрации"))}/>
+         <Header 
+            login={log} onHotelClicked ={()=> alert("Здесь будет страница поиска билетов")} 
+            onTicketClicked = {()=> alert("Здесь будет страница поиска отелей")} 
+            onRoutClicked = {()=> alert("Здесь будет страница построения маршрутов")} 
+            onProfileClicked = {(login) => login ? 
+               (alert("Здесь будет страница профиля"))
+               :(alert("Здесь будет страница Авторизации/регистрации"))}
+         />
          <HotelPage id = {0} />
          <HotelList city={City.Moscow} />
          <PlacePicker onSubmit = {onSubmitHandle} listOfPlaces= {listOfPlaces}/>
