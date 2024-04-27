@@ -1,12 +1,26 @@
 import express from "express";
-import { test } from './util'
+import { test } from "./util";
+import { mongoURL, dbNameTest, port } from "./config";
+import MongoConnector from "./dbConnector";
+import * as Routers from "./routers/index";
 
-let app = express();
+export const app = express();
+app.use(express.json());
+MongoConnector.connect(mongoURL, dbNameTest);
 
-app.get('/', (req, res) => {
+app.get("/", async (req, res) => {
     res.send(test());
-})
+});
 
-app.listen(3000, () => {
-    console.log("ехал гослинг навстречу концовке\n сценарист сказал не переживай\n гослинг ответил не переживу")
-})
+app.use("/", Routers.addressRouter);
+app.use("/", Routers.hotelRouter);
+app.use("/", Routers.hotelFacilityRouter);
+app.use("/", Routers.roomCategoryRouter);
+app.use("/", Routers.roomRouter);
+app.use("/", Routers.photoRouter);
+
+app.listen(port, () => {
+    console.log(
+        "ехал гослинг навстречу концовке\n сценарист сказал не переживай\n гослинг ответил не переживу"
+    );
+});

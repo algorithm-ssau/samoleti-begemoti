@@ -1,0 +1,31 @@
+.TestPage{
+    background-color: rgb(130, 140, 197);
+    height: 100vh;
+    text-align: center;
+  }
+  .DeadOne{
+    background-color: aqua;
+    height: 100vh;
+    text-align: center;
+  }
+  .DeadTwo{
+    background-color: rgb(18, 190, 76);
+    height: 100vh;
+    text-align: center;
+  }
+  .DeadThree{
+    background-color: rgb(238, 224, 100);
+    height: 100vh;
+    text-align: center;
+  }
+  
+  nav a {
+    margin: 10;
+    font-weight: none;
+    text-decoration:none;
+  }
+   nav a.active {
+    margin: 10;
+    font-weight: bold;
+    text-decoration:none;
+  }
