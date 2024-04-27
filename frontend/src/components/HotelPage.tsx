@@ -1,5 +1,7 @@
-import type {HotelInfoProps} from "./Hotel";
-import {HotelInfoCard} from "./Hotel";
+import type {HotelInfoProps} from "./Hotel/Hotel";
+import {HotelInfoCard} from "./Hotel/Hotel";
+import { HotelReviewsBlock } from "./HotelReviewComponent/HotelReview";
+
 
 export function getHotel(id:number):HotelInfo{
    
@@ -15,7 +17,10 @@ interface IdProps{
 export function HotelPage(props: IdProps){
     let hotel = getHotel(props.id);
     return(
+        <div>
         <HotelInfoCard {...hotel.info}/>
+        <HotelReviewsBlock hotelId = {props.id}/>
+        </div>
     );
 }
 

@@ -21,3 +21,6 @@ export const baseText = `
     font-family: inter;
     font-weight: normal;
 `;
+export const Background=`
+    #FFFFFF
+`
