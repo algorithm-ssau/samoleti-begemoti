@@ -5,7 +5,8 @@ import { PlacePicker } from "./components/PlacePicker";
 import type { DataType } from "./components/PlacePicker";
 import "./index.css";
 import { HotelPage } from "./components/HotelPage";
-import { Header } from "./components/Header";
+import { Header } from "./components/Header/Header";
+import { ProfilePage } from "./components/Profile/ProfilePage";
 
 function onSubmitHandle(data: DataType) {
     console.log(
@@ -17,25 +18,26 @@ function App() {
    const listOfPlaces = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
    
      return (
-     <div>
-         <Header 
+     <div>        
+        <Header 
             login={false}
             onTicketClicked={() => {}}
-                onHotelClicked={() => {}}
-                onRoutClicked={() => {}}
-                onProfileClicked={() => {}}
-            />
+            onHotelClicked={() => {}}
+            onRoutClicked={() => {}}
+            onProfileClicked={() => {}}
+        />  
+        <ProfilePage log={true}/>            
             {/* // onHotelClicked ={()=> alert("Здесь будет страница поиска билетов")} 
             // onTicketClicked = {()=> alert("Здесь будет страница поиска отелей")} 
             // onRoutClicked = {()=> alert("Здесь будет страница построения маршрутов")} 
             // onProfileClicked = {(profile) => profile ? (alert("Здесь будет страница профиля"))
             // :(alert("Здесь будет страница Авторизации/регистрации"))}/> */}
-         <HotelPage id = {0} />
-         <HotelList city={City.Moscow} />
-         <PlacePicker
-             onSubmit = {onSubmitHandle}
-             listOfPlaces= {listOfPlaces}
-             />
+        <HotelPage id = {0} /> 
+        <HotelList city={City.Moscow} />
+        <PlacePicker
+            onSubmit = {onSubmitHandle}
+            listOfPlaces= {listOfPlaces}
+        />
         
      </div>
      );

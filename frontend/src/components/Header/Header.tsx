@@ -1,4 +1,6 @@
+
 import { Button, Container, ContainerCenter, Profile, ContainerProfile, ContainerIco, Ico, PName } from "./style";
+
 
 export interface HeaderProps{
     login: boolean,
@@ -21,6 +23,7 @@ export function Header(props: HeaderProps){
                 <Button onClick={()=>props.onTicketClicked()}>Отели</Button>
                 <Button onClick={()=>props.onHotelClicked()}>Билеты</Button>
                 <Button onClick={()=>props.onRoutClicked()}>Маршруты</Button>
+                
             </ContainerCenter>
             <ContainerProfile >
                {props.login ?
