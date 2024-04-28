@@ -6,6 +6,9 @@ import type { DataType } from "./components/PlacePicker";
 import "./index.css";
 import { HotelPage } from "./components/HotelPage";
 import { Header } from "./components/Header";
+import AddReview from "./components/AddReview";
+import EnterProfile from "./components/EnterProfile";
+import RegistrationSuccess from "./components/RegistrationSuccess";
 
 function onSubmitHandle(data: DataType) {
     console.log(
@@ -35,6 +38,9 @@ function App() {
                 onRoutClicked={() => {}}
                 onProfileClicked={() => {}}
             />
+            <AddReview/>
+            <RegistrationSuccess/>
+            <EnterProfile/>
             <HotelPage id={0} />
             <HotelList city={City.Moscow} />;
             <PlacePicker
