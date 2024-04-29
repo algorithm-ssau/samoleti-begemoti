@@ -13,6 +13,7 @@ import EnterProfile from "./components/EnterProfile";
 import RegistrationSuccess from "./components/RegistrationSuccess";
 import RoomReview from "./components/RoomReview";
 import HotelReservation from "./components/HotelReservation";
+import HotelRoom from "./components/HotelRoom";
 
 function onSubmitHandle(data: DataType) {
     console.log(
@@ -35,6 +36,7 @@ function App() {
     ];
     return (
         <div>
+            
             <Header
                 login={false}
                 onTicketClicked={() => {}}
@@ -42,6 +44,7 @@ function App() {
                 onRoutClicked={() => {}}
                 onProfileClicked={() => {}}
                             />
+            <HotelRoom/>
             <HotelReservation/>
             <RoomReview/>
             <AddReview/>
