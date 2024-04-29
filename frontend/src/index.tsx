@@ -7,7 +7,6 @@ import "./index.css";
 import { HotelPage } from "./components/HotelPage";
 import { Header } from "./components/Header/Header";
 import { ProfilePage } from "./components/Profile/ProfilePage";
-
 function onSubmitHandle(data: DataType) {
     console.log(
         data.place + " " + data.date + " " + data.hours + ":" + data.minutes,
@@ -15,32 +14,43 @@ function onSubmitHandle(data: DataType) {
 }
 
 function App() {
-   const listOfPlaces = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
-   
-     return (
-     <div>        
-        <Header 
-            login={false}
-            onTicketClicked={() => {}}
-            onHotelClicked={() => {}}
-            onRoutClicked={() => {}}
-            onProfileClicked={() => {}}
-        />  
-        <ProfilePage log={true}/>            
+    const listOfPlaces = [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+    ];
+
+    return (
+        <div>
+            <Header
+                login={false}
+                onTicketClicked={() => {}}
+                onHotelClicked={() => {}}
+                onRoutClicked={() => {}}
+                onProfileClicked={() => {}}
+            />
+
+            <ProfilePage log={true} />
             {/* // onHotelClicked ={()=> alert("Здесь будет страница поиска билетов")} 
             // onTicketClicked = {()=> alert("Здесь будет страница поиска отелей")} 
             // onRoutClicked = {()=> alert("Здесь будет страница построения маршрутов")} 
             // onProfileClicked = {(profile) => profile ? (alert("Здесь будет страница профиля"))
             // :(alert("Здесь будет страница Авторизации/регистрации"))}/> */}
-        <HotelPage id = {0} /> 
-        <HotelList city={City.Moscow} />
-        <PlacePicker
-            onSubmit = {onSubmitHandle}
-            listOfPlaces= {listOfPlaces}
-        />
-        
-     </div>
-     );
+            <HotelPage id={0} />
+            <HotelList city={City.Moscow} />
+            <PlacePicker
+                onSubmit={onSubmitHandle}
+                listOfPlaces={listOfPlaces}
+            />
+        </div>
+    );
 }
 
 let container = document.getElementById("root");
