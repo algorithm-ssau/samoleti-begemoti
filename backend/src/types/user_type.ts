@@ -44,3 +44,10 @@ export interface Review {
     rating: number;
     photos: Photo[];
 }
+
+export interface NewReview {
+    topText: string,
+    bottomText: string,
+    photos: Photo[],
+    rating: number
+}
