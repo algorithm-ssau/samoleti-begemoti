@@ -3,11 +3,9 @@
     "version": "0.0.1",
     "description": "",
     "main": "dist/src/index.js",
-    "type": "module",
     "scripts": {
-        "preinstall": "../setup_hooks.sh",
         "clean": "rimraf dist",
-        "build": "tsc -p tsconfig.build.json --build && tsc-alias -p tsconfig.json --debug",
+        "build": "tsc -p tsconfig.build.json",
         "watch:build": "tsc --watch",
         "watch:server": "nodemon './dist/src/index.js' --watch './dist/src'",
         "start": "npm-run-all clean build --parallel watch:build watch:server --print-label",
