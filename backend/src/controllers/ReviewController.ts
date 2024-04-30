@@ -2,7 +2,7 @@ import { Review } from "../types/user_type";
 import ReviewModel from "../models/Reviews";
 import { GenericController } from "./GenericController";
 
-export class PhotoController extends GenericController<
+export class ReviewController extends GenericController<
     Review,
     typeof ReviewModel
 > {
