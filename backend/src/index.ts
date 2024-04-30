@@ -19,6 +19,10 @@ app.use("/", Routers.roomCategoryRouter);
 app.use("/", Routers.roomRouter);
 app.use("/", Routers.photoRouter);
 
+app.use("/", Routers.userRouter);
+app.use("/", Routers.authRouter);
+app.use("/", Routers.hotelBookingRouter);
+
 app.listen(port, () => {
     console.log(
         "ехал гослинг навстречу концовке\n сценарист сказал не переживай\n гослинг ответил не переживу"
