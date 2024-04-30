@@ -1,5 +1,10 @@
-import { ContainerChapter, Hr, Text } from "../Cash/style";
-import { getActiveBooking, getComplitedBooking } from "./dataBooking";
+import { ContainerChapter, Line, Text } from "../Cash/style";
+import {
+    RoomType,
+    Status,
+    getActiveBooking,
+    getComplitedBooking,
+} from "./dataBooking";
 import {
     Block,
     Container,
@@ -16,17 +21,6 @@ import {
     TextStatusParam,
 } from "./style";
 
-export enum Status {
-    Cancelled = "Отменено",
-    Complited = "Завершено",
-    PaidFor = "Оплачено",
-    NotPaidFor = "Не оплачено",
-}
-export enum RoomType {
-    Economy = "Эконом",
-    Standart = "Стандарт",
-    Lux = "Люкс",
-}
 export interface BookingProps {
     id: number;
     title: string;
@@ -45,10 +39,10 @@ export interface BookingProps {
 export function Booking() {
     let activeBooking = getActiveBooking();
     let complitedBooking = getComplitedBooking();
-    let activeBookingres = activeBooking.map((booking) => (
+    let activeBookingres = activeBooking.map(booking => (
         <BookingCard {...booking} />
     ));
-    let complitedBookingres = complitedBooking.map((booking) => (
+    let complitedBookingres = complitedBooking.map(booking => (
         <BookingCard {...booking} />
     ));
     return (
@@ -56,14 +50,14 @@ export function Booking() {
             <div>
                 <ContainerChapter>
                     <Text>Активные</Text>
-                    <Hr />
+                    <Line />
                 </ContainerChapter>
                 {activeBookingres}
             </div>
             <div>
                 <ContainerChapter>
                     <Text>Завершенные</Text>
-                    <Hr />
+                    <Line />
                 </ContainerChapter>
                 {complitedBookingres}
             </div>
@@ -142,12 +136,24 @@ export function BookingCard(props: BookingProps) {
                         <CommentText>{props.comment}</CommentText>
                     </CommentBlock>
 
-                    <InfoRow>
-                        <Parameter>Стоимость:</Parameter>{" "}
-                        <BookingText>{props.sum} Р</BookingText>
-                    </InfoRow>
+                    <Info title="Стоимость:" text={`${props.sum} Р`} />
                 </InfoContainer>
             </Block>
         </Container>
+    );
+}
+
+interface Props {
+    title: string;
+    text: string;
+}
+
+export function Info(props: Props) {
+    const { title, text } = props;
+    return (
+        <InfoRow>
+            <Parameter>{title}</Parameter>
+            <BookingText>{text}</BookingText>
+        </InfoRow>
     );
 }

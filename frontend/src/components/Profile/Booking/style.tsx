@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { baseText, lightPrimary, primaryText } from "../../BaseStyle";
-export const Baze = `
+
+export const Base = `
     ${baseText} 
     ${primaryText};  
     font-size: 1rem;    
@@ -31,7 +32,7 @@ export const InfoContainer = styled.div`
     justify-content: space-between;
 `;
 export const Title = styled.div`
-    ${Baze};
+    ${Base};
     font-size: 1.5rem;
     width: 45%;
     padding: 2% 4%;
@@ -47,7 +48,7 @@ export const CommentBlock = styled.div`
 `;
 export const Parameter = styled.div`
     background-color: ${lightPrimary};
-    ${Baze};
+    ${Base};
     width: 10rem;
     height: 2.25rem;
     justify-content: center;
@@ -56,7 +57,7 @@ export const Parameter = styled.div`
     align-items: center;
 `;
 export const BookingText = styled.div`
-    ${Baze};
+    ${Base};
     padding: 3% 2% 2% 2%;
     display: flex;
     align-items: center;
@@ -64,14 +65,14 @@ export const BookingText = styled.div`
     height: 2.25rem;
 `;
 export const CommentText = styled.div`
-    ${Baze};
+    ${Base};
     display: flex;
     align-items: flex-end;
     margin: 3% 0;
     text-align: justify;
 `;
 export const Button = styled.button`
-    ${Baze};
+    ${Base};
     display: flex;
     align-items: center;
     padding: 3.25% 4%;
@@ -85,25 +86,23 @@ export const Button = styled.button`
     margin: 0 2%;
 `;
 
-export const TextStatusParam = styled.div`
-    ${Baze};
-    padding: 1.25% 2%;
+export const TextStatusBase = styled.div`
+    ${Base};
     font-size: 1.125rem;
     display: flex;
     align-items: center;
-    border: 2px solid ${lightPrimary};
-    border-radius: 10em;
-    width: 10rem;
     height: 2.25rem;
     justify-content: center;
 `;
-export const TextStatus = styled.div`
-    ${Baze};
-    font-size: 1.125rem;
+
+export const TextStatusParam = styled(TextStatusBase)`
+    padding: 1.25% 2%;
+    border: 2px solid ${lightPrimary};
+    border-radius: 10em;
+    width: 10rem;
+`;
+
+export const TextStatus = styled(TextStatusBase)`
     padding: 1% 2%;
-    display: flex;
-    align-items: center;
     width: 5rem;
-    height: 2.25rem;
-    justify-content: center;
 `;

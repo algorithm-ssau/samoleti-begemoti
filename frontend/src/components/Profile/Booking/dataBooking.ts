@@ -1,4 +1,5 @@
 import { type BookingProps } from "./Booking";
+
 export enum Status {
     Cancelled = "Отменено",
     Complited = "Завершено",
@@ -12,14 +13,14 @@ export enum RoomType {
 }
 export function getActiveBooking(): BookingProps[] {
     return booking.filter(
-        (aBooking) =>
+        aBooking =>
             aBooking.status === Status.NotPaidFor ||
             aBooking.status === Status.PaidFor,
     );
 }
 export function getComplitedBooking(): BookingProps[] {
     return booking.filter(
-        (aBooking) =>
+        aBooking =>
             aBooking.status === Status.Cancelled ||
             aBooking.status === Status.Complited,
     );

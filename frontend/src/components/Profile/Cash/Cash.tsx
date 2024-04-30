@@ -1,10 +1,10 @@
 import { getOperations } from "./dataOperation";
 import {
-    Balans,
+    Balance,
     Container,
     ContainerChapter,
     ContainerRow,
-    Hr,
+    Line,
     Money,
     OperationContaner,
     OperationElement,
@@ -17,6 +17,7 @@ export interface OperationProps {
     sign: string;
     sum: number;
 }
+
 export function Operation(props: OperationProps) {
     return (
         <OperationContaner>
@@ -33,14 +34,13 @@ interface CashProps {
     //
 }
 export function Cash(props: CashProps) {
-    let operations = getOperations();
-    let operationsres = operations.map((operation) => (
+    let operations = getOperations().map(operation => (
         <Operation {...operation} />
     ));
     return (
         <Container>
             <ContainerRow>
-                <Balans>Баланс</Balans>
+                <Balance>Баланс</Balance>
                 <Money>{props.money} Р</Money>
                 <Replenish
                     onClick={() => alert("Здесь будет окно пополнения счета!")}
@@ -50,9 +50,9 @@ export function Cash(props: CashProps) {
             </ContainerRow>
             <ContainerChapter>
                 <Text>История платежей</Text>
-                <Hr />
+                <Line />
             </ContainerChapter>
-            {operationsres}
+            {operations}
         </Container>
     );
 }

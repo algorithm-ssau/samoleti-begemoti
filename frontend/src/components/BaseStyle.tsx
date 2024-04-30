@@ -1,4 +1,3 @@
-
 export const lightPrimary = `
      #D1C4E9
 `;
@@ -21,6 +20,6 @@ export const baseText = `
     font-family: inter;
     font-weight: normal;
 `;
-export const Background=`
+export const background = `
     #FFFFFF
-`
+`;
