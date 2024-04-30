@@ -20,7 +20,7 @@ app.use("/", Routers.roomRouter);
 app.use("/", Routers.photoRouter);
 
 app.use("/", Routers.userRouter);
-// app.use("/", Routers.authRouter);
+app.use("/", Routers.authRouter);
 app.use("/", Routers.hotelBookingRouter);
 
 app.listen(port, () => {

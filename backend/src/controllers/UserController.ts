@@ -47,11 +47,11 @@ export class UserController extends GenericController<
                     return false
                 }
                 console.log("Controller", doc)
-                return true;
+                return doc;
             })
             .catch((error: string) => {
                 console.log(error);
-                return 1;
+                throw new Error();
             });
     }
 }
