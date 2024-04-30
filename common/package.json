@@ -6,7 +6,6 @@
     "types": "dist/src/db_types.d.ts",
     "type": "module",
     "scripts": {
-        "preinstall": "../setup_hooks.sh",
         "build": "npx tsc -b",
         "watch": "tsc -b --watch",
         "test": "echo \"Error: no test specified\" && exit 1"
