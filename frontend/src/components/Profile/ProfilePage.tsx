@@ -1,5 +1,3 @@
-import { Booking } from "./Booking/Booking";
-import { Cash } from "./Cash/Cash";
 import { ProfileHeader } from "./ProfileHeader/Header";
 
 interface LoginProps {
@@ -16,8 +14,6 @@ export function ProfilePage(props: LoginProps) {
                     onCashClicked={() => {}}
                 />
             )}
-            <Booking />
-            <Cash money={0} />
         </div>
     );
 }

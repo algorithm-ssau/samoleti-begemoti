@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {
     Button,
     Container,
@@ -23,10 +24,24 @@ export function Header(props: HeaderProps) {
                 <Ico src="hippopotamus.ico" alt="hippopotamus" />
                 <PName>samoleti-begemoti</PName>
             </ContainerIco>
+
             <ContainerCenter>
-                <Button onClick={() => props.onTicketClicked()}>Отели</Button>
-                <Button onClick={() => props.onHotelClicked()}>Билеты</Button>
-                <Button onClick={() => props.onRoutClicked()}>Маршруты</Button>
+                <NavLink to="/hotel">
+                    <Button onClick={() => props.onTicketClicked()}>
+                        Отели
+                    </Button>
+                </NavLink>
+                <NavLink to="/test">
+                    <Button onClick={() => props.onHotelClicked()}>
+                        Билеты
+                    </Button>
+                </NavLink>
+
+                <NavLink to="/rout">
+                    <Button onClick={() => props.onRoutClicked()}>
+                        Маршруты
+                    </Button>
+                </NavLink>
             </ContainerCenter>
             <ContainerProfile>
                 {props.login ? (
@@ -36,11 +51,13 @@ export function Header(props: HeaderProps) {
                         onClick={() => props.onProfileClicked(props.login)}
                     />
                 ) : (
-                    <Profile
-                        src="profile.ico"
-                        alt="profile"
-                        onClick={() => props.onProfileClicked(props.login)}
-                    />
+                    <NavLink to="profile">
+                        <Profile
+                            src="profile.ico"
+                            alt="profile"
+                            onClick={() => props.onProfileClicked(props.login)}
+                        />
+                    </NavLink>
                 )}
             </ContainerProfile>
         </Container>
