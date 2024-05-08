@@ -1,13 +1,14 @@
+import { Key } from "@mui/icons-material";
 import {
     Button,
     Container,
     ContainerCenter,
-    Profile,
     ContainerProfile,
     ContainerIco,
     Ico,
     PName,
 } from "./style";
+import { IconButton } from "@mui/material";
 
 export interface HeaderProps {
     login: boolean;
@@ -30,17 +31,18 @@ export function Header(props: HeaderProps) {
             </ContainerCenter>
             <ContainerProfile>
                 {props.login ? (
-                    <Profile
-                        src="key.ico"
-                        alt="key"
-                        onClick={() => props.onProfileClicked(props.login)}
-                    />
+                    <>
+                        <Key />
+                    </>
                 ) : (
-                    <Profile
-                        src="profile.ico"
-                        alt="profile"
-                        onClick={() => props.onProfileClicked(props.login)}
-                    />
+                    <>
+                        <IconButton
+                            size="large"
+                            onClick={() => props.onProfileClicked(props.login)}
+                        >
+                            <Key fontSize="inherit" />
+                        </IconButton>
+                    </>
                 )}
             </ContainerProfile>
         </Container>
