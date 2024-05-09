@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import axios from "axios";
+import axios, { type CreateAxiosDefaults } from "axios";
 
 import { Network } from "samolet-common/dist/src/network/auth";
 import { store } from "./store/store";
@@ -10,7 +10,11 @@ import { MainRouter } from "./routers/MainRouter";
 
 import "./index.css";
 
-export const network = new Network(axios.create({ baseURL: "/api" }));
+const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
+
+export const network = new Network(config =>
+    axios.create({ ...axiosConfig, ...config }),
+);
 
 function App() {
     return (
