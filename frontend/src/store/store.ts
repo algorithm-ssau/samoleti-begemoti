@@ -13,13 +13,6 @@ import {
 import { Password } from "@mui/icons-material";
 import { network } from "..";
 
-export type State = {
-    value: number;
-    requests: {
-        register: RequestState<AuthSuccess, any>;
-    };
-};
-
 export const registerThunk = createAsyncThunk(
     "register",
     async (creds: { login: string; password: string }) => {
@@ -29,10 +22,23 @@ export const registerThunk = createAsyncThunk(
     },
 );
 
+export const goslingThunk = createAsyncThunk("gosling", async () => {
+    return await network.gosling().then(x => x.data);
+});
+
+export type State = {
+    value: number;
+    requests: {
+        register: RequestState<AuthSuccess, any>;
+        gosling: RequestState<string, any>;
+    };
+};
+
 const initialState: State = {
     value: 0,
     requests: {
         register: empty(),
+        gosling: empty(),
     },
 };
 
@@ -42,6 +48,7 @@ const slice = createSlice({
     reducers: {},
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
+        trackRequest(builder, "gosling", goslingThunk);
     },
 });
 

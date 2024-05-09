@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 
 type Status<T extends number> = {
     status: T;
@@ -12,7 +12,24 @@ export type AuthSuccess = {
 };
 
 export class Network {
-    constructor(private axios: AxiosInstance) {}
+    private axios: AxiosInstance;
+    constructor(
+        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
+    ) {
+        this.axios = getInstance({});
+    }
+
+    setToken(token: string) {
+        this.axios = this.getInstance({
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    gosling() {
+        return this.axios.get("/");
+    }
 
     register(login: string, password: string) {
         return register(this.axios, login, password);
