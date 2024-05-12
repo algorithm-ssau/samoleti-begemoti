@@ -2,6 +2,7 @@ import HotelFacilityModel from "../models/HotelFacilities";
 import { Request, Response } from "express";
 import { GenericController } from "./GenericController";
 import { HotelFacilities } from "src/types/db_types";
+import { ReviewController } from "./index" 
 
 export class HotelFacilitiesController extends GenericController<
     HotelFacilities,

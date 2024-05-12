@@ -51,6 +51,12 @@ export class GenericController<T, M extends Model<T>> {
         }
     }
 
+    // async createOnlyOne(req: Request, res: Response){
+    //     if (condition) {
+            
+    //     }
+    // }
+
     async getAll(_: Request, res: Response) {
         const refKeys = getRefKeys(this.MyModel);
         const keys = getKeys(this.MyModel);
