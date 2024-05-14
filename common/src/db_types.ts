@@ -45,7 +45,7 @@ export interface AirplaneTransaction {
 
 export type SomeTransaction = HotelTransaction | AirplaneTransaction;
 
-enum RoomCategory {
+export enum RoomCategory {
     Luxary,
     Normal,
     Shit,
