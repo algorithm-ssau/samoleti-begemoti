@@ -35,13 +35,7 @@ export class GenericController<T, M extends Model<T>> {
     async create(req: Request, res: Response) {
         const errorMessages = this.createErrorMessages();
         try {
-            let modelData: Record<string, any> = {};
-            const definition = this.MyModel.schema.obj;
-            Object.keys(definition).map(key => {
-                modelData[key] = req.body[key];
-            });
-            const doc = new this.MyModel(modelData);
-            const result = await doc.save();
+            const result = await this.create_(req.body);
             res.status(201).json(result);
         } catch (error) {
             console.log(error);
@@ -51,11 +45,16 @@ export class GenericController<T, M extends Model<T>> {
         }
     }
 
-    // async createOnlyOne(req: Request, res: Response){
-    //     if (condition) {
-            
-    //     }
-    // }
+    async create_(req: Request["body"]){
+        let modelData: Record<string, any> = {};
+        const definition = this.MyModel.schema.obj;
+        Object.keys(definition).map(key => {
+            modelData[key] = req[key];
+        });
+        const doc = new this.MyModel(modelData);
+        const result = await doc.save();
+        return result
+    }
 
     async getAll(_: Request, res: Response) {
         const refKeys = getRefKeys(this.MyModel);
@@ -81,7 +80,7 @@ export class GenericController<T, M extends Model<T>> {
         const errorMessages = this.getOneErrorMessages();
         const refKeys = getRefKeys(this.MyModel);
         try {
-            const valueId = req.params.id;
+            const valueId = req.params.id || req.body.id;
             let query = (this.MyModel as Model<any>).findOne({ _id: valueId });
 
             if (refKeys.length > 0) {

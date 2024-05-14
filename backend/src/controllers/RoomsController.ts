@@ -1,6 +1,6 @@
 import RoomModel from "../models/Rooms";
 import { GenericController } from "./GenericController";
-import { Room } from "src/types/db_types";
+import { Room } from "samolet-common";
 
 export class RoomsController extends GenericController<Room, typeof RoomModel> {
     constructor() {

@@ -1,24 +1,31 @@
 import { createRoot } from "react-dom/client";
-import { City } from "./components/Card";
-import { HotelList } from "./components/Card";
-import { PlacePicker } from "./components/PlacePicker";
-import type {DataType} from "./components/PlacePicker";
-import './index.css';
 
-function onSubmitHandle (data: DataType) {
-   console.log(data.place + ' ' + data.date + ' '+data.hours + ':' + data.minutes)
-}
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import axios, { type CreateAxiosDefaults } from "axios";
+
+import { Network } from "samolet-common/dist/src/network/auth";
+import { store } from "./store/store";
+import { MainRouter } from "./routers/MainRouter";
+
+import "./index.css";
+
+const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
+
+export const network = new Network(config =>
+    axios.create({ ...axiosConfig, ...config }),
+);
 
 function App() {
-   const listOfPlaces = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
-     return (
-     <div>
-        <HotelList city={City.Moscow} />;
-        <PlacePicker onSubmit = {onSubmitHandle} listOfPlaces= {listOfPlaces}/>
-     </div>
-     );
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <MainRouter />
+            </BrowserRouter>
+        </Provider>
+    );
 }
 
 let container = document.getElementById("root");
 let root = createRoot(container!);
-root.render(<App />)
+root.render(<App />);

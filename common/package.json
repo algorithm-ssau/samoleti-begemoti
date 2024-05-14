@@ -1,11 +1,23 @@
 {
-  "name": "samolet-common",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "samolet-common",
+    "version": "0.0.3",
+    "description": "",
+    "main": "dist/src/db_types.js",
+    "types": "dist/src/db_types.d.ts",
+    "scripts": {
+        "build": "npx tsc -b",
+        "watch": "tsc -b --watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.3.3"
+    },
+    "files": [
+        "dist/src/db_types.js"
+    ],
+    "dependencies": {
+        "axios": "^1.6.8"
+    }
 }
