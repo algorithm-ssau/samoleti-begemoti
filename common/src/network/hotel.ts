@@ -28,24 +28,24 @@ export class Network {
         return getHotelByPlace(place);
     }
 
-    allHotels(){
+    allHotels() {
         return getAllHotels();
     }
 
-    hotelById(id: number){
+    hotelById(id: number) {
         return getOneHotelById(id);
     }
 
-    create(hotel: Hotel){
+    create(hotel: Hotel) {
         return createHotel(this.axios, hotel);
     }
 
-    deleteById(id: number){
-        return deleteHotelById(this.axios, id)
+    deleteById(id: number) {
+        return deleteHotelById(this.axios, id);
     }
 
-    updateById(id: number){
-        return updateHotelById(this.axios, id)
+    updateById(id: number) {
+        return updateHotelById(this.axios, id);
     }
 }
 
@@ -77,7 +77,7 @@ export async function getAllHotels() {
  * Possible errors:
  *
  * status 404 - hotel not found
- * 
+ *
  * status 500 - internal server error
  *
  */
@@ -99,7 +99,7 @@ export async function createHotel(axios: AxiosInstance, hotel: Hotel) {
  * Possible errors:
  *
  * status 404 - hotel not found
- * 
+ *
  * status 500 - internal server error
  *
  */
@@ -111,7 +111,7 @@ export async function deleteHotelById(axios: AxiosInstance, id: number) {
  * Possible errors:
  *
  * status 404 - hotel not found
- * 
+ *
  * status 500 - internal server error
  *
  */
