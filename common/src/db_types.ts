@@ -1,8 +1,8 @@
 import { Review, User } from "./user_type";
 
-import { AuthSuccess, login, register } from "./network/auth";
-
-export { AuthSuccess, login, register };
+import { AuthSuccess } from "./network/auth";
+import { Network } from "./network";
+export { AuthSuccess, Network };
 
 export interface Hotel {
     name: string;
@@ -20,10 +20,10 @@ export interface Address {
 }
 
 enum BookingStatus {
-    Paid,
-    NotPaid,
-    Finished,
-    InProcess,
+    Paid = 0,
+    NotPaid = 1,
+    Finished = 2,
+    InProcess = 3,
 }
 
 export interface HotelBooking {
@@ -46,9 +46,9 @@ export interface AirplaneTransaction {
 export type SomeTransaction = HotelTransaction | AirplaneTransaction;
 
 export enum RoomCategory {
-    Luxary,
-    Normal,
-    Shit,
+    Luxary = 0,
+    Normal = 1,
+    Shit = 2,
 }
 
 export interface HotelFacilities {
