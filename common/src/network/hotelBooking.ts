@@ -1,5 +1,6 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 import { HotelBooking, AuthSuccess } from "../db_types";
+import { GenericNetwork } from "./genericNetwork";
 
 // GET /hotelBookings
 // GET /hotelBookings/:id
@@ -7,22 +8,7 @@ import { HotelBooking, AuthSuccess } from "../db_types";
 // DELETE /hotelBookings/:id
 // PATCH /hotelBookings/:id
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
+export class HotelBookingNetwork extends GenericNetwork {
     allHotelBookings() {
         return getAllHotelBookings();
     }
@@ -72,7 +58,10 @@ export async function getOneHotelBookingById(id: number) {
  * status 500 - internal server error
  *
  */
-export async function createHotelBooking(axios: AxiosInstance, hotelBooking: HotelBooking) {
+export async function createHotelBooking(
+    axios: AxiosInstance,
+    hotelBooking: HotelBooking
+) {
     return axios.post<AuthSuccess>(`/hotelBookings`, hotelBooking);
 }
 

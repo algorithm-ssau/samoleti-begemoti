@@ -1,5 +1,6 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 import { AuthSuccess, Room } from "../db_types";
+import { GenericNetwork } from "./genericNetwork";
 
 // GET /rooms
 // GET /rooms/:id
@@ -7,22 +8,7 @@ import { AuthSuccess, Room } from "../db_types";
 // DELETE /rooms/:id
 // PATCH /rooms/:id
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
+export class RoomNetwork extends GenericNetwork {
     allRooms() {
         return getAllRooms();
     }

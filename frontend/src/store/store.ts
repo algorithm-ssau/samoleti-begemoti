@@ -16,14 +16,14 @@ import { network } from "..";
 export const registerThunk = createAsyncThunk(
     "register",
     async (creds: { login: string; password: string }) => {
-        return await network
+        return await network.auth
             .register(creds.login, creds.password)
             .then(x => x.data);
     },
 );
 
 export const goslingThunk = createAsyncThunk("gosling", async () => {
-    return await network.gosling().then(x => x.data);
+    return await network.auth.gosling().then(x => x.data);
 });
 
 export type State = {

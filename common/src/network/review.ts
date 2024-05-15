@@ -1,6 +1,7 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 import { AuthSuccess } from "../db_types";
 import { Review } from "../user_type";
+import { GenericNetwork } from "./genericNetwork";
 
 // GET /reviews
 // GET /reviews/:id
@@ -8,22 +9,7 @@ import { Review } from "../user_type";
 // DELETE /reviews/:id
 // PATCH /reviews/:id
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
+export class ReviewNetwork extends GenericNetwork {
     allReviews() {
         return getAllReviews();
     }

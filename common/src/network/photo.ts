@@ -1,5 +1,6 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 import { Photo, AuthSuccess } from "../db_types";
+import { GenericNetwork } from "./genericNetwork";
 
 // GET /photos
 // GET /photos/:id
@@ -7,22 +8,7 @@ import { Photo, AuthSuccess } from "../db_types";
 // DELETE /photos/:id
 // PATCH /photos/:id
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
+export class PhotoNetwork extends GenericNetwork {
     allPhotos() {
         return getAllPhotos();
     }

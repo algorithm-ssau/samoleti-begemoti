@@ -1,5 +1,6 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 import { AuthSuccess, RoomCategory } from "../db_types";
+import { GenericNetwork } from "./genericNetwork";
 
 // GET /roomCategories
 // GET /roomCategories/:id
@@ -7,22 +8,7 @@ import { AuthSuccess, RoomCategory } from "../db_types";
 // DELETE /roomCategories/:id
 // PATCH /roomCategories/:id
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
+export class RoomCategoryNetwork extends GenericNetwork {
     allRoomCategories() {
         return getAllRoomsCategories();
     }
@@ -72,7 +58,10 @@ export async function getOneRoomCategoryById(id: number) {
  * status 500 - internal server error
  *
  */
-export async function createRoomCategory(axios: AxiosInstance, roomCategory: RoomCategory) {
+export async function createRoomCategory(
+    axios: AxiosInstance,
+    roomCategory: RoomCategory
+) {
     return axios.post<AuthSuccess>(`/roomCategories`, roomCategory);
 }
 

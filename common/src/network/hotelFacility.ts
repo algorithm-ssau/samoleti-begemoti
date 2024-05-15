@@ -1,5 +1,6 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
 import { HotelFacilities, AuthSuccess } from "../db_types";
+import { GenericNetwork } from "./genericNetwork";
 
 // GET /hotelFacilities
 // GET /hotelFacilities/:id
@@ -7,22 +8,7 @@ import { HotelFacilities, AuthSuccess } from "../db_types";
 // DELETE /hotelFacilities/:id
 // PATCH /hotelFacilities/:id
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
-        });
-    }
-
+export class HotelFacilityNetwork extends GenericNetwork {
     allHotelFacilities() {
         return getAllHotelFacilities();
     }
@@ -72,7 +58,10 @@ export async function getOneHotelFacilityById(id: number) {
  * status 500 - internal server error
  *
  */
-export async function createHotelFacility(axios: AxiosInstance, hotelFacility: HotelFacilities) {
+export async function createHotelFacility(
+    axios: AxiosInstance,
+    hotelFacility: HotelFacilities
+) {
     return axios.post<AuthSuccess>(`/hotelFacilities`, hotelFacility);
 }
 
@@ -84,7 +73,10 @@ export async function createHotelFacility(axios: AxiosInstance, hotelFacility: H
  * status 500 - internal server error
  *
  */
-export async function deleteHotelFacilityById(axios: AxiosInstance, id: number) {
+export async function deleteHotelFacilityById(
+    axios: AxiosInstance,
+    id: number
+) {
     return axios.delete<AuthSuccess>(`/hotelFacilities/${id}`);
 }
 
@@ -96,6 +88,9 @@ export async function deleteHotelFacilityById(axios: AxiosInstance, id: number) 
  * status 500 - internal server error
  *
  */
-export async function updateHotelFacilityById(axios: AxiosInstance, id: number) {
+export async function updateHotelFacilityById(
+    axios: AxiosInstance,
+    id: number
+) {
     return axios.patch<AuthSuccess>(`/hotelFacilities/${id}`);
 }
