@@ -110,47 +110,49 @@ function HotelRoom() {
     const roomName = "Название комнаты"; // получаем из бд
     const roomPrice = 2700; // получаем из бд
     return (
-        <Container>
-            <LeftContainer>
-                <RowContainer>
-                    <H2Name>{roomName}</H2Name>
-                </RowContainer>
-                <RowContainer>
-                    <H2Name2>Цена за ночь:</H2Name2>
-                    <H2Name>{roomPrice} ₽</H2Name>
-                </RowContainer>
-                <RowContainer>
-                    <Icon src="" />
-                    <H2Name2>Вмещает мало людей</H2Name2>
-                </RowContainer>
-                <RowContainer>
-                    <Icon src="" />
-                    <H2Name2>Тип и количество кроватей</H2Name2>
-                </RowContainer>
-                <RowContainer>
-                    <Icon src="" />
-                    <H2Name2>Питание включено</H2Name2>
-                </RowContainer>
-                <RowContainer>
-                    <Icon src="" />
-                    <H2Name2>Бесплатный Wi-Fi</H2Name2>
-                </RowContainer>
-                <RowContainer>
-                    <Icon src="" />
-                    <H2Name2>Санузел</H2Name2>
-                </RowContainer>
-                <RowContainer>
-                    <BookButton onClick={BookButtonClick}>
-                        Забронировать
-                    </BookButton>
-                </RowContainer>
-            </LeftContainer>
-            <RightContainer>
-                <Photo src="" alt="фото комнаты" />
-                <LeftButton onClick={LeftButtonClick} />
-                <RightButton onClick={RightButtonClick} />
-            </RightContainer>
-        </Container>
+        <>
+            <Container>
+                <LeftContainer>
+                    <RowContainer>
+                        <H2Name>{roomName}</H2Name>
+                    </RowContainer>
+                    <RowContainer>
+                        <H2Name2>Цена за ночь:</H2Name2>
+                        <H2Name>{roomPrice} ₽</H2Name>
+                    </RowContainer>
+                    <RowContainer>
+                        <Icon src="" />
+                        <H2Name2>Вмещает мало людей</H2Name2>
+                    </RowContainer>
+                    <RowContainer>
+                        <Icon src="" />
+                        <H2Name2>Тип и количество кроватей</H2Name2>
+                    </RowContainer>
+                    <RowContainer>
+                        <Icon src="" />
+                        <H2Name2>Питание включено</H2Name2>
+                    </RowContainer>
+                    <RowContainer>
+                        <Icon src="" />
+                        <H2Name2>Бесплатный Wi-Fi</H2Name2>
+                    </RowContainer>
+                    <RowContainer>
+                        <Icon src="" />
+                        <H2Name2>Санузел</H2Name2>
+                    </RowContainer>
+                    <RowContainer>
+                        <BookButton onClick={BookButtonClick}>
+                            Забронировать
+                        </BookButton>
+                    </RowContainer>
+                </LeftContainer>
+                <RightContainer>
+                    <Photo src="" alt="фото комнаты" />
+                    <LeftButton onClick={LeftButtonClick} />
+                    <RightButton onClick={RightButtonClick} />
+                </RightContainer>
+            </Container>
+        </>
     );
 }
 

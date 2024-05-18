@@ -9,7 +9,7 @@ import { HotelPage } from "./components/HotelPage";
 import { Header } from "./components/Header/Header";
 import AddReview from "./components/AddReview";
 import EnterProfile from "./components/EnterProfile";
-import RegistrationSuccess from "./components/RegistrationSuccess";
+//import RegistrationSuccess from "./components/RegistrationSuccess";
 import RoomReview from "./components/RoomReview";
 import HotelReservation from "./components/HotelReservation";
 import HotelRoom from "./components/HotelRoom";
@@ -56,7 +56,7 @@ function App() {
             <HotelReservation/>
             <RoomReview/>
             <AddReview/>
-            <RegistrationSuccess/>
+            {/* <RegistrationSuccess/> */}
             <EnterProfile/>
             <SearchHotel/>
             <HotelCard/>
@@ -69,6 +69,7 @@ function App() {
         </div>
     );
 }
+
 
 let container = document.getElementById("root");
 let root = createRoot(container!);
