@@ -17,6 +17,7 @@ module.exports = {
                 use: {
                     loader: "ts-loader",
                     options: {
+                        projectReferences: true,
                         experimentalWatchApi: true,
                         transpileOnly: true,
                     },
