@@ -1,18 +1,12 @@
 import { network } from "..";
 import { Header } from "../components/Header";
-import {
-    goslingThunk,
-    registerThunk,
-    useAppDispatch,
-    useAppSelector,
-} from "../store/store";
+import { registerThunk, useAppDispatch, useAppSelector } from "../store/store";
 
 interface Props {}
 
 export function TestPage(props: Props) {
     let dispatch = useAppDispatch();
     let registerRequest = useAppSelector(state => state.requests.register);
-    let gosling = useAppSelector(state => state.requests.gosling);
 
     let status = registerRequest.status;
     let value = registerRequest.value;
@@ -39,13 +33,6 @@ export function TestPage(props: Props) {
                 }}
             >
                 set token
-            </button>
-            <button
-                onClick={() => {
-                    dispatch(goslingThunk());
-                }}
-            >
-                гослинг
             </button>
         </>
     );

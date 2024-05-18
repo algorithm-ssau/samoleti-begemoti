@@ -2,7 +2,7 @@ import { Review, User } from "./user_type";
 
 import { AuthSuccess } from "./network/auth";
 import { Network } from "./network";
-export type { AuthSuccess, Network };
+export { type AuthSuccess, Network };
 
 export interface ModelAddition {
     _id: string;
