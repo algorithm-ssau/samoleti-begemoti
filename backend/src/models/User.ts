@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { User } from "../types/user_type";
+import { User } from "samolet-common";
 
 const UserSchema = new Schema<User>(
     {

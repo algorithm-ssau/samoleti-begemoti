@@ -1,6 +1,11 @@
 import { createRoot } from "react-dom/client";
 
-import { BrowserRouter } from "react-router-dom";
+import {
+    BrowserRouter,
+    RouterProvider,
+    createBrowserRouter,
+    createRoutesFromElements,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import axios, { type CreateAxiosDefaults } from "axios";
 
@@ -16,12 +21,12 @@ export const network = new Network(config =>
     axios.create({ ...axiosConfig, ...config }),
 );
 
+const router = createBrowserRouter(createRoutesFromElements(MainRouter()));
+
 function App() {
     return (
         <Provider store={store}>
-            <BrowserRouter>
-                <MainRouter />
-            </BrowserRouter>
+            <RouterProvider router={router} />
         </Provider>
     );
 }

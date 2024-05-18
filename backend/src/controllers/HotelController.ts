@@ -1,7 +1,7 @@
 import HotelModel from "../models/Hotel";
 import { Request, Response } from "express";
 import { GenericController } from "./GenericController";
-import { Hotel } from "../types/db_types";
+import { Hotel } from "samolet-common/db_types";
 
 export class HotelController extends GenericController<
     Hotel,

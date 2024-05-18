@@ -1,4 +1,5 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
+import { User } from "../user_type";
 
 type Status<T extends number> = {
     status: T;
@@ -28,7 +29,7 @@ export class Network {
     }
 
     gosling() {
-        return this.axios.get("/");
+        return this.axios.get<string>("/");
     }
 
     register(login: string, password: string) {
@@ -37,6 +38,10 @@ export class Network {
 
     login(login_: string, password: string) {
         return login(this.axios, login_, password);
+    }
+
+    users() {
+        return this.axios.get<User[]>("/users/");
     }
 }
 

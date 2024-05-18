@@ -1,8 +1,8 @@
 import { Review, User } from "./user_type";
 
-import { AuthSuccess, login, register } from "./network/auth";
+export type * from "./user_type";
 
-export { AuthSuccess, login, register };
+export type { AuthSuccess } from "./network/auth";
 
 export interface Hotel {
     name: string;
@@ -45,7 +45,7 @@ export interface AirplaneTransaction {
 
 export type SomeTransaction = HotelTransaction | AirplaneTransaction;
 
-enum RoomCategory {
+export enum RoomCategory {
     Luxary,
     Normal,
     Shit,
@@ -64,7 +64,5 @@ export interface Room {
 }
 
 export interface Photo {
-    url: string;
+    imageUrl: String;
 }
-
-export const x = 124;

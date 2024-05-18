@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Hotel } from "../types/db_types";
+import { Hotel } from "samolet-common/db_types";
 
 const HotelSchema = new Schema<Hotel>(
     {
