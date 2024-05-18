@@ -1,4 +1,4 @@
-import { Address, AuthSuccess } from "../db_types";
+import { Address, ModelAddition } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /addresses
@@ -6,6 +6,9 @@ import { GenericNetwork } from "./genericNetwork";
 // POST /addresses
 // DELETE /addresses/:id
 // PATCH /addresses/:id
+
+export type TAddress = ModelAddition & Address;
+export type TAddressWithoutId = Omit<TAddress, "_id">;
 
 export class AddressNetwork extends GenericNetwork {
     /**
@@ -16,9 +19,10 @@ export class AddressNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    byId(id: number) {
-        return this.axios.get(`/addresses/${id}`);
+    getById(id: number) {
+        return this.axios.get<TAddress>(`/addresses/${id}`);
     }
+
     /**
      * Possible errors:
      *
@@ -27,9 +31,8 @@ export class AddressNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-
     deleteById(id: number) {
-        return this.axios.delete<AuthSuccess>(`/addresses/${id}`);
+        return this.axios.delete<TAddress>(`/addresses/${id}`);
     }
 
     /**
@@ -39,7 +42,7 @@ export class AddressNetwork extends GenericNetwork {
      *
      */
     create(address: Address) {
-        return this.axios.post<AuthSuccess>(`/addresses`, address);
+        return this.axios.post<TAddressWithoutId>(`/addresses`, address);
     }
 
     /**
@@ -48,7 +51,19 @@ export class AddressNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    all() {
-        return this.axios.get(`/addresses`);
+    getAll() {
+        return this.axios.get<Array<TAddress>>(`/addresses`);
+    }
+
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById(id: number, newAddress: Address) {
+        return this.axios.patch<TAddress>(`/hotels/${id}`, newAddress);
     }
 }

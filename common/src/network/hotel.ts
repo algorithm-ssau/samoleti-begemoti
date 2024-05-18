@@ -1,5 +1,5 @@
-import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { Hotel, AuthSuccess } from "../db_types";
+import axios from "axios";
+import { Hotel, ModelAddition } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /search/hotel?place=...
@@ -8,6 +8,9 @@ import { GenericNetwork } from "./genericNetwork";
 // POST /hotels
 // DELETE /hotels/:id
 // PATCH /hotels/:id
+
+export type THotel = ModelAddition & Hotel;
+export type THotelWithoutId = Omit<THotel, "_id">;
 
 export class HotelNetwork extends GenericNetwork {
     /**
@@ -20,8 +23,8 @@ export class HotelNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    byPlace(place: string) {
-        return this.axios.get(`/search/hotel?place=${place}`);
+    getByPlace(place: string) {
+        return this.axios.get<Array<THotel>>(`/search/hotel?place=${place}`);
     }
 
     /**
@@ -30,8 +33,8 @@ export class HotelNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    all() {
-        return this.axios.get(`/hotels`);
+    getAll() {
+        return this.axios.get<Array<THotel>>(`/hotels`);
     }
 
     /**
@@ -42,8 +45,8 @@ export class HotelNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    byId(id: number) {
-        return this.axios.get(`/hotels/${id}`);
+    getById(id: number) {
+        return this.axios.get<THotel>(`/hotels/${id}`);
     }
 
     /**
@@ -53,7 +56,7 @@ export class HotelNetwork extends GenericNetwork {
      *
      */
     create(hotel: Hotel) {
-        return this.axios.post<AuthSuccess>(`/hotels`, hotel);
+        return this.axios.post<THotelWithoutId>(`/hotels`, hotel);
     }
 
     /**
@@ -65,18 +68,18 @@ export class HotelNetwork extends GenericNetwork {
      *
      */
     deleteById(id: number) {
-        return this.axios.delete<AuthSuccess>(`/hotels/${id}`);
+        return this.axios.delete<THotel>(`/hotels/${id}`);
     }
-}
 
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function updateHotelById(axios: AxiosInstance, id: number) {
-    return axios.patch<AuthSuccess>(`/hotels/${id}`);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById(id: number, newHotel: Hotel) {
+        return axios.patch<THotel>(`/hotels/${id}`, newHotel);
+    }
 }

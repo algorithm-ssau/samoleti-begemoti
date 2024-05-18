@@ -1,5 +1,5 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { AuthSuccess, Room } from "../db_types";
+import { AuthSuccess, Room, ModelAddition } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /rooms
@@ -8,80 +8,66 @@ import { GenericNetwork } from "./genericNetwork";
 // DELETE /rooms/:id
 // PATCH /rooms/:id
 
+export type TRoom = ModelAddition & Room;
+export type TRoomWithoutId = Omit<TRoom, "_id">;
+
 export class RoomNetwork extends GenericNetwork {
-    allRooms() {
-        return getAllRooms();
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    getAll() {
+        return this.axios.get<Array<TRoom>>(`/rooms`);
     }
 
-    roomById(id: number) {
-        return getOneRoomById(id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    getById(id: number) {
+        return this.axios.get<TRoom>(`/rooms/${id}`);
     }
 
-    create(room: Room) {
-        return createRoom(this.axios, room);
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    create(hotelBooking: Room) {
+        return this.axios.post<TRoomWithoutId>(
+            `/rooms`,
+            hotelBooking
+        );
     }
 
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
     deleteById(id: number) {
-        return deleteRoomById(this.axios, id);
+        return this.axios.delete<TRoom>(`/rooms/${id}`);
     }
 
-    updateById(id: number) {
-        return updateRoomById(this.axios, id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById(id: number, newRoom: Room) {
+        return this.axios.patch<TRoom>(`/rooms/${id}`, newRoom);
     }
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function getAllRooms() {
-    return axios.get(`/rooms`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function getOneRoomById(id: number) {
-    return axios.get(`/rooms/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function createRoom(axios: AxiosInstance, room: Room) {
-    return axios.post<AuthSuccess>(`/rooms`, room);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function deleteRoomById(axios: AxiosInstance, id: number) {
-    return axios.delete<AuthSuccess>(`/rooms/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function updateRoomById(axios: AxiosInstance, id: number) {
-    return axios.patch<AuthSuccess>(`/rooms/${id}`);
 }

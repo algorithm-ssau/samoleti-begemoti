@@ -1,5 +1,5 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { HotelBooking, AuthSuccess } from "../db_types";
+import { HotelBooking, AuthSuccess, ModelAddition } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /hotelBookings
@@ -8,83 +8,69 @@ import { GenericNetwork } from "./genericNetwork";
 // DELETE /hotelBookings/:id
 // PATCH /hotelBookings/:id
 
+export type THotelBooking = ModelAddition & HotelBooking;
+export type THotelBookingWithoutId = Omit<THotelBooking, "_id">;
+
 export class HotelBookingNetwork extends GenericNetwork {
-    allHotelBookings() {
-        return getAllHotelBookings();
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    getAll() {
+        return this.axios.get<Array<THotelBooking>>(`/hotelBookings`);
     }
 
-    hotelBookingById(id: number) {
-        return getOneHotelBookingById(id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    getById(id: number) {
+        return this.axios.get<THotelBooking>(`/hotelBookings/${id}`);
     }
 
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
     create(hotelBooking: HotelBooking) {
-        return createHotelBooking(this.axios, hotelBooking);
+        return this.axios.post<THotelBookingWithoutId>(
+            `/hotelBookings`,
+            hotelBooking
+        );
     }
 
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
     deleteById(id: number) {
-        return deleteHotelBookingById(this.axios, id);
+        return this.axios.delete<THotelBooking>(`/hotelBookings/${id}`);
     }
 
-    updateById(id: number) {
-        return updateHotelBookingById(this.axios, id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById(id: number, newHotelBooking: HotelBooking) {
+        return this.axios.patch<THotelBooking>(
+            `/hotelBookings/${id}`,
+            newHotelBooking
+        );
     }
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function getAllHotelBookings() {
-    return axios.get(`/hotelBookings`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function getOneHotelBookingById(id: number) {
-    return axios.get(`/hotelBookings/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function createHotelBooking(
-    axios: AxiosInstance,
-    hotelBooking: HotelBooking
-) {
-    return axios.post<AuthSuccess>(`/hotelBookings`, hotelBooking);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function deleteHotelBookingById(axios: AxiosInstance, id: number) {
-    return axios.delete<AuthSuccess>(`/hotelBookings/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function updateHotelBookingById(axios: AxiosInstance, id: number) {
-    return axios.patch<AuthSuccess>(`/hotelBookings/${id}`);
 }

@@ -1,5 +1,5 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { AuthSuccess } from "../db_types";
+import { AuthSuccess, ModelAddition } from "../db_types";
 import { Review } from "../user_type";
 import { GenericNetwork } from "./genericNetwork";
 
@@ -9,80 +9,66 @@ import { GenericNetwork } from "./genericNetwork";
 // DELETE /reviews/:id
 // PATCH /reviews/:id
 
+export type TReview = ModelAddition & Review;
+export type TReviewWithoutId = Omit<TReview, "_id">;
+
 export class ReviewNetwork extends GenericNetwork {
-    allReviews() {
-        return getAllReviews();
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    getAll() {
+        return this.axios.get<Array<TReview>>(`/reviews`);
     }
 
-    reviewById(id: number) {
-        return getOneReviewById(id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    getById(id: number) {
+        return this.axios.get<TReview>(`/reviews/${id}`);
     }
 
-    create(review: Review) {
-        return createReview(this.axios, review);
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    create(hotelBooking: Review) {
+        return this.axios.post<TReviewWithoutId>(
+            `/reviews`,
+            hotelBooking
+        );
     }
 
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
     deleteById(id: number) {
-        return deleteReviewById(this.axios, id);
+        return this.axios.delete<TReview>(`/reviews/${id}`);
     }
 
-    updateById(id: number) {
-        return updateReviewById(this.axios, id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById(id: number, newReview: Review) {
+        return this.axios.patch<TReview>(`/reviews/${id}`, newReview);
     }
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function getAllReviews() {
-    return axios.get(`/reviews`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function getOneReviewById(id: number) {
-    return axios.get(`/reviews/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function createReview(axios: AxiosInstance, review: Review) {
-    return axios.post<AuthSuccess>(`/reviews`, review);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function deleteReviewById(axios: AxiosInstance, id: number) {
-    return axios.delete<AuthSuccess>(`/reviews/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function updateReviewById(axios: AxiosInstance, id: number) {
-    return axios.patch<AuthSuccess>(`/reviews/${id}`);
 }

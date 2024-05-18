@@ -1,5 +1,5 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { Photo, AuthSuccess } from "../db_types";
+import { Photo, AuthSuccess, ModelAddition } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /photos
@@ -8,80 +8,63 @@ import { GenericNetwork } from "./genericNetwork";
 // DELETE /photos/:id
 // PATCH /photos/:id
 
+export type TPhoto = ModelAddition & Photo;
+export type TPhotoWithoutId = Omit<TPhoto, "_id">;
+
 export class PhotoNetwork extends GenericNetwork {
-    allPhotos() {
-        return getAllPhotos();
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    getAll() {
+        return this.axios.get<Array<TPhoto>>(`/photos`);
     }
 
-    photoById(id: number) {
-        return getOnePhotoById(id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    getById(id: number) {
+        return this.axios.get<TPhoto>(`/photos/${id}`);
     }
 
-    create(photo: Photo) {
-        return createPhoto(this.axios, photo);
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    create(hotelBooking: Photo) {
+        return this.axios.post<TPhotoWithoutId>(`/photos`, hotelBooking);
     }
 
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
     deleteById(id: number) {
-        return deletePhotoById(this.axios, id);
+        return this.axios.delete<TPhoto>(`/photos/${id}`);
     }
 
-    updateById(id: number) {
-        return updatePhotoById(this.axios, id);
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById(id: number, newPhoto: Photo) {
+        return this.axios.patch<TPhoto>(`/photos/${id}`, newPhoto);
     }
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function getAllPhotos() {
-    return axios.get(`/photos`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function getOnePhotoById(id: number) {
-    return axios.get(`/photos/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 500 - internal server error
- *
- */
-export async function createPhoto(axios: AxiosInstance, photo: Photo) {
-    return axios.post<AuthSuccess>(`/photos`, photo);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function deletePhotoById(axios: AxiosInstance, id: number) {
-    return axios.delete<AuthSuccess>(`/photos/${id}`);
-}
-
-/**
- * Possible errors:
- *
- * status 404 - hotel not found
- *
- * status 500 - internal server error
- *
- */
-export async function updatePhotoById(axios: AxiosInstance, id: number) {
-    return axios.patch<AuthSuccess>(`/photos/${id}`);
 }
