@@ -68,11 +68,11 @@ const H3Name = styled.h3`
 function ClosedButton() {
     console.log("Closed button was pressed");
 }
-interface MessageProps {
+interface Props {
     mainMessage: string;
     secondaryMessage: string;
 }
-function RegSuccess(props: MessageProps) {
+function RegSuccess(props: Props) {
     return (
         <Container>
             <ButtonContainer>

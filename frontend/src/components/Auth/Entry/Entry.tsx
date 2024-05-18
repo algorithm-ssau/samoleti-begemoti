@@ -1,32 +1,29 @@
 import { useState } from "react";
 import RegSuccess from "../../RegistrationSuccess";
-import {
-    FormRow,
-    ShowPassword,
-    type MessageProps,
-} from "../Registration/Registration";
+import { FormRow, type MessageProps } from "../Registration/Registration";
 import { Block, Button, Container, PasswordCheck } from "../Registration/style";
 import {
     loginThunk,
     useAppDispatch,
     useAppSelector,
 } from "../../../store/store";
+import { useShowPassword } from "../../../hooks/useShowPassword";
+
+type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 export function Entry() {
-    let dispatch = useAppDispatch();
-    let loginRequest = useAppSelector(state => state.requests.login);
-    let value = loginRequest.value;
-    let status = loginRequest.status;
-    const [login, SetLogin] = useState("");
-    const [password, SetPassword] = useState("");
-    const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        SetLogin(e.target.value);
+    const dispatch = useAppDispatch();
+    const { value, status } = useAppSelector(state => state.requests.login);
+    const [passwordInputType, invert, showPassword] = useShowPassword();
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLoginChange = (e: InputEvent) => {
+        setLogin(e.target.value);
     };
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        SetPassword(e.target.value);
+    const handlePasswordChange = (e: InputEvent) => {
+        setPassword(e.target.value);
     };
-    console.log(status);
-    console.log(JSON.stringify(value));
 
     return (
         <>
@@ -42,7 +39,7 @@ export function Entry() {
                 <FormRow
                     name="Пароль:"
                     placeHolder="Пароль"
-                    type="password"
+                    type={passwordInputType}
                     id="password"
                     value={password}
                     onChange={handlePasswordChange}
@@ -52,7 +49,8 @@ export function Entry() {
                         <input
                             type="checkbox"
                             id="check"
-                            onClick={ShowPassword}
+                            checked={showPassword}
+                            onClick={invert}
                         />
                         Показать пароль
                     </PasswordCheck>
@@ -79,19 +77,18 @@ export function Entry() {
 }
 
 export function Message(props: MessageProps) {
-    let mainMessage = "";
-    let secondaryMessage = "";
+    let messageTitle = "";
+    let description = "";
+
     if (props.status == "error") {
-        mainMessage = "Ошибка!";
-        secondaryMessage = "Неверный логин и/или пароль.";
+        messageTitle = "Ошибка!";
+        description = "Неверный логин и/или пароль.";
     } else {
-        mainMessage = "Вы авторизированы!";
-        secondaryMessage = "Вам доступен личный кабинет.";
+        messageTitle = "Вы авторизированы!";
+        description = "Вам доступен личный кабинет.";
     }
+
     return (
-        <RegSuccess
-            mainMessage={mainMessage}
-            secondaryMessage={secondaryMessage}
-        />
+        <RegSuccess mainMessage={messageTitle} secondaryMessage={description} />
     );
 }

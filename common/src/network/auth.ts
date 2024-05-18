@@ -14,6 +14,13 @@ export type AuthSuccess = {
 export class Network {
     constructor(private axios: AxiosInstance) {}
 
+    /**
+     * Possible errors:
+     *
+     * status 403 - user already exists
+     *
+     * status 500 - internal server error
+     */
     register(login: string, password: string) {
         return register(this.axios, login, password);
     }
@@ -23,13 +30,6 @@ export class Network {
     }
 }
 
-/**
- * Possible errors:
- *
- * status 403 - user already exists
- *
- * status 500 - internal server error
- */
 export async function register(
     axios: AxiosInstance,
     login: string,

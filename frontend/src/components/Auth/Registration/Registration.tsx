@@ -1,4 +1,5 @@
 // import type { login } from "samolet-common";
+import { useShowPassword } from "../../../hooks/useShowPassword";
 import {
     useAppDispatch,
     useAppSelector,
@@ -8,25 +9,18 @@ import RegSuccess from "../../RegistrationSuccess";
 import { Block, Button, Container, Input, PasswordCheck, Row } from "./style";
 import { useState } from "react";
 
-export function ShowPassword() {
-    let check = document.getElementById("check") as HTMLInputElement;
-    let pass = document.getElementById("password") as HTMLInputElement;
-    let isChecked = check.checked;
-    if (isChecked) pass.type = "text";
-    else pass.type = "password";
-}
 export function Registration() {
     let dispatch = useAppDispatch();
     let registerRequest = useAppSelector(state => state.requests.register);
-
+    const [passwordInputType, invert, showPassword] = useShowPassword();
     let status = registerRequest.status;
-    const [login, SetLogin] = useState("");
-    const [password, SetPassword] = useState("");
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
     const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        SetLogin(e.target.value);
+        setLogin(e.target.value);
     };
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        SetPassword(e.target.value);
+        setPassword(e.target.value);
     };
     return (
         <>
@@ -45,7 +39,7 @@ export function Registration() {
                 <FormRow
                     name="Пароль:"
                     placeHolder="Пароль"
-                    type="password"
+                    type={passwordInputType}
                     id="password"
                     value={password}
                     onChange={handlePasswordChange}
@@ -55,7 +49,8 @@ export function Registration() {
                         <input
                             type="checkbox"
                             id="check"
-                            onClick={ShowPassword}
+                            checked={showPassword}
+                            onClick={invert}
                         />
                         Показать пароль
                     </PasswordCheck>
