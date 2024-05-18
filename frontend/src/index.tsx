@@ -14,6 +14,8 @@ import RegistrationSuccess from "./components/RegistrationSuccess";
 import RoomReview from "./components/RoomReview";
 import HotelReservation from "./components/HotelReservation";
 import HotelRoom from "./components/HotelRoom";
+import HotelCard from "./components/HotelCard";
+import SearchHotel from "./components/SearchHotel";
 
 function onSubmitHandle(data: DataType) {
     console.log(
@@ -44,6 +46,8 @@ function App() {
                 onRoutClicked={() => {}}
                 onProfileClicked={() => {}}
                             />
+            <SearchHotel/>
+            <HotelCard/>
             <HotelRoom/>
             <HotelReservation/>
             <RoomReview/>
