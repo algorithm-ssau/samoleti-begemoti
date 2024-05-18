@@ -1,11 +1,11 @@
-import AddReview from "./AddReview";
-import { City, HotelList } from "./Card";
-import EnterProfile from "./EnterProfile";
-import HotelReservation from "./HotelReservation";
-import HotelRoom from "./HotelRoom";
-import { PlacePicker, type DataType } from "./PlacePicker";
-import RegistrationSuccess from "./RegistrationSuccess";
-import RoomReview from "./RoomReview";
+import AddReview from "../components/AddReview";
+import { City, HotelList } from "../components/Card";
+import EnterProfile from "../components/EnterProfile";
+import HotelReservation from "../components/HotelReservation";
+import HotelRoom from "../components/HotelRoom";
+import { PlacePicker, type DataType } from "../components/PlacePicker";
+import RegistrationSuccess from "../components/RegistrationSuccess";
+import RoomReview from "../components/RoomReview";
 
 function onSubmitHandle(data: DataType) {
     console.log(

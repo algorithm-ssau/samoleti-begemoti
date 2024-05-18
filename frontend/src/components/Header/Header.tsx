@@ -1,14 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { Key, Person } from "@mui/icons-material";
+
 import {
     Button,
     Container,
     ContainerCenter,
-    Profile,
     ContainerProfile,
     ContainerIco,
     Ico,
     PName,
 } from "./style";
+import { IconButton } from "@mui/material";
 
 export interface HeaderProps {
     login: boolean;
@@ -24,40 +25,32 @@ export function Header(props: HeaderProps) {
                 <Ico src="hippopotamus.ico" alt="hippopotamus" />
                 <PName>samoleti-begemoti</PName>
             </ContainerIco>
-
             <ContainerCenter>
-                <NavLink to="/hotel">
-                    <Button onClick={() => props.onTicketClicked()}>
-                        Отели
-                    </Button>
-                </NavLink>
-                <NavLink to="/test">
-                    <Button onClick={() => props.onHotelClicked()}>
-                        Билеты
-                    </Button>
-                </NavLink>
+                <Button onClick={() => props.onHotelClicked()}>Отели</Button>
 
-                <NavLink to="/rout">
-                    <Button onClick={() => props.onRoutClicked()}>
-                        Маршруты
-                    </Button>
-                </NavLink>
+                <Button onClick={() => props.onTicketClicked()}>Билеты</Button>
+
+                <Button onClick={() => props.onRoutClicked()}>Маршруты</Button>
             </ContainerCenter>
             <ContainerProfile>
                 {props.login ? (
-                    <Profile
-                        src="key.ico"
-                        alt="key"
-                        onClick={() => props.onProfileClicked(props.login)}
-                    />
-                ) : (
-                    <NavLink to="profile">
-                        <Profile
-                            src="profile.ico"
-                            alt="profile"
+                    <>
+                        <IconButton
+                            size="large"
                             onClick={() => props.onProfileClicked(props.login)}
-                        />
-                    </NavLink>
+                        >
+                            <Person fontSize="inherit" />
+                        </IconButton>
+                    </>
+                ) : (
+                    <>
+                        <IconButton
+                            size="large"
+                            onClick={() => props.onProfileClicked(props.login)}
+                        >
+                            <Key fontSize="inherit" />
+                        </IconButton>
+                    </>
                 )}
             </ContainerProfile>
         </Container>
