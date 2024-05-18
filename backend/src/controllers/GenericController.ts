@@ -113,7 +113,7 @@ export class GenericController<T, M extends Model<T>> {
         const errorMessage = this.deleteErrorMessages();
         try {
             const valueId = req.params.id;
-            Model.findOneAndDelete({
+            (this.MyModel as Model<any>).findOneAndDelete({
                 _id: valueId,
             })
                 .then((doc: string) => {
@@ -146,7 +146,7 @@ export class GenericController<T, M extends Model<T>> {
                 modelData[key] = req.body[key];
             });
             const valueId = req.params.id;
-            Model.findOneAndUpdate(
+            (this.MyModel as Model<any>).findOneAndUpdate(
                 {
                     _id: valueId,
                 },
