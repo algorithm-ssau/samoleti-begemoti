@@ -17,6 +17,7 @@ export type State = {
     value: number;
     requests: {
         register: RequestState<AuthSuccess, any>;
+        login: RequestState<AuthSuccess, any>;
     };
 };
 
@@ -28,11 +29,19 @@ export const registerThunk = createAsyncThunk(
             .then(x => x.data);
     },
 );
-
+export const loginThunk = createAsyncThunk(
+    "login",
+    async (creds: { login: string; password: string }) => {
+        return await network
+            .login(creds.login, creds.password)
+            .then(x => x.data);
+    },
+);
 const initialState: State = {
     value: 0,
     requests: {
         register: empty(),
+        login: empty(),
     },
 };
 
@@ -42,6 +51,7 @@ const slice = createSlice({
     reducers: {},
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
+        trackRequest(builder, "login", loginThunk);
     },
 });
 
