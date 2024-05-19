@@ -31,7 +31,10 @@ export function TestPage() {
             <HotelReservation />
             <RoomReview />
             <AddReview />
-            <RegistrationSuccess />
+            <RegistrationSuccess
+                mainMessage="ура"
+                secondaryMessage="регистрация успешно"
+            />
             <EnterProfile />
             <HotelList city={City.Moscow} />
             <PlacePicker
