@@ -1,5 +1,9 @@
 import { Review, User } from "./user_type";
 
+import { AuthSuccess, login, register } from "./network/auth";
+
+export { AuthSuccess, login, register };
+
 export interface Hotel {
     name: string;
     description: string;

@@ -17,7 +17,9 @@ module.exports = {
                 use: {
                     loader: "ts-loader",
                     options: {
+                        projectReferences: true,
                         experimentalWatchApi: true,
+                        transpileOnly: true,
                     },
                 },
                 exclude: /node_modules/,
@@ -31,6 +33,18 @@ module.exports = {
                 use: {
                     loader: "file-loader",
                 },
+            },
+        ],
+    },
+    devServer: {
+        historyApiFallback: {
+            index: "index.html",
+        },
+        proxy: [
+            {
+                context: ["/api"],
+                target: "http://localhost:3000",
+                pathRewrite: { "^/api": "" },
             },
         ],
     },

@@ -1,68 +1,28 @@
 import { createRoot } from "react-dom/client";
 
-import type { DataType } from "./components/PlacePicker";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import axios, { type CreateAxiosDefaults } from "axios";
+
+import { Network } from "samolet-common/dist/src/network/auth";
+import { store } from "./store/store";
+import { MainRouter } from "./routers/MainRouter";
+
 import "./index.css";
-import { City } from "./components/Card";
-import { HotelList } from "./components/Card";
-import { PlacePicker } from "./components/PlacePicker";
-import { HotelPage } from "./components/HotelPage";
-import { Header } from "./components/Header/Header";
-import AddReview from "./components/AddReview";
-import EnterProfile from "./components/EnterProfile";
-import RoomReview from "./components/RoomReview";
-import HotelReservation from "./components/HotelReservation";
-import HotelRoom from "./components/HotelRoom";
 
-import HotelCard from "./components/HotelCard";
-import SearchHotel from "./components/SearchHotel";
-import { AddHotel } from "./components/AddHotel/AddHotel";
+const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
 
-function onSubmitHandle(data: DataType) {
-    console.log(
-        data.place + " " + data.date + " " + data.hours + ":" + data.minutes,
-    );
-}
+export const network = new Network(config =>
+    axios.create({ ...axiosConfig, ...config }),
+);
 
 function App() {
-    const listOfPlaces = [
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "six",
-        "seven",
-        "eight",
-        "nine",
-        "ten",
-    ];
-
     return (
-        <div>
-            <AddHotel />
-            <Header
-                login={false}
-                onTicketClicked={() => {}}
-                onHotelClicked={() => {}}
-                onRoutClicked={() => {}}
-                onProfileClicked={() => {}}
-            />
-
-            <HotelRoom />
-            <HotelReservation />
-            <RoomReview />
-            <AddReview />
-            {/* <RegistrationSuccess/> */}
-            <EnterProfile />
-            <SearchHotel />
-            <HotelCard />
-            <HotelPage id={0} />
-            <HotelList city={City.Moscow} />
-            <PlacePicker
-                onSubmit={onSubmitHandle}
-                listOfPlaces={listOfPlaces}
-            />
-        </div>
+        <Provider store={store}>
+            <BrowserRouter>
+                <MainRouter />
+            </BrowserRouter>
+        </Provider>
     );
 }
 
