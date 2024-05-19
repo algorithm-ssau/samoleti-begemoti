@@ -111,4 +111,17 @@ export class HotelController extends GenericController<
             });
         }
     }
+    
+    // async addReviewToHotel(req: Request, res: Response) {
+    //     try {
+    //         const _id = req.params.id;
+    //         const hotel = HotelModel.findOne({"_id": _id});
+    //         const user_id = req.userId;
+    //     } catch (error) {
+    //         console.log(error);
+    //         res.status(500).json({
+    //             message: 'Нет доступа'
+    //         });
+    //     }
+    // }
 }

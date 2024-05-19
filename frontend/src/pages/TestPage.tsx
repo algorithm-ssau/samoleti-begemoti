@@ -1,52 +1,46 @@
-import { network } from "..";
-import { Header } from "../components/Header";
-import {
-    goslingThunk,
-    registerThunk,
-    useAppDispatch,
-    useAppSelector,
-} from "../store/store";
+import AddReview from "../components/AddReview";
+import { City, HotelList } from "../components/Card";
+import EnterProfile from "../components/EnterProfile";
+import HotelReservation from "../components/HotelReservation";
+import HotelRoom from "../components/HotelRoom";
+import { PlacePicker, type DataType } from "../components/PlacePicker";
+import RegistrationSuccess from "../components/RegistrationSuccess";
+import RoomReview from "../components/RoomReview";
 
-interface Props {}
-
-export function TestPage(props: Props) {
-    let dispatch = useAppDispatch();
-    let registerRequest = useAppSelector(state => state.requests.register);
-    let gosling = useAppSelector(state => state.requests.gosling);
-
-    let status = registerRequest.status;
-    let value = registerRequest.value;
-
+function onSubmitHandle(data: DataType) {
+    console.log(
+        data.place + " " + data.date + " " + data.hours + ":" + data.minutes,
+    );
+}
+export function TestPage() {
+    const listOfPlaces = [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+    ];
     return (
         <>
-            <div>{status}</div>
-            <div>{JSON.stringify(value)}</div>
-
-            <button
-                onClick={() =>
-                    dispatch(
-                        registerThunk({ login: "bbb", password: "крутой" }),
-                    )
-                }
-            >
-                отправить запрос
-            </button>
-            <button
-                onClick={() => {
-                    if (value) {
-                        network.setToken(value.token);
-                    }
-                }}
-            >
-                set token
-            </button>
-            <button
-                onClick={() => {
-                    dispatch(goslingThunk());
-                }}
-            >
-                гослинг
-            </button>
+            <HotelRoom />
+            <HotelReservation />
+            <RoomReview />
+            <AddReview />
+            <RegistrationSuccess
+                mainMessage="ура"
+                secondaryMessage="регистрация успешно"
+            />
+            <EnterProfile />
+            <HotelList city={City.Moscow} />
+            <PlacePicker
+                onSubmit={onSubmitHandle}
+                listOfPlaces={listOfPlaces}
+            />
         </>
     );
 }

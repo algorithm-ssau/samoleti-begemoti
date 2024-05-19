@@ -5,14 +5,16 @@ interface Props {}
 
 export function DefaultHeader(props: Props) {
     const navigate = useNavigate();
-
+    const log = false;
     return (
         <Header
-            onHotelClicked={() => {}}
-            onProfileClicked={() => navigate("/auth")}
-            onRoutClicked={() => {}}
-            onTicketClicked={() => {}}
-            login={false}
+            onHotelClicked={() => navigate("/hotel")}
+            onProfileClicked={() =>
+                log ? navigate("/profile/setting") : navigate("/auth")
+            }
+            onRoutClicked={() => navigate("/profile/setting")} //"rout"
+            onTicketClicked={() => navigate("/test")}
+            login={log}
         />
     );
 }

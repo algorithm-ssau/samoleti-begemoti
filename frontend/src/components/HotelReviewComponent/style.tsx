@@ -15,7 +15,7 @@ export const Container = styled.div`
 `;
 export const HeaderRow = styled.div`
     display: flex;
-    width: 55%;
+    width: 60%;
     margin: 2% auto;
 `;
 export const ReviewTextContainer = styled.div`
@@ -28,8 +28,8 @@ export const Plus = styled.img`
     margin: auto 0;
     background-color: ${primary};
 `;
-export const AddRating = styled.p`
-    margin-right: 2%;
+export const AddRating = styled.div`
+    margin-right: 0%;
     margin-left: auto;
     margin-top: 0.5em;
     margin-bottom: 0.5em;

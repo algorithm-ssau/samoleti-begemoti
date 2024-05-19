@@ -1,5 +1,5 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { User } from "../user_type";
+import { GenericNetwork } from "./genericNetwork";
 
 type Status<T extends number> = {
     status: T;
@@ -12,71 +12,32 @@ export type AuthSuccess = {
     token: string;
 };
 
-export class Network {
-    private axios: AxiosInstance;
-    constructor(
-        private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
-    ) {
-        this.axios = getInstance({});
-    }
-
-    setToken(token: string) {
-        this.axios = this.getInstance({
-            headers: {
-                Authorization: token,
-            },
+export class AuthNetwork extends GenericNetwork {
+    /**
+     * Possible errors:
+     *
+     * status 403 - user already exists
+     *
+     * status 500 - internal server error
+     */
+    register(login: string, password: string) {
+        return this.axios.post<AuthSuccess>("/auth/register", {
+            login,
+            password,
         });
     }
 
-    gosling() {
-        return this.axios.get<string>("/");
-    }
-
-    register(login: string, password: string) {
-        return register(this.axios, login, password);
-    }
-
+    /**
+     * Possible errors:
+     *
+     * status 401 - invalid credentials
+     *
+     * status 500 - internal server error
+     */
     login(login_: string, password: string) {
-        return login(this.axios, login_, password);
+        return axios.post<AuthSuccess>("/auth/login", {
+            login_,
+            password,
+        });
     }
-
-    users() {
-        return this.axios.get<User[]>("/users/");
-    }
-}
-
-/**
- * Possible errors:
- *
- * status 403 - user already exists
- *
- * status 500 - internal server error
- */
-export async function register(
-    axios: AxiosInstance,
-    login: string,
-    password: string
-) {
-    return axios.post<AuthSuccess>("/auth/register", {
-        login,
-        password,
-    });
-}
-
-/**
- * Possible errors:
- *
- * status 401 - invalid credentials
- *
- * status 500 - internal server error
- */
-export async function login(
-    axios: AxiosInstance,
-    login: string,
-    password: string
-) {
-    return axios.post<AuthSuccess>("/auth/login", {
-        login,
-        password,
-    });
 }

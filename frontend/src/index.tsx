@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 
 import {
-    BrowserRouter,
     RouterProvider,
     createBrowserRouter,
     createRoutesFromElements,
@@ -9,11 +8,12 @@ import {
 import { Provider } from "react-redux";
 import axios, { type CreateAxiosDefaults } from "axios";
 
-import { Network } from "samolet-common/dist/src/network/auth";
 import { store } from "./store/store";
-import { MainRouter } from "./routers/MainRouter";
+
+import { Network } from "samolet-common";
 
 import "./index.css";
+import { MainRouter } from "./routers/MainRouter";
 
 const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
 

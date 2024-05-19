@@ -1,8 +1,7 @@
 import AddReview from "../components/AddReview";
 import { HotelList, City } from "../components/Card";
 import EnterProfile from "../components/EnterProfile";
-import { DefaultHeader } from "../components/Header/DefaultHeader";
-import { HotelPage } from "../components/HotelPage";
+import { HotelPage } from "./HotelPage";
 import HotelReservation from "../components/HotelReservation";
 import HotelRoom from "../components/HotelRoom";
 import { PlacePicker, type DataType } from "../components/PlacePicker";
@@ -33,7 +32,6 @@ interface Props {}
 export function MainPage(props: Props) {
     return (
         <div>
-            <DefaultHeader />
             <HotelRoom />
             <HotelReservation />
             <RoomReview />

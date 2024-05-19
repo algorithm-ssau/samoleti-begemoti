@@ -8,13 +8,14 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.button`
-    width: 20%;
     font-size: 1.5em;
     background-color: ${background};
     border: 0;
     border-top: 2px solid #757575;
     margin-bottom: 2%;
     padding: 1%;
+    width: 20rem;
+    height: 5rem;
     ${primaryText}
     &:hover {
         border: 0.05em solid ${accent};

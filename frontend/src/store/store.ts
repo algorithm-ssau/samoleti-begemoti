@@ -7,37 +7,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
 import { type AuthSuccess } from "samolet-common";
 import { network } from "..";
-import type { User } from "samolet-common/src/user_type";
-import { usersThunk } from "./requestThunks";
-
-export const registerThunk = createAsyncThunk(
-    "register",
-    async (creds: { login: string; password: string }) => {
-        return await network
-            .register(creds.login, creds.password)
-            .then(x => x.data);
-    },
-);
-
-export const goslingThunk = createAsyncThunk("gosling", async () => {
-    return await network.gosling().then(x => x.data);
-});
 
 export type State = {
     value: number;
     requests: {
         register: RequestState<AuthSuccess, any>;
-        gosling: RequestState<string, any>;
-        users: RequestState<User[], any>;
+        login: RequestState<AuthSuccess, any>;
     };
 };
 
+export const registerThunk = createAsyncThunk(
+    "register",
+    async (creds: { login: string; password: string }) => {
+        return await network.auth
+            .register(creds.login, creds.password)
+            .then(x => x.data);
+    },
+);
+export const loginThunk = createAsyncThunk(
+    "login",
+    async (creds: { login: string; password: string }) => {
+        return await network.auth
+            .login(creds.login, creds.password)
+            .then(x => x.data);
+    },
+);
 const initialState: State = {
     value: 0,
     requests: {
         register: empty(),
-        gosling: empty(),
-        users: empty(),
+        login: empty(),
     },
 };
 
@@ -47,8 +46,7 @@ const slice = createSlice({
     reducers: {},
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
-        trackRequest(builder, "gosling", goslingThunk);
-        trackRequest(builder, "users", usersThunk);
+        trackRequest(builder, "login", loginThunk);
     },
 });
 
