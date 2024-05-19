@@ -1,5 +1,7 @@
 import { Review, User } from "./user_type";
 
+export type * from "./user_type";
+
 import { AuthSuccess } from "./network/auth";
 import { Network } from "./network";
 export { type AuthSuccess, Network };
@@ -71,7 +73,5 @@ export interface Room {
 }
 
 export interface Photo {
-    url: string;
+    imageUrl: String;
 }
-
-export const x = 124;

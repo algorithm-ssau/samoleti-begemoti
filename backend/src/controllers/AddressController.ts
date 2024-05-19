@@ -1,5 +1,5 @@
 import AddressModel from "../models/Address";
-import { Address } from "../types/db_types";
+import { Address } from "samolet-common";
 import { GenericController } from "./GenericController";
 
 export class AddressController extends GenericController<

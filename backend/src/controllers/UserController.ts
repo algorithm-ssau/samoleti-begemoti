@@ -1,11 +1,8 @@
 import UserModel from "../models/User";
-import { User } from "../types/user_type";
+import { User } from "samolet-common";
 import { GenericController } from "./GenericController";
 
-export class UserController extends GenericController<
-    User,
-    typeof UserModel
-> {
+export class UserController extends GenericController<User, typeof UserModel> {
     constructor() {
         super(UserModel);
     }
@@ -39,14 +36,15 @@ export class UserController extends GenericController<
             "Не удалось получить пользователя",
         ];
     }
-    async getOneByKey(key: string, value: any){
-        console.log({[key] : value});
+    async getOneByKey(key: string, value: any) {
+        console.log({ [key]: value });
         let query = UserModel.findOne({ [key]: value });
-        return query.then(doc => {
-                if(!doc){
-                    return false
+        return query
+            .then(doc => {
+                if (!doc) {
+                    return false;
                 }
-                console.log("Controller", doc)
+                console.log("Controller", doc);
                 return doc;
             })
             .catch((error: string) => {

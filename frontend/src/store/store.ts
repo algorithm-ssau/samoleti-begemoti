@@ -60,3 +60,6 @@ export { actions };
 
 export const useAppDispatch = useDispatch.withTypes<typeof store.dispatch>();
 export const useAppSelector = useSelector.withTypes<State>();
+export function useRequest<T>(selector: (requests: State["requests"]) => T): T {
+    return useAppSelector(state => selector(state.requests));
+}

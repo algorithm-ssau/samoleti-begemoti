@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Photo } from "../types/db_types";
+import { Photo } from "samolet-common";
 
 const PhotoSchema = new Schema<Photo>(
     {

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { jwt_access } from "../config";
-import { User } from "../types/user_type";
 import { is } from "typia";
 import { UserClaim } from "../request";
 
