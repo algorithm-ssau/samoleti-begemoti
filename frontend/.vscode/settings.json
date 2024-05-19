@@ -1,5 +1,8 @@
 {
     "typescript.tsdk": "node_modules/typescript/lib",
     "typescript.preferGoToSourceDefinition": true,
-    "typescript.reportStyleChecksAsWarnings": false
+    "typescript.reportStyleChecksAsWarnings": false,
+    "files.watcherExclude": {
+        "**/target": true
+    }
 }

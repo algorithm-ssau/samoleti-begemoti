@@ -18,7 +18,9 @@ export function AuthPage(props: Props) {
 
             <button
                 onClick={() =>
-                    dispatch(registerThunk({ login: "я", password: "крутой" }))
+                    dispatch(
+                        registerThunk({ login: "salavat", password: "крутой" }),
+                    )
                 }
             >
                 отправить запрос

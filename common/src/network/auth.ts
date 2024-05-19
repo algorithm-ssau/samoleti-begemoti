@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
+import { GenericNetwork } from "./genericNetwork";
 
 type Status<T extends number> = {
     status: T;
@@ -11,9 +12,7 @@ export type AuthSuccess = {
     token: string;
 };
 
-export class Network {
-    constructor(private axios: AxiosInstance) {}
-
+export class AuthNetwork extends GenericNetwork {
     /**
      * Possible errors:
      *
@@ -22,39 +21,23 @@ export class Network {
      * status 500 - internal server error
      */
     register(login: string, password: string) {
-        return register(this.axios, login, password);
+        return this.axios.post<AuthSuccess>("/auth/register", {
+            login,
+            password,
+        });
     }
 
+    /**
+     * Possible errors:
+     *
+     * status 401 - invalid credentials
+     *
+     * status 500 - internal server error
+     */
     login(login_: string, password: string) {
-        return login(this.axios, login_, password);
+        return axios.post<AuthSuccess>("/auth/login", {
+            login_,
+            password,
+        });
     }
-}
-
-export async function register(
-    axios: AxiosInstance,
-    login: string,
-    password: string
-) {
-    return axios.post<AuthSuccess>("/auth/register", {
-        login,
-        password,
-    });
-}
-
-/**
- * Possible errors:
- *
- * status 401 - invalid credentials
- *
- * status 500 - internal server error
- */
-export async function login(
-    axios: AxiosInstance,
-    login: string,
-    password: string
-) {
-    return axios.post<AuthSuccess>("/auth/login", {
-        login,
-        password,
-    });
 }

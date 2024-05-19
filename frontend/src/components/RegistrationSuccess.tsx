@@ -15,7 +15,8 @@ const Container = styled.div`
     margin: auto;
     align-items: center;
     border-radius: 30px;
-    margin-top: 15%;
+    border: 0px;
+    margin-top: 0%;
 `;
 const CloseButton = styled.button`
     width: 25px;

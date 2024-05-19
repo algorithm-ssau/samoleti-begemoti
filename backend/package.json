@@ -5,11 +5,12 @@
     "main": "dist/src/index.js",
     "scripts": {
         "clean": "rimraf dist",
-        "build": "tsc -p tsconfig.build.json",
-        "watch:build": "tsc --watch",
+        "build": "tsc --build tsconfig.build.json",
+        "watch:build": "tsc --build --watch",
         "watch:server": "nodemon './dist/src/index.js' --watch './dist/src'",
-        "start": "npm-run-all clean build --parallel watch:build watch:server --print-label",
-        "test": "jest --watchAll"
+        "start": "npm-run-all build --parallel watch:build watch:server --print-label",
+        "test": "jest --watchAll",
+        "prepare": "ts-patch install && typia patch"
     },
     "author": "",
     "license": "ISC",
