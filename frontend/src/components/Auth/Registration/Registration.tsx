@@ -10,10 +10,10 @@ import { Block, Button, Container, Input, PasswordCheck, Row } from "./style";
 import { useState } from "react";
 
 export function Registration() {
-    let dispatch = useAppDispatch();
-    let registerRequest = useAppSelector(state => state.requests.register);
+    const dispatch = useAppDispatch();
+    const registerRequest = useAppSelector(state => state.requests.register);
     const [passwordInputType, invert, showPassword] = useShowPassword();
-    let status = registerRequest.status;
+    const status = registerRequest.status;
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {

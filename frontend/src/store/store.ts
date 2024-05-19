@@ -2,6 +2,7 @@ import {
     createSlice,
     configureStore,
     createAsyncThunk,
+    type PayloadAction,
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
@@ -10,10 +11,13 @@ import { network } from "..";
 
 export type State = {
     value: number;
+
     requests: {
         register: RequestState<AuthSuccess, any>;
         login: RequestState<AuthSuccess, any>;
+        getToken: RequestState<AuthSuccess, any>;
     };
+    isLogin: boolean;
 };
 
 export const registerThunk = createAsyncThunk(
@@ -32,21 +36,31 @@ export const loginThunk = createAsyncThunk(
             .then(x => x.data);
     },
 );
+export const getTokenThunk = createAsyncThunk("getToken", async () => {
+    return await network.auth.gosling().then(x => x.data);
+});
 const initialState: State = {
     value: 0,
     requests: {
         register: empty(),
         login: empty(),
+        getToken: empty(),
     },
+    isLogin: false,
 };
 
 const slice = createSlice({
     name: "banks",
     initialState,
-    reducers: {},
+    reducers: {
+        setLogin(state, action: PayloadAction<boolean>) {
+            state.isLogin = action.payload;
+        },
+    },
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
+        trackRequest(builder, "getToken", getTokenThunk);
     },
 });
 

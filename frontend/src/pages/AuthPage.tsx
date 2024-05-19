@@ -13,7 +13,7 @@ export function AuthPage(props: Props) {
     return (
         <>
             <Registration />
-            <div>{status}</div>
+            {/* <div>{status}</div>
             <div>{JSON.stringify(value)}</div>
 
             <button
@@ -24,7 +24,7 @@ export function AuthPage(props: Props) {
                 }
             >
                 отправить запрос
-            </button>
+            </button> */}
         </>
     );
 }
