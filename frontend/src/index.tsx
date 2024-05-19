@@ -9,17 +9,14 @@ import { HotelPage } from "./components/HotelPage";
 import { Header } from "./components/Header/Header";
 import AddReview from "./components/AddReview";
 import EnterProfile from "./components/EnterProfile";
-//import RegistrationSuccess from "./components/RegistrationSuccess";
 import RoomReview from "./components/RoomReview";
 import HotelReservation from "./components/HotelReservation";
 import HotelRoom from "./components/HotelRoom";
 
 import HotelCard from "./components/HotelCard";
 import SearchHotel from "./components/SearchHotel";
+import { AddHotel } from "./components/AddHotel/AddHotel";
 
-//import { ProfilePage } from "./components/Profile/ProfilePage";
-
- 
 function onSubmitHandle(data: DataType) {
     console.log(
         data.place + " " + data.date + " " + data.hours + ":" + data.minutes,
@@ -42,34 +39,32 @@ function App() {
 
     return (
         <div>
-            
+            <AddHotel />
             <Header
                 login={false}
                 onTicketClicked={() => {}}
                 onHotelClicked={() => {}}
                 onRoutClicked={() => {}}
                 onProfileClicked={() => {}}
-                
-                            />
+            />
 
-            <HotelRoom/>
-            <HotelReservation/>
-            <RoomReview/>
-            <AddReview/>
+            <HotelRoom />
+            <HotelReservation />
+            <RoomReview />
+            <AddReview />
             {/* <RegistrationSuccess/> */}
-            <EnterProfile/>
-            <SearchHotel/>
-            <HotelCard/>
+            <EnterProfile />
+            <SearchHotel />
+            <HotelCard />
             <HotelPage id={0} />
             <HotelList city={City.Moscow} />
             <PlacePicker
                 onSubmit={onSubmitHandle}
                 listOfPlaces={listOfPlaces}
-            /> 
+            />
         </div>
     );
 }
-
 
 let container = document.getElementById("root");
 let root = createRoot(container!);

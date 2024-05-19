@@ -35,7 +35,7 @@ interface ReviewInputs {
     photos: string[];
 }
 
-function HotelCard() {
+export function AddHotel() {
     const roomTypes = ["Luxary", "Normal", "Hell"];
     const roomSelect = roomTypes.map(item => (
         <option key={item}>{item}</option>
@@ -46,11 +46,11 @@ function HotelCard() {
     ];
     const rating = rateList.map(item => <option key={item}>{item}</option>);
     const { register, handleSubmit } = useForm<HotelInputs>();
-    const { register: registerroom, handleSubmit: handleroomSubmit } =
+    const { register: registerRoom, handleSubmit: handleRoomSubmit } =
         useForm<RoomInputs>();
-    const { register: registerreview, handleSubmit: handlereviewSubmit } =
+    const { register: registerReview, handleSubmit: handleReviewSubmit } =
         useForm<ReviewInputs>();
-    const handleHotelSubmit = (data: HotelInputs) => {
+    const onHotelSubmit = (data: HotelInputs) => {
         alert(
             data.name +
                 " " +
@@ -65,7 +65,7 @@ function HotelCard() {
                 data.photos.length,
         );
     };
-    const handleReviewSubmit = (data: ReviewInputs) => {
+    const onReviewSubmit = (data: ReviewInputs) => {
         alert(
             data.userId +
                 " " +
@@ -78,7 +78,7 @@ function HotelCard() {
                 data.photos.length,
         );
     };
-    const handleRoomSubmit = (data: RoomInputs) => {
+    const onRoomSubmit = (data: RoomInputs) => {
         alert(
             data.roomCategory +
                 " " +
@@ -94,7 +94,7 @@ function HotelCard() {
     return (
         <Container>
             <LeftContainer>
-                <form onSubmit={handleSubmit(handleHotelSubmit)}>
+                <form onSubmit={handleSubmit(onHotelSubmit)}>
                     <RowContainer>
                         <H2PrimaryColor>Название отеля:</H2PrimaryColor>
                         <TextField type="textarea" {...register("name")} />
@@ -131,32 +131,32 @@ function HotelCard() {
             </LeftContainer>
 
             <RightContainer>
-                <form onSubmit={handlereviewSubmit(handleReviewSubmit)}>
+                <form onSubmit={handleReviewSubmit(onReviewSubmit)}>
                     <H2PrimaryColor>Добавление отзыва</H2PrimaryColor>
                     <RowContainer>
                         <H2PrimaryColor>ID пользователя:</H2PrimaryColor>
                         <TextField
                             type="textare"
-                            {...registerreview("userId")}
+                            {...registerReview("userId")}
                         />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Название:</H2PrimaryColor>
                         <TextField
                             type="textare"
-                            {...registerreview("title")}
+                            {...registerReview("title")}
                         />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Текст:</H2PrimaryColor>
                         <TextField
                             type="textare"
-                            {...registerreview("content")}
+                            {...registerReview("content")}
                         />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Оценка:</H2PrimaryColor>
-                        <CustomSelect {...registerreview("mark")}>
+                        <CustomSelect {...registerReview("mark")}>
                             <option value="" selected disabled hidden>
                                 --
                             </option>
@@ -168,18 +168,18 @@ function HotelCard() {
                         <InputButton
                             type="file"
                             multiple
-                            {...registerreview("photos")}
+                            {...registerReview("photos")}
                         />
                     </RowContainer>
                     <InputButton type="submit" />
                 </form>
             </RightContainer>
             <RightContainer>
-                <form onSubmit={handleroomSubmit(handleRoomSubmit)}>
+                <form onSubmit={handleRoomSubmit(onRoomSubmit)}>
                     <H2PrimaryColor>Добавление комнат</H2PrimaryColor>
                     <RowContainer>
                         <H2PrimaryColor>Тип комнаты:</H2PrimaryColor>
-                        <CustomSelect {...registerroom("roomCategory")}>
+                        <CustomSelect {...registerRoom("roomCategory")}>
                             <option value="" selected disabled hidden>
                                 --
                             </option>
@@ -188,27 +188,27 @@ function HotelCard() {
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Цена:</H2PrimaryColor>
-                        <TextField type="textare" {...registerroom("price")} />
+                        <TextField type="textare" {...registerRoom("price")} />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Кол-во кроватей:</H2PrimaryColor>
                         <TextField
                             type="textare"
-                            {...registerroom("bedAmount")}
+                            {...registerRoom("bedAmount")}
                         />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Количество комнат:</H2PrimaryColor>
                         <TextField
                             type="textare"
-                            {...registerroom("amountOfRooms")}
+                            {...registerRoom("amountOfRooms")}
                         />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Удобства:</H2PrimaryColor>
                         <TextField
                             type="textare"
-                            {...registerroom("facilities")}
+                            {...registerRoom("facilities")}
                         />
                     </RowContainer>
                     <InputButton type="submit" />
@@ -217,5 +217,3 @@ function HotelCard() {
         </Container>
     );
 }
-
-export default HotelCard;
