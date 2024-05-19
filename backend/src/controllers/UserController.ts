@@ -1,5 +1,5 @@
 import UserModel from "../models/User";
-import { User } from "samolet-common/user_type";
+import { User } from "samolet-common";
 import { GenericController } from "./GenericController";
 
 export class UserController extends GenericController<User, typeof UserModel> {

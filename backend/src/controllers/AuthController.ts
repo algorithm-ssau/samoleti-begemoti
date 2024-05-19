@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserController } from "../controllers/index";
-import { User } from "samolet-common/user_type";
+import { User } from "samolet-common";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { jwt_access, ACCESS_EXPIRES_IN } from "../config";

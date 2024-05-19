@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Address } from "samolet-common/db_types";
+import { Address } from "samolet-common";
 
 const AddressSchema = new Schema<Address>(
     {

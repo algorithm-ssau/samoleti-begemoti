@@ -1,7 +1,7 @@
 import HotelModel from "../models/Hotel";
 import { Request, Response } from "express";
 import { GenericController } from "./GenericController";
-import { Hotel } from "samolet-common/db_types";
+import { Hotel } from "samolet-common";
 
 export class HotelController extends GenericController<
     Hotel,
@@ -111,7 +111,7 @@ export class HotelController extends GenericController<
             });
         }
     }
-    
+
     // async addReviewToHotel(req: Request, res: Response) {
     //     try {
     //         const _id = req.params.id;

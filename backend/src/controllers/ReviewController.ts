@@ -1,4 +1,4 @@
-import { Review } from "samolet-common/user_type";
+import { Review } from "samolet-common";
 import ReviewModel from "../models/Reviews";
 import { GenericController } from "./GenericController";
 

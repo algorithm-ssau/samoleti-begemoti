@@ -1,5 +1,5 @@
 import HotelBookingModel from "../models/HotelBooking";
-import { HotelBooking } from "samolet-common/db_types";
+import { HotelBooking } from "samolet-common";
 import { GenericController } from "./GenericController";
 
 export class HotelBookingController extends GenericController<

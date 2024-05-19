@@ -1,4 +1,4 @@
-import { UserForReview } from "samolet-common/user_type";
+import { UserForReview } from "samolet-common";
 import UserForReviewModel from "../models/UserForReview";
 import { Request, Response } from "express";
 import { GenericController } from "./GenericController";
