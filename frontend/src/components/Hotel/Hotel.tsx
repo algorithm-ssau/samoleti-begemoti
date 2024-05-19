@@ -1,3 +1,4 @@
+import { purple } from "@mui/material/colors";
 import {
     ButtonInf,
     Container,
@@ -8,11 +9,15 @@ import {
     H1Name,
     H2Name,
     Ico,
+    IcoMui,
     Link,
     PName,
     Text,
 } from "./style";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import { LocalParking, Place, Restaurant, Wifi } from "@mui/icons-material";
 
+import LinkIcon from "@mui/icons-material/Link";
 //import starIcon from '../ico/star72.png'
 export interface HotelInfoProps {
     name: string;
@@ -43,37 +48,37 @@ export function HotelInfoCard(props: HotelInfoProps) {
             <ContainerHalf>
                 <ContainerRowRight>
                     <H2Name>{props.rating}</H2Name>
-                    <Ico
-                        //src={StarIcon}
-                        src="star.ico"
-                        alt="Star"
-                    />
+                    <IcoMui>
+                        <StarRateIcon
+                            sx={{ fontSize: 40, color: purple["A200"] }}
+                        />
+                    </IcoMui>
                 </ContainerRowRight>
                 <ContainerVertical>
                     <ContainerRow>
-                        <Ico src="address.ico" alt="addreass" />
+                        <Place sx={{ fontSize: 50 }} />
                         <PName>{props.address}</PName>
                     </ContainerRow>
                     {props.parking && (
                         <ContainerRow>
-                            <Ico src="parking.ico" alt="parking" />
+                            <LocalParking sx={{ fontSize: 50 }} />
                             <PName>Парковка</PName>
                         </ContainerRow>
                     )}
                     {props.nutrition && (
                         <ContainerRow>
-                            <Ico src="nutrition.ico" alt="nutrition" />
+                            <Restaurant sx={{ fontSize: 50 }} />
                             <PName>Питание</PName>
                         </ContainerRow>
                     )}
                     {props.wifi && (
                         <ContainerRow>
-                            <Ico src="wifi.ico" alt="wifi" />
+                            <Wifi sx={{ fontSize: 50 }} />
                             <PName>Wi-Fi на территории отеля</PName>
                         </ContainerRow>
                     )}
                     <ContainerRow>
-                        <Ico src="link.ico" alt="link" />
+                        <LinkIcon sx={{ fontSize: 50 }} />
                         <Link href={props.link}>ссылка на сайт отеля</Link>
                     </ContainerRow>
                 </ContainerVertical>

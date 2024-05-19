@@ -1,4 +1,4 @@
-import { Header } from "../components/Header";
+import { Registration } from "../components/Auth/Registration/Registration";
 import { registerThunk, useAppDispatch, useAppSelector } from "../store/store";
 
 interface Props {}
@@ -12,6 +12,7 @@ export function AuthPage(props: Props) {
 
     return (
         <>
+            <Registration />
             <div>{status}</div>
             <div>{JSON.stringify(value)}</div>
 

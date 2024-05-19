@@ -69,22 +69,22 @@ const H3Name = styled.h3`
 function ClosedButton() {
     console.log("Closed button was pressed");
 }
-
-function RegSuccess() {
+interface Props {
+    mainMessage: string;
+    secondaryMessage: string;
+}
+function RegSuccess(props: Props) {
     return (
         <Container>
             <ButtonContainer>
                 <CloseButton onClick={ClosedButton}>✖</CloseButton>
             </ButtonContainer>
             <ContainerUpHalf>
-                <H2Name>Регистрация успешно завершена!</H2Name>
+                <H2Name>{props.mainMessage}</H2Name>
             </ContainerUpHalf>
             <SeparatorLine />
             <ContainerDownHalf>
-                <H3Name>
-                    Заполните данные в профиле, чтобы бронировать и совершать
-                    покупки!
-                </H3Name>
+                <H3Name>{props.secondaryMessage}</H3Name>
             </ContainerDownHalf>
         </Container>
     );

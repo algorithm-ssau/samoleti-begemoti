@@ -1,3 +1,5 @@
+import { purple } from "@mui/material/colors";
+import { IcoMui } from "../Hotel/style";
 import { getReviews } from "./dataReviews";
 import {
     AddRating,
@@ -13,6 +15,8 @@ import {
     ReviewContainer,
     ReviewTextContainer,
 } from "./style";
+import { Add, StarRate } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 export interface ClientImg {
     src: string;
@@ -32,11 +36,7 @@ export function HotelReviewCard(props: ReviewProps) {
             <ReviewTextContainer>
                 <HeaderRowReview>
                     <AddRating>{props.rating}</AddRating>
-                    <Ico2
-                        //src={StarIcon}
-                        src="star.ico"
-                        alt="Star"
-                    />
+                    <StarRate sx={{ fontSize: 40, color: purple["A200"] }} />
                 </HeaderRowReview>
                 <div>
                     <CommentReview>Понравилось:</CommentReview>
@@ -59,12 +59,17 @@ export function HotelReviewsBlock(props: HotelProps) {
         <Container>
             <HeaderRow>
                 <HSecondary>Отзывы</HSecondary>
-                <AddRating>Добавить отзыв</AddRating>
-                <Plus
-                    src="pluse.ico"
-                    alt="плюс"
-                    onClick={() => alert("Здесь будет окно добавления отзыва!")}
-                />
+                <AddRating>
+                    Добавить отзыв
+                    <IconButton
+                        size="large"
+                        onClick={() =>
+                            alert("Здесь будет окно добавления отзыва!")
+                        }
+                    >
+                        <Add sx={{ fontSize: 40 }} />
+                    </IconButton>
+                </AddRating>
             </HeaderRow>
             {resreviews}
         </Container>

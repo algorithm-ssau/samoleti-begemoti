@@ -1,4 +1,5 @@
-import { Key } from "@mui/icons-material";
+import { Key, Person } from "@mui/icons-material";
+
 import {
     Button,
     Container,
@@ -25,14 +26,21 @@ export function Header(props: HeaderProps) {
                 <PName>samoleti-begemoti</PName>
             </ContainerIco>
             <ContainerCenter>
-                <Button onClick={() => props.onTicketClicked()}>Отели</Button>
-                <Button onClick={() => props.onHotelClicked()}>Билеты</Button>
+                <Button onClick={() => props.onHotelClicked()}>Отели</Button>
+
+                <Button onClick={() => props.onTicketClicked()}>Билеты</Button>
+
                 <Button onClick={() => props.onRoutClicked()}>Маршруты</Button>
             </ContainerCenter>
             <ContainerProfile>
                 {props.login ? (
                     <>
-                        <Key />
+                        <IconButton
+                            size="large"
+                            onClick={() => props.onProfileClicked(props.login)}
+                        >
+                            <Person fontSize="inherit" />
+                        </IconButton>
                     </>
                 ) : (
                     <>

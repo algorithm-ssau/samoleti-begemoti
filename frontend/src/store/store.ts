@@ -8,6 +8,14 @@ import { empty, trackRequest, type RequestState } from "./tracker";
 import { type AuthSuccess } from "samolet-common";
 import { network } from "..";
 
+export type State = {
+    value: number;
+    requests: {
+        register: RequestState<AuthSuccess, any>;
+        login: RequestState<AuthSuccess, any>;
+    };
+};
+
 export const registerThunk = createAsyncThunk(
     "register",
     async (creds: { login: string; password: string }) => {
@@ -16,18 +24,19 @@ export const registerThunk = createAsyncThunk(
             .then(x => x.data);
     },
 );
-
-export type State = {
-    value: number;
-    requests: {
-        register: RequestState<AuthSuccess, any>;
-    };
-};
-
+export const loginThunk = createAsyncThunk(
+    "login",
+    async (creds: { login: string; password: string }) => {
+        return await network.auth
+            .login(creds.login, creds.password)
+            .then(x => x.data);
+    },
+);
 const initialState: State = {
     value: 0,
     requests: {
         register: empty(),
+        login: empty(),
     },
 };
 
@@ -37,6 +46,7 @@ const slice = createSlice({
     reducers: {},
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
+        trackRequest(builder, "login", loginThunk);
     },
 });
 

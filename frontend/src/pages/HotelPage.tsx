@@ -1,6 +1,7 @@
 import { getHotel } from "../util/util";
-import { HotelInfoCard } from "./Hotel/Hotel";
-import { HotelReviewsBlock } from "./HotelReviewComponent/HotelReview";
+import { HotelInfoCard } from "../components/Hotel/Hotel";
+import { HotelReviewsBlock } from "../components/HotelReviewComponent/HotelReview";
+import HotelRoom from "../components/HotelRoom";
 
 interface Props {
     id: number;
@@ -11,6 +12,7 @@ export function HotelPage(props: Props) {
     return (
         <div>
             <HotelInfoCard {...hotel.info} />
+            <HotelRoom />
             <HotelReviewsBlock hotelId={id} />
         </div>
     );
