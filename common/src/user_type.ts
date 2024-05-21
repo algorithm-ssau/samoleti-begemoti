@@ -1,7 +1,6 @@
 import { HotelBooking, Photo, SomeTransaction } from "./db_types";
 
 export interface User {
-    _id: string;
     email: string;
     passwordHash: string;
     info: PersonalInfo;
