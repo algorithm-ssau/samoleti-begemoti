@@ -4,9 +4,11 @@ import { mongoURL, dbNameTest, port } from "./config";
 import MongoConnector from "./dbConnector";
 import * as Routers from "./routers/index";
 import { authMiddleware } from "./middleware/AuthMiddleware";
+import { errorMiddleware } from "./middleware/ErrorLoggerMiddleware";
 
 export const app = express();
 app.use(express.json());
+
 MongoConnector.connect(mongoURL, dbNameTest);
 
 app.use((req, res, next) => {
@@ -33,6 +35,8 @@ app.use(
             res.send(test());
         })
 );
+
+app.use(errorMiddleware);
 
 app.listen(port, () => {
     console.log(
