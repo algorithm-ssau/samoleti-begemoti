@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
 import { type AuthSuccess } from "samolet-common";
 import { network } from "..";
+import { getUserPersonalInfoThunk } from "./requestThunks";
 
 export type State = {
     value: number;
@@ -16,8 +17,10 @@ export type State = {
         register: RequestState<AuthSuccess, any>;
         login: RequestState<AuthSuccess, any>;
         getToken: RequestState<AuthSuccess, any>;
+        getUserPersonalInfo: RequestState<AuthSuccess, any>;
     };
     isLogin: boolean;
+    id: string;
 };
 
 export const registerThunk = createAsyncThunk(
@@ -45,8 +48,10 @@ const initialState: State = {
         register: empty(),
         login: empty(),
         getToken: empty(),
+        getUserPersonalInfo: empty(),
     },
     isLogin: false,
+    id: "",
 };
 
 const slice = createSlice({
@@ -56,11 +61,19 @@ const slice = createSlice({
         setLogin(state, action: PayloadAction<boolean>) {
             state.isLogin = action.payload;
         },
+        setId(state, action: PayloadAction<string>) {
+            state.id = action.payload;
+        },
+        reset(state) {
+            state.requests.login = empty();
+            state.requests.getUserPersonalInfo = empty();
+        },
     },
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
         trackRequest(builder, "getToken", getTokenThunk);
+        //trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);        /
     },
 });
 
