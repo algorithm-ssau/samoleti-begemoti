@@ -5,7 +5,7 @@ export type * from "./user_type";
 import { AuthSuccess } from "./network/auth";
 import { Network } from "./network";
 export { type AuthSuccess, Network };
-
+export * from "./network";
 export interface ModelAddition {
     _id: string;
     createdAt: string;

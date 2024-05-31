@@ -1,9 +1,8 @@
 import { Model } from "mongoose";
 import { MongoWorker } from "./MongoWorker";
-import { User } from "samolet-common";
+import { ChangePassword, User } from "samolet-common";
 import UserModel from "../models/User";
-import { hash } from "../controllers/NewUserController";
-import { ChangePassword } from "../request-parsers/ProfileRequestParser";
+import { hash, samePassword } from "../controllers/NewUserController";
 
 export class UserMongoWorker extends MongoWorker<User, typeof UserModel> {
     constructor() {
@@ -17,8 +16,12 @@ export class UserMongoWorker extends MongoWorker<User, typeof UserModel> {
         return this.getOneByKey("email", email);
     }
 
-    createBlank(email: string, passwordHash: string) {
-        return this.MyModel.create({ email, passwordHash });
+    async createBlank(email: string, passwordHash: string) {
+        return await this.MyModel.create({ email, passwordHash });
+    }
+
+    async deleteByEmail(email: string) {
+        return await this.MyModel.deleteOne({ email });
     }
 
     byCredentials(email: string, password: string) {
@@ -29,17 +32,23 @@ export class UserMongoWorker extends MongoWorker<User, typeof UserModel> {
         });
     }
 
-    changePassword(changePassword: ChangePassword) {
-        const { userId, oldPassword, newPassword } = changePassword;
+    async changePassword(changePassword: ChangePassword) {
+        const { userEmail, oldPassword, newPassword } = changePassword;
 
-        const passwordHash = hash(oldPassword);
-        const newHash = hash(newPassword);
-        return this.MyModel.findOneAndUpdate(
-            {
-                _id: userId,
-                passwordHash,
-            },
-            { passwordHash: newHash }
-        );
+        const user = await this.MyModel.findOne({
+            email: userEmail,
+        });
+
+        if (!user) {
+            return "user-not-found";
+        }
+
+        if (!samePassword(oldPassword, user.passwordHash)) {
+            return "wrong-password";
+        }
+
+        user.passwordHash = hash(newPassword);
+
+        return await user.save();
     }
 }

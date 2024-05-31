@@ -6,4 +6,5 @@ export { roomCategoryRouter } from "./RoomCategoriesRouter";
 export { roomRouter } from "./RoomsRouter";
 export { userRouter } from "./UserRouter";
 export { authRouter } from "./AuthRouter";
-export { hotelBookingRouter } from "./HotelBookingRouter"
+export { hotelBookingRouter } from "./HotelBookingRouter";
+export { profileRouter } from "./ProfileRouter";

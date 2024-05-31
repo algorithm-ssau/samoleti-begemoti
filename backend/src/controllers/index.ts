@@ -7,6 +7,7 @@ import { RoomsController } from "./RoomsController";
 import { HotelBookingController } from "./HotelBookingController";
 import { ReviewController } from "./ReviewController";
 import { NewUserController } from "./NewUserController";
+import { ProfileController } from "./ProfileController";
 
 const address = new AddressController();
 const hotel = new HotelController();
@@ -18,6 +19,7 @@ const user = new NewUserController();
 const auth = user;
 const hotelBooking = new HotelBookingController();
 const review = new ReviewController();
+const profile = new ProfileController();
 
 export { address as AddressController };
 export { hotel as HotelController };
@@ -29,3 +31,4 @@ export { room as RoomsController };
 export { user as UserController };
 export { auth as AuthController };
 export { hotelBooking as HotelBookingController };
+export { profile as ProfileController };

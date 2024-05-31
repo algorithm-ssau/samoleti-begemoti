@@ -61,7 +61,7 @@ export class NewUserController extends NewGenericController<
     };
 }
 
-function signToken(user: { user_id: ObjectId; email: string }): string {
+export function signToken(user: { user_id: ObjectId; email: string }): string {
     return jwt.sign(user, jwt_access, { expiresIn: ACCESS_EXPIRES_IN });
 }
 
