@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { AnyObject, Model } from "mongoose";
 
 export class MongoWorker<T extends AnyObject, M extends Model<T>> {
@@ -17,7 +18,7 @@ export class MongoWorker<T extends AnyObject, M extends Model<T>> {
         return await query.exec();
     };
 
-    getOne = async (valueId: number) => {
+    getOne = async (valueId: string) => {
         const refKeys = getRefKeys(this.MyModel);
 
         let query = this.MyModel.findOne({ _id: valueId });
@@ -29,7 +30,7 @@ export class MongoWorker<T extends AnyObject, M extends Model<T>> {
         return await query;
     };
 
-    deleteOne = async (valueId: number) => {
+    deleteOne = async (valueId: string) => {
         return await this.MyModel.findOneAndDelete({
             _id: valueId,
         });
@@ -40,7 +41,7 @@ export class MongoWorker<T extends AnyObject, M extends Model<T>> {
 
         return await this.MyModel.findOne(filter);
     };
-    updateOne = async (valueId: number, body: T) => {
+    updateOne = async (valueId: string | ObjectId, body: T) => {
         return await this.MyModel.findOneAndUpdate(
             {
                 _id: valueId,

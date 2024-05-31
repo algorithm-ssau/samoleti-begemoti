@@ -2,13 +2,13 @@ import { assert, is } from "typia";
 import { Request } from "express";
 
 export class BaseParser {
-    parseId(req: Request): number {
+    parseId(req: Request): string {
         const valueId = req.params.id;
         if (valueId == undefined) {
             throw new Error("param is undefined");
         }
 
-        const id = Number.parseInt(valueId);
+        const id = valueId;
         return id;
     }
 }
@@ -30,7 +30,7 @@ export class RequestParser<T> extends BaseParser {
         );
     }
 
-    parseUpdateSingle(req: Request): { id: number; user: T } {
+    parseUpdateSingle(req: Request): { id: string; user: T } {
         const id = this.parseId(req);
         const user = this.parseBody(req);
 
@@ -40,7 +40,7 @@ export class RequestParser<T> extends BaseParser {
         return this.parseBody(req.body);
     }
 
-    parseGetSingle(req: Request): number {
+    parseGetSingle(req: Request): string {
         return this.parseId(req);
     }
 }

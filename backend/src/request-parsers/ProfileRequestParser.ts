@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { BaseParser } from "./RequestParser";
 import { assert } from "typia";
-import { ChangePassword } from "samolet-common";
+import { ChangePassword, PersonalInfo } from "samolet-common";
 
 export class ProfileRequestParser extends BaseParser {
     changePassword(req: Request): ChangePassword {
@@ -13,5 +13,9 @@ export class ProfileRequestParser extends BaseParser {
             oldPassword,
             newPassword,
         });
+    }
+
+    parseInfoBody(req: Request): Partial<PersonalInfo> {
+        return assert<Partial<PersonalInfo>>(req.body);
     }
 }

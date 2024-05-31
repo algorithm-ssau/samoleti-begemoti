@@ -3,7 +3,7 @@ import { HotelBooking, Photo, SomeTransaction } from "./db_types";
 export interface User {
     email: string;
     passwordHash: string;
-    info: PersonalInfo;
+    info: Partial<PersonalInfo>;
     reviews: Review[];
     account: BankAccount;
     hotelHistory: HotelBooking[];

@@ -1,8 +1,9 @@
 import { Model } from "mongoose";
-import { MongoWorker } from "./MongoWorker";
-import { ChangePassword, User } from "samolet-common";
+import { MongoWorker, getRefKeys } from "./MongoWorker";
+import { ChangePassword, PersonalInfo, User } from "samolet-common";
 import UserModel from "../models/User";
 import { hash, samePassword } from "../controllers/NewUserController";
+import { PersonalInfoModel } from "../models/PersonalInfo";
 
 export class UserMongoWorker extends MongoWorker<User, typeof UserModel> {
     constructor() {
@@ -17,7 +18,12 @@ export class UserMongoWorker extends MongoWorker<User, typeof UserModel> {
     }
 
     async createBlank(email: string, passwordHash: string) {
-        return await this.MyModel.create({ email, passwordHash });
+        const user = await this.MyModel.create({ email, passwordHash });
+
+        const info = await PersonalInfoModel.create({});
+        user.info = info;
+        user.markModified("info");
+        return await user.save();
     }
 
     async deleteByEmail(email: string) {
@@ -51,4 +57,24 @@ export class UserMongoWorker extends MongoWorker<User, typeof UserModel> {
 
         return await user.save();
     }
+
+    info = async (userId: string) => {
+        const result = await this.MyModel.findById(userId).populate(
+            getRefKeys(this.MyModel)
+        );
+
+        if (!result) {
+            return "user-not-found";
+        }
+
+        if (!result.info) {
+            return "info-not-set";
+        }
+
+        return result.info;
+    };
+
+    updateInfo = async (userId: string, info: PersonalInfo) => {
+        return await this.MyModel.findByIdAndUpdate(userId, { info });
+    };
 }
