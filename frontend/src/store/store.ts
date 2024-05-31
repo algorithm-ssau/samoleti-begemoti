@@ -45,6 +45,7 @@ export const loginThunk = createAsyncThunk(
     async (creds: { login: string; password: string }) => {
         return await network.auth.login(creds.login, creds.password).then(x => {
             network.setToken(x.data.token);
+            localStorage.setItem("token", x.data.token);
             return x.data;
         });
     },
@@ -79,6 +80,7 @@ const slice = createSlice({
         reset(state) {
             state.requests.login = empty();
             state.requests.getUserPersonalInfo = empty();
+            localStorage.clear();
         },
     },
     extraReducers: builder => {

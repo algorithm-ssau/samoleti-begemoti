@@ -8,12 +8,13 @@ import {
 import { Provider } from "react-redux";
 import axios, { type CreateAxiosDefaults } from "axios";
 
-import { store } from "./store/store";
+import { actions, store, useAppDispatch } from "./store/store";
 
 import { Network } from "samolet-common";
 
 import "./index.css";
 import { MainRouter } from "./routers/MainRouter";
+import { useEffect } from "react";
 
 const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
 
@@ -24,6 +25,16 @@ export const network = new Network(config =>
 const router = createBrowserRouter(createRoutesFromElements(MainRouter()));
 
 function App() {
+    let token = localStorage.getItem("token");
+    console.log(token);
+    useEffect(() => {
+        if (token) {
+            const dispatch = useAppDispatch();
+            network.setToken(token);
+            dispatch(actions.setLogin(true));
+        }
+    }, [token]);
+
     return (
         <Provider store={store}>
             <RouterProvider router={router} />
