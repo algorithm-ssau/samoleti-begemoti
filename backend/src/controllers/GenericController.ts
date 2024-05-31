@@ -45,15 +45,13 @@ export class GenericController<T, M extends Model<T>> {
         }
     }
 
-    async create_(req: Request["body"]){
+    async create_(req: Request["body"]) {
         let modelData: Record<string, any> = {};
         const definition = this.MyModel.schema.obj;
         Object.keys(definition).map(key => {
             modelData[key] = req[key];
         });
-        const doc = new this.MyModel(modelData);
-        const result = await doc.save();
-        return result
+        return await this.MyModel.create<T>(modelData as T);
     }
 
     async getAll(_: Request, res: Response) {
@@ -113,9 +111,10 @@ export class GenericController<T, M extends Model<T>> {
         const errorMessage = this.deleteErrorMessages();
         try {
             const valueId = req.params.id;
-            (this.MyModel as Model<any>).findOneAndDelete({
-                _id: valueId,
-            })
+            (this.MyModel as Model<any>)
+                .findOneAndDelete({
+                    _id: valueId,
+                })
                 .then((doc: string) => {
                     if (!doc) {
                         return res.status(404).json({
@@ -146,12 +145,13 @@ export class GenericController<T, M extends Model<T>> {
                 modelData[key] = req.body[key];
             });
             const valueId = req.params.id;
-            (this.MyModel as Model<any>).findOneAndUpdate(
-                {
-                    _id: valueId,
-                },
-                modelData
-            )
+            (this.MyModel as Model<any>)
+                .findOneAndUpdate(
+                    {
+                        _id: valueId,
+                    },
+                    modelData
+                )
                 .then((doc: string) => {
                     if (!doc) {
                         return res.status(404).json({

@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
 import { AuthNetwork } from "./auth";
-import { HotelBooking, HotelFacilities, RoomCategory } from "../db_types";
 import { AddressNetwork } from "./address";
 import { HotelNetwork } from "./hotel";
 import { HotelBookingNetwork } from "./hotelBooking";
@@ -10,6 +9,10 @@ import { ReviewNetwork } from "./review";
 import { RoomNetwork } from "./room";
 import { RoomCategoryNetwork } from "./roomCategory";
 import { UserNetwork } from "./user";
+import { ProfileRequests } from "./profile";
+
+export * from "./auth";
+export * from "./profile";
 
 export class Network {
     private axios: AxiosInstance;
@@ -24,6 +27,7 @@ export class Network {
     room: RoomNetwork;
     roomCategory: RoomCategoryNetwork;
     user: UserNetwork;
+    profile: ProfileRequests;
 
     constructor(
         private getInstance: (config: CreateAxiosDefaults) => AxiosInstance
@@ -39,6 +43,7 @@ export class Network {
         this.room = new RoomNetwork(this.axios);
         this.roomCategory = new RoomCategoryNetwork(this.axios);
         this.user = new UserNetwork(this.axios);
+        this.profile = new ProfileRequests(this.axios);
     }
 
     setToken(token: string) {
@@ -58,5 +63,6 @@ export class Network {
         this.room.setAxios(this.axios);
         this.roomCategory.setAxios(this.axios);
         this.user.setAxios(this.axios);
+        this.profile.setAxios(this.axios);
     }
 }

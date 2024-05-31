@@ -8,6 +8,11 @@ type Status<T extends number> = {
 // POST /auth/register
 // POST /auth/login
 
+export type UserCredentials = {
+  email: string;
+  password: string;
+};
+
 export type AuthSuccess = {
   token: string;
 };
@@ -26,9 +31,7 @@ export class AuthNetwork extends GenericNetwork {
       password,
     });
   }
-  gosling() {
-    return this.axios.get("/api");
-  }
+
   /**
    * Possible errors:
    *
@@ -42,4 +45,6 @@ export class AuthNetwork extends GenericNetwork {
       password,
     });
   }
+
+  sum(array: number[]) {}
 }

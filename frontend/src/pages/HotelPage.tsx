@@ -14,7 +14,7 @@ export function HotelPage(props: Props) {
     const dispatch = useAppDispatch();
 
     return (
-        <div onClick={() => dispatch(actions.setLogin(true))}>
+        <div>
             <HotelInfoCard {...hotel.info} />
             <HotelRoom />
             <HotelReviewsBlock hotelId={id} />
