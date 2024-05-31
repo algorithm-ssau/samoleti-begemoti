@@ -21,36 +21,38 @@ import {
 import RegSuccess from "../../RegistrationSuccess";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import { useEffect, useState } from "react";
-import { getUserPersonalInfoThunk } from "../../../store/requestThunks";
+import {
+    getUserPersonalInfoThunk,
+    updatePasswordThunk,
+    updatePersonalInfoThunk,
+} from "../../../store/requestThunks";
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 export function exit() {}
 export function DataPersonal() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    // const updateRequest = useAppSelector(state => state.requests.register);
+    const upvalue = useAppSelector(state => state.requests.updatePersonalInfo);
+
+    console.log(upvalue);
     const personalInfo = useAppSelector(
         state => state.requests.getUserPersonalInfo,
     );
-    //const getUser = getUserPersonalInfoThunk({ id: "1" });
     useEffect(() => {
-        dispatch(getUserPersonalInfoThunk({ id: "1" }));
+        dispatch(getUserPersonalInfoThunk());
     }, []);
     const [passwordInputType, invert, showPassword] = useShowPassword();
-    const status = personalInfo.status;
     const [surname, setSurname] = useState("");
     const [name, setName] = useState("");
     const [cardNumber, setCardNumber] = useState(0);
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const value = personalInfo.value!;
     useEffect(() => {
         if (value != null) {
-            setSurname(value.info.surname);
-            setName(value.info.name);
-            setCardNumber(value.info.passport.number);
-            setLogin(value.email);
-            setPassword(value.passwordHash);
+            if (value.surname) setSurname(value.surname);
+            if (value.name) setName(value.name);
+            if (value.cardNumber) setCardNumber(value.cardNumber);
         }
     }, [value]);
     const handleSurnameChange = (e: InputEvent) => {
@@ -62,11 +64,11 @@ export function DataPersonal() {
     const handlCardNumberChange = (e: InputEvent) => {
         setCardNumber(Number(e.target.value));
     };
-    const handleLoginChange = (e: InputEvent) => {
-        setLogin(e.target.value);
+    const handleOldPasswordChange = (e: InputEvent) => {
+        setOldPassword(e.target.value);
     };
-    const handlePasswordChange = (e: InputEvent) => {
-        setPassword(e.target.value);
+    const handleNewPasswordChange = (e: InputEvent) => {
+        setNewPassword(e.target.value);
     };
     return (
         <>
@@ -105,14 +107,15 @@ export function DataPersonal() {
                 />
             </Container>
             <ProfileButton
-            // onClick={() =>
-            //     dispatch(
-            //         loginThunk({
-            //             login: login,
-            //             password: password,
-            //         }),
-            //     )
-            // }
+                onClick={() =>
+                    dispatch(
+                        updatePersonalInfoThunk({
+                            name,
+                            surname,
+                            cardNumber,
+                        }),
+                    )
+                }
             >
                 Сохранить
             </ProfileButton>
@@ -122,20 +125,21 @@ export function DataPersonal() {
             </ContainerChapter>
             <Container>
                 <FormRow
-                    name="Логин:"
-                    value={login}
-                    placeHolder="Логин"
-                    id="login"
-                    onChange={handleLoginChange}
+                    name="Старый пароль:"
+                    value={oldPassword}
+                    type={passwordInputType}
+                    placeHolder="Старый пароль"
+                    id="oldPassword"
+                    onChange={handleOldPasswordChange}
                 />
 
                 <FormRow
-                    name="Пароль:"
-                    placeHolder="Пароль"
+                    name="Новый пароль:"
+                    placeHolder="Новый пароль"
                     type={passwordInputType}
-                    id="password"
-                    value={password}
-                    onChange={handlePasswordChange}
+                    id="newPassword"
+                    value={newPassword}
+                    onChange={handleNewPasswordChange}
                 />
                 <Block>
                     <PasswordCheck>
@@ -150,14 +154,14 @@ export function DataPersonal() {
                 </Block>
             </Container>
             <ProfileButton
-            // onClick={() =>
-            //     dispatch(
-            //         loginThunk({
-            //             login: login,
-            //             password: password,
-            //         }),
-            //     )
-            // }
+                onClick={() =>
+                    dispatch(
+                        updatePasswordThunk({
+                            oldPassword,
+                            newPassword,
+                        }),
+                    )
+                }
             >
                 Сохранить
             </ProfileButton>
@@ -166,16 +170,14 @@ export function DataPersonal() {
                     navigate("/auth/entry");
                     network.setToken("");
                     dispatch(actions.setLogin(false));
-                    // axios.get("/api");
-                    //dispatch(getTokenThunk());
                     dispatch(actions.reset());
                 }}
             >
                 Выйти
             </ProfileButton>
 
-            {/* {(status == "error" || status == "fulfilled") && (
-                <Message status={status} />
+            {/* {(upvalue.status == "error" || upvalue.status == "fulfilled") && (
+                <Message status={upvalue.status} />
             )} */}
         </>
     );

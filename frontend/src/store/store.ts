@@ -6,9 +6,13 @@ import {
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
-import { type AuthSuccess, type User } from "samolet-common";
+import { type AuthSuccess, type PersonalInfo, type User } from "samolet-common";
 import { network } from "..";
-import { getUserPersonalInfoThunk } from "./requestThunks";
+import {
+    getUserPersonalInfoThunk,
+    updatePasswordThunk,
+    updatePersonalInfoThunk,
+} from "./requestThunks";
 
 export type State = {
     value: number;
@@ -17,7 +21,9 @@ export type State = {
         register: RequestState<AuthSuccess, any>;
         login: RequestState<AuthSuccess, any>;
         getToken: RequestState<AuthSuccess, any>;
-        getUserPersonalInfo: RequestState<User, any>;
+        getUserPersonalInfo: RequestState<PersonalInfo, any>;
+        updatePersonalInfo: RequestState<void, any>;
+        updatePassword: RequestState<void, any>;
     };
     isLogin: boolean;
     id: string;
@@ -28,19 +34,23 @@ export const registerThunk = createAsyncThunk(
     async (creds: { login: string; password: string }) => {
         return await network.auth
             .register(creds.login, creds.password)
-            .then(x => x.data);
+            .then(x => {
+                network.setToken(x.data.token);
+                return x.data;
+            });
     },
 );
 export const loginThunk = createAsyncThunk(
     "login",
     async (creds: { login: string; password: string }) => {
-        return await network.auth
-            .login(creds.login, creds.password)
-            .then(x => x.data);
+        return await network.auth.login(creds.login, creds.password).then(x => {
+            network.setToken(x.data.token);
+            return x.data;
+        });
     },
 );
 export const getTokenThunk = createAsyncThunk("getToken", async () => {
-    return await network.auth.gosling().then(x => x.data);
+    return; // await network.auth.gosling().then(x => x.data);
 });
 const initialState: State = {
     value: 0,
@@ -49,6 +59,8 @@ const initialState: State = {
         login: empty(),
         getToken: empty(),
         getUserPersonalInfo: empty(),
+        updatePersonalInfo: empty(),
+        updatePassword: empty(),
     },
     isLogin: false,
     id: "",
@@ -72,8 +84,10 @@ const slice = createSlice({
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
-        trackRequest(builder, "getToken", getTokenThunk);
+        //trackRequest(builder, "getToken", getTokenThunk);
         trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);
+        trackRequest(builder, "updatePersonalInfo", updatePersonalInfoThunk);
+        trackRequest(builder, "updatePassword", updatePasswordThunk);
     },
 });
 

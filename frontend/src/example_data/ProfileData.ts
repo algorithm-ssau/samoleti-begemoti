@@ -4,13 +4,14 @@ import { type User } from "samolet-common";
 
 export let users: User[] = [
     {
-        _id: "0",
         info: {
             surname: "",
             name: "",
+            cardNumber: 2222222,
             passport: {
                 serial: 1212,
                 number: 22222,
+                emitent: "",
             },
         },
         email: "a",
@@ -23,13 +24,14 @@ export let users: User[] = [
         hotelHistory: [],
     },
     {
-        _id: "1",
         info: {
             surname: "Я",
             name: "Здесь",
+            cardNumber: 2222222,
             passport: {
                 serial: 1212,
                 number: 22222,
+                emitent: "",
             },
         },
         email: "a",

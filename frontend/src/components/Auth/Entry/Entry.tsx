@@ -85,7 +85,7 @@ export function Entry() {
 export function Message(props: MessageProps) {
     let messageTitle = "";
     let description = "";
-    const dispatch1 = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     if (props.status == "error") {
         messageTitle = "Ошибка!";
@@ -93,7 +93,7 @@ export function Message(props: MessageProps) {
     } else {
         messageTitle = "Вы авторизированы!";
         description = "Вам доступен личный кабинет.";
-        dispatch1(actions.setLogin(true));
+        dispatch(actions.setLogin(true));
     }
 
     return (
