@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
-import { type AuthSuccess } from "samolet-common";
+import { type AuthSuccess, type User } from "samolet-common";
 import { network } from "..";
 import { getUserPersonalInfoThunk } from "./requestThunks";
 
@@ -17,7 +17,7 @@ export type State = {
         register: RequestState<AuthSuccess, any>;
         login: RequestState<AuthSuccess, any>;
         getToken: RequestState<AuthSuccess, any>;
-        getUserPersonalInfo: RequestState<AuthSuccess, any>;
+        getUserPersonalInfo: RequestState<User, any>;
     };
     isLogin: boolean;
     id: string;
@@ -73,7 +73,7 @@ const slice = createSlice({
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
         trackRequest(builder, "getToken", getTokenThunk);
-        //trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);        /
+        trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);
     },
 });
 

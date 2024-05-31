@@ -1,40 +1,44 @@
-export interface ProfileInfo {
-    id: string;
-    surname: string;
-    name: string;
-    cardNumber: string;
-}
-export interface User {
-    id: string;
-    profileInfo: ProfileInfo | undefined;
-    login: string;
-    password: string;
-}
-export let profileInfo: ProfileInfo[] = [
-    {
-        id: "0",
-        surname: "",
-        name: "",
-        cardNumber: "3333 3333 3333",
-    },
-    {
-        id: "1",
-        surname: "Я",
-        name: "Здесь",
-        cardNumber: "4444 3333 3333",
-    },
-];
+import type { OperationProps } from "../components/Profile/Cash/Cash";
+import { operations } from "../components/Profile/Cash/dataOperation";
+import { type User } from "samolet-common";
+
 export let users: User[] = [
     {
-        id: "0",
-        profileInfo: profileInfo[0],
-        login: "a",
-        password: "a",
+        _id: "0",
+        info: {
+            surname: "",
+            name: "",
+            passport: {
+                serial: 1212,
+                number: 22222,
+            },
+        },
+        email: "a",
+        passwordHash: "a",
+        reviews: [],
+        account: {
+            amount: BigInt(100000),
+            transactions: [],
+        },
+        hotelHistory: [],
     },
     {
-        id: "1",
-        profileInfo: profileInfo[1],
-        login: "a",
-        password: "a",
+        _id: "1",
+        info: {
+            surname: "Я",
+            name: "Здесь",
+            passport: {
+                serial: 1212,
+                number: 22222,
+            },
+        },
+        email: "a",
+        passwordHash: "a",
+        reviews: [],
+        account: {
+            amount: BigInt(100000),
+            transactions: [],
+        },
+        hotelHistory: [],
     },
 ];

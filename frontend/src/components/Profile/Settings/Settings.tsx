@@ -20,7 +20,7 @@ import {
 } from "../../Auth/Registration/Registration";
 import RegSuccess from "../../RegistrationSuccess";
 import { useShowPassword } from "../../../hooks/useShowPassword";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserPersonalInfoThunk } from "../../../store/requestThunks";
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
@@ -29,21 +29,30 @@ export function DataPersonal() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     // const updateRequest = useAppSelector(state => state.requests.register);
-    const updateRequestDate = useAppSelector(
+    const personalInfo = useAppSelector(
         state => state.requests.getUserPersonalInfo,
     );
-
-    const getUser = getUserPersonalInfoThunk({ id: "1" });
-
+    //const getUser = getUserPersonalInfoThunk({ id: "1" });
+    useEffect(() => {
+        dispatch(getUserPersonalInfoThunk({ id: "1" }));
+    }, []);
     const [passwordInputType, invert, showPassword] = useShowPassword();
-    const status = updateRequestDate.status;
-    const [surname, setSurname] = useState(getUser.profileInfo!.surname);
-    const [name, setName] = useState(getUser.profileInfo!.name);
-    const [cardNumber, setCardNumber] = useState(
-        getUser.profileInfo!.cardNumber,
-    );
-    const [login, setLogin] = useState(getUser.login);
-    const [password, setPassword] = useState(getUser.password);
+    const status = personalInfo.status;
+    const [surname, setSurname] = useState("");
+    const [name, setName] = useState("");
+    const [cardNumber, setCardNumber] = useState(0);
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const value = personalInfo.value!;
+    useEffect(() => {
+        if (value != null) {
+            setSurname(value.info.surname);
+            setName(value.info.name);
+            setCardNumber(value.info.passport.number);
+            setLogin(value.email);
+            setPassword(value.passwordHash);
+        }
+    }, [value]);
     const handleSurnameChange = (e: InputEvent) => {
         setSurname(e.target.value);
     };
@@ -51,7 +60,7 @@ export function DataPersonal() {
         setName(e.target.value);
     };
     const handlCardNumberChange = (e: InputEvent) => {
-        setCardNumber(e.target.value);
+        setCardNumber(Number(e.target.value));
     };
     const handleLoginChange = (e: InputEvent) => {
         setLogin(e.target.value);
@@ -89,7 +98,7 @@ export function DataPersonal() {
             <Container>
                 <FormRow
                     name="Номер счета:"
-                    value={cardNumber}
+                    value={cardNumber.toString()}
                     placeHolder="2222 2222 2222"
                     id="cardNumber"
                     onChange={handlCardNumberChange}
@@ -165,16 +174,15 @@ export function DataPersonal() {
                 Выйти
             </ProfileButton>
 
-            {(status == "error" || status == "fulfilled") && (
+            {/* {(status == "error" || status == "fulfilled") && (
                 <Message status={status} />
-            )}
+            )} */}
         </>
     );
 }
 export function Message(props: MessageProps) {
     let messageTitle = "";
     let description = "";
-    const dispatch1 = useAppDispatch();
 
     if (props.status == "error") {
         messageTitle = "Ошибка!";
@@ -182,7 +190,6 @@ export function Message(props: MessageProps) {
     } else {
         messageTitle = "Данные изменены!";
         description = "Профиль обновлен";
-        dispatch1(actions.setLogin(true));
     }
 
     return (
