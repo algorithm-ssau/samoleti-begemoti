@@ -1,5 +1,4 @@
-import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { HotelBooking, AuthSuccess, ModelAddition } from "../db_types";
+import { Booking, ModelAddition } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /hotelBookings
@@ -8,7 +7,7 @@ import { GenericNetwork } from "./genericNetwork";
 // DELETE /hotelBookings/:id
 // PATCH /hotelBookings/:id
 
-export type THotelBooking = ModelAddition & HotelBooking;
+export type THotelBooking = ModelAddition & Booking;
 export type THotelBookingWithoutId = Omit<THotelBooking, "_id">;
 
 export class HotelBookingNetwork extends GenericNetwork {
@@ -40,7 +39,7 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    create(hotelBooking: HotelBooking) {
+    create(hotelBooking: Booking) {
         return this.axios.post<THotelBookingWithoutId>(
             `/hotelBookings`,
             hotelBooking
@@ -67,7 +66,7 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    updateById(id: number, newHotelBooking: HotelBooking) {
+    updateById(id: number, newHotelBooking: Booking) {
         return this.axios.patch<THotelBooking>(
             `/hotelBookings/${id}`,
             newHotelBooking

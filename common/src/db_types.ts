@@ -5,7 +5,10 @@ export type * from "./user_type";
 import { AuthSuccess } from "./network/auth";
 import { Network } from "./network";
 export { type AuthSuccess, Network };
+
 export * from "./network";
+export * from "./booking";
+
 export interface ModelAddition {
     _id: string;
     createdAt: string;
@@ -26,20 +29,6 @@ export interface Address {
     city: string;
     country: string;
     place: string;
-}
-
-enum BookingStatus {
-    Paid = 0,
-    NotPaid = 1,
-    Finished = 2,
-    InProcess = 3,
-}
-
-export interface HotelBooking {
-    room: Room;
-    dateStart: Date;
-    dateEnd: Date;
-    status: BookingStatus;
 }
 
 export interface HotelTransaction {

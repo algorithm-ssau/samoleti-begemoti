@@ -1,11 +1,13 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler } from "express";
 import { ProfileRequestParser } from "../request-parsers/ProfileRequestParser";
 import { UserMongoWorker } from "../mongoworkers/UserMongoWorker";
 import { log, testOnly, warn } from "../log";
 import { hash } from "./NewUserController";
 import { PersonalInfoMongoWorker } from "../mongoworkers/PersonalInfoMongoWorker";
 import { ObjectId } from "mongodb";
-import { PersonalInfo } from "samolet-common";
+import { BookingRequest, PersonalInfo } from "samolet-common";
+import { assert } from "typia";
+import { BookingMongoWorker } from "../mongoworkers/BookingMongoWorker";
 
 export class ProfileController {
     private parser = new ProfileRequestParser();
@@ -98,4 +100,55 @@ export class ProfileController {
 
         res.status(200).send();
     };
+
+    booking: RequestHandler = async (req, res) => {
+        const { userId, bookingRequest } = this.parseBookingRequest(req);
+        const bookingMongo = new BookingMongoWorker();
+
+        const result = await bookingMongo.newBooking(userId, bookingRequest);
+
+        if (result == "user-not-found") {
+            warn(
+                `user '${userId}' tried to update own info, but failed to exist. Loser.`
+            );
+            res.status(418).json({
+                message: "user doesn't exist",
+            });
+            return;
+        }
+
+        if (result == "failed-create-booking") {
+            warn(`failed to create booking for user ${userId}`);
+            res.status(500).send();
+            return;
+        }
+
+        res.status(200).json(result);
+    };
+
+    bookings: RequestHandler = async (req, res) => {
+        const userId = req.claim!.user_id;
+        const bookingMongo = new BookingMongoWorker();
+
+        const result = await bookingMongo.bookings(userId);
+
+        if (result == "user-not-found") {
+            warn(
+                `user '${userId}' tried to update own info, but failed to exist. Loser.`
+            );
+            res.status(418).json({
+                message: "user doesn't exist",
+            });
+            return;
+        }
+
+        res.status(200).json(result);
+    };
+
+    parseBookingRequest(req: Request) {
+        const userId = req.claim!.user_id;
+        const bookingRequest = assert<BookingRequest>(req.body);
+
+        return { userId, bookingRequest };
+    }
 }
