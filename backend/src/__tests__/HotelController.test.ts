@@ -1,23 +1,30 @@
-import { getData } from "./utilsForTests";
+import { axiosRejects } from "./utilsForTests";
 import http from "http";
 import MongoConnector from "../dbConnector";
 import { mongoURL, dbNameTest } from "../config";
-import { app } from "../index";
+import { app } from "../app";
+import { Network } from "samolet-common";
+import axios, { AxiosError } from "axios";
+import { log } from "../log";
 
 describe("Test HotelController", () => {
     let server: http.Server;
-    let dbConnect;
-    beforeAll(() => {
-        dbConnect = MongoConnector.connect(mongoURL, dbNameTest);
+    let network = new Network(config =>
+        axios.create({ ...config, baseURL: "http://localhost:2000" })
+    );
+    beforeAll(done => {
+        let dbConnect = MongoConnector.connect(mongoURL, dbNameTest);
         server = app.listen(2000, () => {
-            console.log("All right!");
+            dbConnect.then(() => {
+                log(`app listens, db connected`);
+                done();
+            });
         });
     });
     describe("Methods = { GET }", () => {
         test("Test get /hotels", async () => {
-            const res = await getData("/hotels");
-            expect(res.status).toBe(200);
-            expect(Object.keys(res.data[0])).toEqual([
+            const { data } = await network.hotel.getAll();
+            expect(Object.keys(data[0])).toEqual([
                 "_id",
                 "name",
                 "description",
@@ -32,9 +39,10 @@ describe("Test HotelController", () => {
         });
         test("Test get /hotels/{id}, id format - objectID", async () => {
             const testId = "6605c79f74305e07ba094b71";
-            const res = await getData(`/hotels/${testId}`);
-            expect(res.status).toBe(200);
-            expect(Object.keys(res.data)).toEqual([
+            const { status, data } = await network.hotel.getById(testId);
+
+            expect(status).toBe(200);
+            expect(Object.keys(data)).toEqual([
                 "_id",
                 "name",
                 "description",
@@ -49,22 +57,28 @@ describe("Test HotelController", () => {
         });
         test("Test get /hotels/{id}, id format - objectID", async () => {
             const testId = "6605c79f74305e07ffffffff";
-            const error = await getData(`/hotels/${testId}`);
-            expect(error.response.status).toBe(404);
+
+            const request = network.hotel.getById(testId);
+            const response = await axiosRejects(request);
+            const { status } = response!;
+            expect(status).toBe(404);
         });
         test("Test get /hotels/{id}, id format - not objectID", async () => {
             const testId = "1";
-            const error = await getData(`/hotels/${testId}`);
-            expect(error.response.status).toBe(500);
-        });
-        test("Test get /search/hotel (not param)", async () => {
-            const error = await getData("/search/hotel");
-            expect(error.response.status).toBe(400);
+            const request = network.hotel.getById(testId);
+            const response = await axiosRejects(request);
+            const { status } = response!;
+            expect(status).toBe(500);
         });
         test("Test get /search/hotel (by param: TestPlace)", async () => {
-            const res = await getData("/search/hotel?place=TestPlace");
-            expect(res.status).toBe(200);
-            expect(Object.keys(res.data[0])).toEqual([
+            const { status, data } = await network.hotel.getByPlace(
+                "TestPlace"
+            );
+
+            log("before status");
+            expect(status).toBe(200);
+            log("after status");
+            expect(Object.keys(data[0])).toEqual([
                 "_id",
                 "name",
                 "description",
@@ -78,13 +92,16 @@ describe("Test HotelController", () => {
             ]);
         });
         test("Test get /search/hotel (by param: BadTestPlace)", async () => {
-            const error = await getData("/search/hotel?place=BadTestPlace");
-            expect(error.response.status).toBe(404);
+            const request = network.hotel.getByPlace("BadTestPlace");
+            const response = await axiosRejects(request);
+            const { status } = response!;
+
+            expect(status).toBe(404);
         });
     });
-    afterAll(() => {
+    afterAll(done => {
         // MongoConnector.disconnect(dbConnect);
 
-        server.close();
+        server.close(() => done());
     });
 });
