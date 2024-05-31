@@ -24,12 +24,15 @@ export interface AccountTransaction {
 export interface PersonalInfo {
     name: string;
     surname: string;
+    patronim: string;
+    cardNumber: number;
     passport: Passport;
 }
 
 export interface Passport {
     serial: number;
     number: number;
+    emitent: string;
 }
 
 export interface UserForReview {

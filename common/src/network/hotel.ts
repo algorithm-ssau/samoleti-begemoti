@@ -45,7 +45,7 @@ export class HotelNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    getById(id: number) {
+    getById(id: string) {
         return this.axios.get<THotel>(`/hotels/${id}`);
     }
 
