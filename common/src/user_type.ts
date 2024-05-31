@@ -1,10 +1,9 @@
 import { HotelBooking, Photo, SomeTransaction } from "./db_types";
 
 export interface User {
-    _id: string;
     email: string;
     passwordHash: string;
-    info: PersonalInfo;
+    info: Partial<PersonalInfo>;
     reviews: Review[];
     account: BankAccount;
     hotelHistory: HotelBooking[];
@@ -25,12 +24,15 @@ export interface AccountTransaction {
 export interface PersonalInfo {
     name: string;
     surname: string;
+    patronim: string;
+    cardNumber: number;
     passport: Passport;
 }
 
 export interface Passport {
     serial: number;
     number: number;
+    emitent: string;
 }
 
 export interface UserForReview {

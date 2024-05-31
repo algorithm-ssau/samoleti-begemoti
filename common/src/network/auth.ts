@@ -8,6 +8,11 @@ type Status<T extends number> = {
 // POST /auth/register
 // POST /auth/login
 
+export type UserCredentials = {
+    email: string;
+    password: string;
+};
+
 export type AuthSuccess = {
     token: string;
 };
@@ -35,9 +40,11 @@ export class AuthNetwork extends GenericNetwork {
      * status 500 - internal server error
      */
     login(login_: string, password: string) {
-        return axios.post<AuthSuccess>("/auth/login", {
-            login_,
+        return this.axios.post<AuthSuccess>("/auth/login", {
+            login: login_,
             password,
         });
     }
+
+    sum(array: number[]) {}
 }
