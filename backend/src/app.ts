@@ -31,7 +31,7 @@ app.use((req, res, next) => {
     .use("/", photoRouter)
     .use("/", userRouter)
     .use("/", authRouter)
-    .use("/", hotelBookingRouter)
+    .use("/booking", hotelBookingRouter)
     .use("/profile", profileRouter)
     .use(
         Router()

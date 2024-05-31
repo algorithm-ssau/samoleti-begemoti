@@ -1,5 +1,10 @@
 import axios, { Axios, AxiosInstance, CreateAxiosDefaults } from "axios";
-import { AuthSuccess, ModelAddition } from "../db_types";
+import {
+    AuthSuccess,
+    Booking,
+    BookingRequest,
+    ModelAddition,
+} from "../db_types";
 import { User } from "../user_type";
 import { Network } from ".";
 import { GenericNetwork } from "./genericNetwork";
@@ -43,10 +48,7 @@ export class UserNetwork extends GenericNetwork {
      *
      */
     create(hotelBooking: User) {
-        return this.axios.post<TUserWithoutId>(
-            `/users`,
-            hotelBooking
-        );
+        return this.axios.post<TUserWithoutId>(`/users`, hotelBooking);
     }
 
     /**
@@ -71,5 +73,20 @@ export class UserNetwork extends GenericNetwork {
      */
     updateById(id: number, newUser: User) {
         return this.axios.patch<TUser>(`/users/${id}`, newUser);
+    }
+
+    /**
+     * Requires authorization
+     *  Returns list of hotels booked for the current user
+     */
+    bookings() {
+        return this.axios.get<Booking[]>("/profile/bookings");
+    }
+
+    /**
+     * add new booking
+     */
+    book(booking: BookingRequest) {
+        return this.axios.post("/booking/new", booking);
     }
 }

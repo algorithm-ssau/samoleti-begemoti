@@ -1,4 +1,4 @@
-import { HotelBooking, Photo, SomeTransaction } from "./db_types";
+import { Booking, Photo, SomeTransaction } from "./db_types";
 
 export interface User {
     email: string;
@@ -6,7 +6,7 @@ export interface User {
     info: Partial<PersonalInfo>;
     reviews: Review[];
     account: BankAccount;
-    hotelHistory: HotelBooking[];
+    hotelHistory: Booking[];
 }
 
 export interface BankAccount {
