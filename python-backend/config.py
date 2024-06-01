@@ -1,7 +1,9 @@
 class Config(object):
     DEBUG = False
     TESTING = False
-    MONGO_DB_URI = "mongodb://localhost:27017/"
+    # Mongo config
+    MONGO_DB_URL = "mongodb://localhost:27017/"
+    MONGO_DOCUMENT = 'SamoletiBegemoti'
 
 
 class ProductionConfig(Config):
@@ -11,7 +13,11 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     MAX_CONTENT_LENGTH = 16 * 1000 * 1000
-
+    # JWT config
+    JWT_SECRET_KEY = 'ldjhkmvsdlkskeddssd'
+    # Mongo config
+    MONGO_DB_URL = "mongodb://localhost:27017/"
+    MONGO_DOCUMENT = 'tests'
     # UPLOAD_PHOTOS_RELATIVE = '/uploads'
     ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
