@@ -37,6 +37,7 @@ export class HotelNetwork extends GenericNetwork {
         return this.axios.get<Array<THotel>>(`/hotels`);
     }
 
+
     /**
      * Possible errors:
      *

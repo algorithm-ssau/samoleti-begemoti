@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { lightPrimary, primaryText, baseText } from "./BaseStyle";
+import type { Address } from "samolet-common";
+import { useNavigate } from "react-router";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import { Place, Restaurant, Wifi } from "@mui/icons-material";
+import ChairIcon from "@mui/icons-material/Chair";
 
+import { purple } from "@mui/material/colors";
 
 const Container = styled.div`
     display: flex;
@@ -35,7 +41,7 @@ const RowContainer = styled.div`
     align-items: center;
     justify-content: left;
 `;
-const RowLeft = styled.div `
+const RowLeft = styled.div`
     width: 75%;
 `;
 
@@ -64,19 +70,12 @@ const Photo = styled.img`
     width: 100%;
     margin: 0%;
 `;
-const Icon = styled.img`
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-    margin: 0%;
-    margin-right: 2%;
-`;
 const StarPic = styled.img`
     width: 25px;
     height: 25px;
     vertical-align: middle;
     margin: auto;
-`
+`;
 const BookButton = styled.button`
     ${primaryText}
     ${baseText}
@@ -124,47 +123,70 @@ function BookButtonClick() {
     alert("BookButton was pressed");
 }
 
-function HotelCard() {
-    const hotelName = "Название отеля"; // получаем из бд
-    const roomPrice = 2700; // получаем из бд
+export interface hotelCardProps {
+    name: string;
+    price: number;
+    address: Address;
+    luxary: boolean;
+    normal: boolean;
+    reallyBad: boolean;
+    isFood: boolean;
+    isWiFi: boolean;
+    raiting: number;
+}
+
+function HotelCard(props: hotelCardProps) {
+    const foodMessage = props.isFood
+        ? "Питание включено"
+        : "Питание не включено";
+    const wifiMessage = props.isWiFi ? "Бесплатный Wi-Fi" : "Нет интернета";
+    let rooms = "";
+    const addressMessage =
+        props.address.country + props.address.city + props.address.place;
+    rooms = props.luxary ? rooms + "Люкс " : rooms + "";
+    rooms = props.luxary ? rooms + "Стандарт " : rooms + "";
+    rooms = props.luxary ? rooms + "Эконом " : rooms + "";
+    const navigate = useNavigate();
     return (
         <Container>
             <LeftContainer>
                 <RowContainer>
                     <RowLeft>
-                        <H2PrimaryColor>{hotelName}</H2PrimaryColor>
+                        <H2PrimaryColor>{props.name}</H2PrimaryColor>
                     </RowLeft>
                     <RowRight>
-                        <H2SecondaryColor>5,5 <StarPic src=""/> </H2SecondaryColor>
+                        <H2SecondaryColor>{props.raiting} </H2SecondaryColor>
+                        <StarRateIcon
+                            sx={{ fontSize: 40, color: purple["A200"] }}
+                        />
                     </RowRight>
-                    
                 </RowContainer>
                 <RowContainer>
                     <H2SecondaryColor>Цена за ночь:</H2SecondaryColor>
-                    <H2PrimaryColor>{roomPrice} ₽</H2PrimaryColor>
+                    <H2PrimaryColor>{props.price} ₽</H2PrimaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <Icon src="" />
-                    <H2SecondaryColor>Адрес</H2SecondaryColor>
+                    <Place sx={{ fontSize: 30 }} />
+                    <H2SecondaryColor>{addressMessage}</H2SecondaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <Icon src="" />
-                    <H2SecondaryColor>Типы номеров</H2SecondaryColor>
+                    <ChairIcon sx={{ fontSize: 30 }} />
+                    <H2SecondaryColor>{rooms}</H2SecondaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <Icon src="" />
-                    <H2SecondaryColor>Питание включено</H2SecondaryColor>
+                    <Restaurant sx={{ fontSize: 30 }} />
+                    <H2SecondaryColor>{foodMessage}</H2SecondaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <Icon src="" />
-                    <H2SecondaryColor>Бесплатный Wi-Fi</H2SecondaryColor>
+                    <Wifi sx={{ fontSize: 30 }} />
+                    <H2SecondaryColor>{wifiMessage}</H2SecondaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <BookButton onClick={BookButtonClick}>
+                    <BookButton onClick={() => navigate("hotelpage")}>
                         Забронировать
                     </BookButton>
                 </RowContainer>
-            </LeftContainer> 
+            </LeftContainer>
             <RightContainer>
                 <Photo src="" alt="фото комнаты" />
                 <LeftButton onClick={LeftButtonClick} />

@@ -9,6 +9,22 @@ import {
     InputButton,
     CustomSelect,
 } from "./style";
+import {
+    createAddressThunk,
+    createHotelThunk,
+    createRoomThunk,
+    getAllHotelsThunk,
+    useAppDispatch,
+    useAppSelector,
+} from "../../store/store";
+import {
+    RoomCategory,
+    type Address,
+    type Hotel,
+    type Room,
+} from "samolet-common";
+import type { TAddressWithoutId } from "samolet-common/src/network/address";
+import { useState } from "react";
 
 interface HotelInputs {
     name: string;
@@ -45,12 +61,53 @@ export function AddHotel() {
         9.5, 10,
     ];
     const rating = rateList.map(item => <option key={item}>{item}</option>);
+
+    const dispatch = useAppDispatch();
+    const requestCreateHotel = useAppSelector(
+        state => state.requests.createhotel,
+    );
+    const requestAllHotels = useAppSelector(
+        state => state.requests.getallhotels,
+    );
+
+    const requestAddress = useAppSelector(
+        state => state.requests.createaddress,
+    );
+    let lengthOfHotelList = requestAllHotels.value?.length;
+
+    const [room, setRoom] = useState({} as Room);
+    const [address, setAddress] = useState({} as Address);
+
     const { register, handleSubmit } = useForm<HotelInputs>();
     const { register: registerRoom, handleSubmit: handleRoomSubmit } =
         useForm<RoomInputs>();
     const { register: registerReview, handleSubmit: handleReviewSubmit } =
         useForm<ReviewInputs>();
     const onHotelSubmit = (data: HotelInputs) => {
+        dispatch(
+            createAddressThunk({
+                city: data.city,
+                country: data.country,
+                place: data.place,
+            } as Address),
+        );
+        setAddress({
+            city: data.city,
+            country: data.country,
+            place: data.place,
+        });
+        dispatch(
+            createHotelThunk({
+                name: data.name,
+                description: data.description,
+                photos: [],
+                address: address,
+                rooms: [room],
+                reviews: [],
+            } as Hotel),
+        );
+        dispatch(getAllHotelsThunk());
+        alert(lengthOfHotelList);
         alert(
             data.name +
                 " " +
@@ -79,6 +136,27 @@ export function AddHotel() {
         );
     };
     const onRoomSubmit = (data: RoomInputs) => {
+        dispatch(
+            createRoomThunk({
+                category: RoomCategory.Normal,
+                price: data.price,
+                bedAmount: data.bedAmount,
+                facilities: [{ name: data.facilities }],
+                number: data.amountOfRooms,
+            }),
+        );
+        setRoom({
+            category:
+                data.roomCategory == "Luxary"
+                    ? RoomCategory.Luxary
+                    : data.roomCategory == "Normal"
+                      ? RoomCategory.Normal
+                      : RoomCategory.Shit,
+            price: data.price,
+            bedAmount: data.bedAmount,
+            facilities: [{ name: data.facilities }],
+            number: data.amountOfRooms,
+        });
         alert(
             data.roomCategory +
                 " " +
