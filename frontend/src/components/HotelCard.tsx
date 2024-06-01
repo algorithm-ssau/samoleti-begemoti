@@ -119,10 +119,6 @@ function RightButtonClick() {
     alert("RightButton was pressed");
 }
 
-function BookButtonClick() {
-    alert("BookButton was pressed");
-}
-
 export interface hotelCardProps {
     name: string;
     price: number;
