@@ -8,13 +8,12 @@ import {
 import { Provider } from "react-redux";
 import axios, { type CreateAxiosDefaults } from "axios";
 
-import { actions, store, useAppDispatch } from "./store/store";
+import { actions, store } from "./store/store";
 
 import { Network } from "samolet-common";
 
 import "./index.css";
 import { MainRouter } from "./routers/MainRouter";
-import { useEffect } from "react";
 
 const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
 

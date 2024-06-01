@@ -1,8 +1,16 @@
+import { useEffect } from "react";
+import {
+    bookThunk,
+    bookingsThunk,
+    hotelByIdThunk,
+    roomByIdThunk,
+} from "../../../store/requestThunks";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { ContainerChapter, Line, Text } from "../Cash/style";
 import {
     RoomType,
     Status,
-    getActiveBooking,
+    //getActiveBooking,
     getComplitedBooking,
 } from "./dataBooking";
 import {
@@ -20,28 +28,85 @@ import {
     TextStatus,
     TextStatusParam,
 } from "./style";
+import { RoomCategory, type Booking, type BookingStatus } from "samolet-common";
 
 export interface BookingProps {
-    id: number;
-    title: string;
-    status: Status;
-    address: string;
-    telephone: number;
-    visitorsNumber: number;
-    roomType: RoomType;
-    visitirContact: string;
+    idroom?: number;
+    idhotel?: string;
+    title?: string;
+    status?: BookingStatus;
+    address?: string;
+    telephone?: number;
+    visitorsNumber?: number;
+    roomType?: RoomType;
+    visitirContact?: string;
     arrivalDate: Date;
     departureDate: Date;
-    comment: string;
-    sum: number;
+    comment?: string;
+    sum?: number;
 }
 
 export function Booking() {
-    let activeBooking = getActiveBooking();
+    const dispatch = useAppDispatch();
+    const reservations = useAppSelector(state => state.requests.bookings);
+    let activeBooking: Booking[] = [];
+    const book = useAppSelector(state => state.requests.book);
+    // useEffect(() => {
+    //     dispatch(
+    //         bookThunk({
+    //             dateFrom: Number(new Date()),
+    //             dateTo: Number(new Date()),
+    //             hotelId: "1'",
+    //             roomId: "1",
+    //             sum: 1000,
+    //             comment: "ляляял",
+    //             visitorsNumber: 1,
+    //         }),
+    //     );
+    // }, []);
+    //props.visitorsNumber = 1;
+    console.log("status book" + book.status);
+    //let complitedBooking: Booking[];
+    console.log("брони");
+    console.log(reservations.status);
+    console.log(reservations.value);
+    useEffect(() => {
+        dispatch(bookingsThunk());
+        if (reservations.value) {
+            activeBooking = reservations.value;
+            // console.log("брони");
+            // console.log(reservations.status);
+            // console.log(reservations.value);
+            // .filter(
+            //     booking =>
+            //         booking.status === "not-paid" ||
+            //         booking.status === "in-process",
+            // );
+            let complitedBooking = reservations.value.filter(
+                booking =>
+                    booking.status === "finished" || booking.status === "paid",
+            );
+            console.log(activeBooking);
+        }
+    }, []);
+
+    //let activeBooking = getActiveBooking();
+    let activeBookingres;
     let complitedBooking = getComplitedBooking();
-    let activeBookingres = activeBooking.map(booking => (
-        <BookingCard {...booking} />
-    ));
+    if (activeBooking.length) {
+        activeBookingres = activeBooking.map(booking => (
+            <BookingCard
+                {...{
+                    idhotel: booking.hotelId,
+                    idroom: Number(booking.roomId),
+                    status: booking.status,
+                    arrivalDate: booking.dateFrom,
+                    departureDate: booking.dateTo,
+                }}
+            />
+        ));
+    } //...booking
+
     let complitedBookingres = complitedBooking.map(booking => (
         <BookingCard {...booking} />
     ));
@@ -67,16 +132,48 @@ export function Booking() {
 export function onButtonClick(string: string) {
     return alert(string);
 }
+
 export function BookingCard(props: BookingProps) {
+    const dispatch = useAppDispatch();
+    const hotel = useAppSelector(state => state.requests.hotelById);
+    const room = useAppSelector(state => state.requests.roomById);
+    useEffect(() => {
+        if (props.idhotel) {
+            dispatch(hotelByIdThunk({ id: props.idhotel }));
+            if (hotel.status === "fulfilled") {
+                if (hotel.value?.name) props.title = hotel.value?.name;
+                if (hotel.value?.address)
+                    props.address =
+                        hotel.value?.address.country +
+                        " " +
+                        hotel.value.address.city +
+                        " " +
+                        hotel.value.address.place;
+            }
+        }
+        if (props.idroom) {
+            dispatch(roomByIdThunk({ id: Number(props.idroom) }));
+            if (room.status === "fulfilled") {
+                if (room.value.price) props.sum = room.value.price * 1; //props.visitorsNumber!;
+                if (room.value.category) {
+                    if (room.value.category == RoomCategory.Shit)
+                        props.roomType = RoomType.Economy;
+                    else if (room.value.category == RoomCategory.Normal)
+                        props.roomType = RoomType.Standart;
+                    else props.roomType = RoomType.Lux;
+                }
+            }
+        }
+    }, []);
     let alertText = "";
     let buttonText = "";
-    if (props.status === Status.PaidFor) {
+    if (props.status === "paid") {
         alertText = "Отмена брони";
         buttonText = "Отменить";
-    } else if (props.status === Status.NotPaidFor) {
+    } else if (props.status === "not-paid") {
         alertText = "Оплата";
         buttonText = "Оплатить";
-    } else if (props.status === Status.Complited) {
+    } else if (props.status === "finished") {
         alertText = "Оставить отзыв";
         buttonText = "Оставить отзыв";
     } else {
@@ -103,7 +200,7 @@ export function BookingCard(props: BookingProps) {
                     </InfoRow>
                     <InfoRow>
                         <Parameter>Номер бронирования:</Parameter>
-                        <BookingText>{props.id}</BookingText>
+                        <BookingText>{props.idroom}</BookingText>
                     </InfoRow>
                     <InfoRow>
                         <Parameter>Количество гостей:</Parameter>

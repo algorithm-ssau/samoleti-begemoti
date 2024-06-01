@@ -6,13 +6,24 @@ import {
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
-import { type AuthSuccess, type PersonalInfo, type User } from "samolet-common";
+import {
+    type AuthSuccess,
+    type Booking,
+    type PersonalInfo,
+    type User,
+} from "samolet-common";
 import { network } from "..";
 import {
+    bookThunk,
+    bookingsThunk,
     getUserPersonalInfoThunk,
+    hotelByIdThunk,
+    roomByIdThunk,
     updatePasswordThunk,
     updatePersonalInfoThunk,
 } from "./requestThunks";
+import type { THotel } from "samolet-common/src/network/hotel";
+import type { TRoom } from "samolet-common/src/network/room";
 
 export type State = {
     value: number;
@@ -24,6 +35,10 @@ export type State = {
         getUserPersonalInfo: RequestState<PersonalInfo, any>;
         updatePersonalInfo: RequestState<void, any>;
         updatePassword: RequestState<void, any>;
+        book: RequestState<void, any>;
+        bookings: RequestState<Booking[], any>;
+        hotelById: RequestState<THotel, any>;
+        roomById: RequestState<TRoom, any>;
     };
     isLogin: boolean;
     id: string;
@@ -62,6 +77,10 @@ const initialState: State = {
         getUserPersonalInfo: empty(),
         updatePersonalInfo: empty(),
         updatePassword: empty(),
+        book: empty(),
+        bookings: empty(),
+        hotelById: empty(),
+        roomById: empty(),
     },
     isLogin: false,
     id: "",
@@ -90,6 +109,10 @@ const slice = createSlice({
         trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);
         trackRequest(builder, "updatePersonalInfo", updatePersonalInfoThunk);
         trackRequest(builder, "updatePassword", updatePasswordThunk);
+        trackRequest(builder, "book", bookThunk);
+        trackRequest(builder, "bookings", bookingsThunk);
+        trackRequest(builder, "hotelById", hotelByIdThunk);
+        trackRequest(builder, "roomById", roomByIdThunk);
     },
 });
 
