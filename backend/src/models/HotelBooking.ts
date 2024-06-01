@@ -3,10 +3,10 @@ import { HotelBooking } from "../types/db_types";
 
 const HotelBookingSchema = new Schema<HotelBooking>(
     {
-        room: [{ type: Schema.Types.ObjectId, ref: "Room" }],
+        room: { type: Schema.Types.ObjectId, ref: "Room" },
         dateStart: {type: Date},
         dateEnd: {type: Date},
-        status: {type: Number}
+        status: {type: Number, default: 1}
     },
     {
         timestamps: true,
