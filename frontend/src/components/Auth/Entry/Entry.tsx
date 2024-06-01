@@ -1,5 +1,11 @@
-import { useState } from "react";
-import RegSuccess from "../../RegistrationSuccess";
+import { useEffect, useState } from "react";
+import RegSuccess, {
+    ContainerDownHalf,
+    ContainerUpHalf,
+    H2Name,
+    H3Name,
+    SeparatorLine,
+} from "../../RegistrationSuccess";
 import { FormRow, type MessageProps } from "../Registration/Registration";
 import { Block, Button, Container, PasswordCheck } from "../Registration/style";
 import {
@@ -10,6 +16,9 @@ import {
 } from "../../../store/store";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import { useNavigate } from "react-router";
+import { Dialog } from "@mui/material";
+import { NewClose } from "../../Profile/Settings/style";
+import CloseIcon from "@mui/icons-material/Close";
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -29,8 +38,18 @@ export function Entry() {
     };
     const navigate = useNavigate();
     if (status == "fulfilled") {
+        dispatch(actions.setLogin(true));
         navigate("/profile/settings");
     }
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    useEffect(() => {
+        if (status == "error") {
+            setOpen(true);
+        }
+    }, [status]);
     return (
         <>
             <Container>
@@ -75,9 +94,18 @@ export function Entry() {
                     </Button>
                 </Block>
             </Container>
-            {(status == "error" || status == "fulfilled") && (
+            <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                style={{ padding: 0 }}
+                open={open}
+                onClose={handleClose}
+            >
+                <NewClose onClick={handleClose}>
+                    <CloseIcon />
+                </NewClose>
                 <Message status={status} />
-            )}
+            </Dialog>
         </>
     );
 }
@@ -85,18 +113,27 @@ export function Entry() {
 export function Message(props: MessageProps) {
     let messageTitle = "";
     let description = "";
-    const dispatch = useAppDispatch();
 
     if (props.status == "error") {
         messageTitle = "Ошибка!";
         description = "Неверный логин и/или пароль.";
-    } else {
-        messageTitle = "Вы авторизированы!";
-        description = "Вам доступен личный кабинет.";
-        dispatch(actions.setLogin(true));
     }
+    // else {
+    //     messageTitle = "Вы авторизированы!";
+    //     description = "Вам доступен личный кабинет.";
+    //
+    // }
 
     return (
-        <RegSuccess mainMessage={messageTitle} secondaryMessage={description} />
+        <>
+            <ContainerUpHalf>
+                <H2Name>{messageTitle}</H2Name>
+            </ContainerUpHalf>
+            <SeparatorLine />
+            <ContainerDownHalf>
+                <H3Name>{description}</H3Name>
+            </ContainerDownHalf>
+        </>
+        //<RegSuccess mainMessage={messageTitle} secondaryMessage={description} />
     );
 }

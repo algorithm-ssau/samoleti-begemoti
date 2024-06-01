@@ -6,19 +6,21 @@ import {
     useAppSelector,
 } from "../../../store/store";
 import { network } from "../../..";
-import { ProfileButton } from "./style";
+import { NewClose, ProfileButton } from "./style";
 import { ContainerChapter, Line, Text } from "../Cash/style";
-import {
-    Block,
-    Button,
-    Container,
-    PasswordCheck,
-} from "../../Auth/Registration/style";
+import { Block, Container, PasswordCheck } from "../../Auth/Registration/style";
+import CloseIcon from "@mui/icons-material/Close";
 import {
     FormRow,
     type MessageProps,
 } from "../../Auth/Registration/Registration";
-import RegSuccess from "../../RegistrationSuccess";
+import {
+    ContainerDownHalf,
+    ContainerUpHalf,
+    H2Name,
+    H3Name,
+    SeparatorLine,
+} from "../../RegistrationSuccess";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import { useEffect, useState } from "react";
 import {
@@ -26,6 +28,7 @@ import {
     updatePasswordThunk,
     updatePersonalInfoThunk,
 } from "../../../store/requestThunks";
+import Dialog from "@mui/material/Dialog";
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 export function exit() {}
@@ -33,11 +36,14 @@ export function DataPersonal() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const upvalue = useAppSelector(state => state.requests.updatePersonalInfo);
-
+    const upPasswordValue = useAppSelector(
+        state => state.requests.updatePassword,
+    );
     console.log(upvalue);
     const personalInfo = useAppSelector(
         state => state.requests.getUserPersonalInfo,
     );
+
     useEffect(() => {
         dispatch(getUserPersonalInfoThunk());
     }, []);
@@ -70,6 +76,27 @@ export function DataPersonal() {
     const handleNewPasswordChange = (e: InputEvent) => {
         setNewPassword(e.target.value);
     };
+    const [open, setOpen] = useState(false);
+    const [openPassworMess, setOpenPassworMess] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleClosePassworMess = () => {
+        setOpenPassworMess(false);
+    };
+    useEffect(() => {
+        if (upvalue.status == "error" || upvalue.status == "fulfilled") {
+            setOpen(true);
+        }
+    }, [upvalue]);
+    useEffect(() => {
+        if (
+            upPasswordValue.status == "error" ||
+            upPasswordValue.status == "fulfilled"
+        ) {
+            setOpenPassworMess(true);
+        }
+    }, [upPasswordValue]);
     return (
         <>
             <ContainerChapter>
@@ -175,13 +202,34 @@ export function DataPersonal() {
             >
                 Выйти
             </ProfileButton>
-
-            {/* {(upvalue.status == "error" || upvalue.status == "fulfilled") && (
+            <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                style={{ padding: 0 }}
+                open={open}
+                onClose={handleClose}
+            >
+                <NewClose onClick={handleClose}>
+                    <CloseIcon />
+                </NewClose>
                 <Message status={upvalue.status} />
-            )} */}
+            </Dialog>
+            <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                style={{ padding: 0 }}
+                open={openPassworMess}
+                onClose={handleClosePassworMess}
+            >
+                <NewClose onClick={handleClosePassworMess}>
+                    <CloseIcon />
+                </NewClose>
+                <Message status={upPasswordValue.status} />
+            </Dialog>
         </>
     );
 }
+
 export function Message(props: MessageProps) {
     let messageTitle = "";
     let description = "";
@@ -195,6 +243,14 @@ export function Message(props: MessageProps) {
     }
 
     return (
-        <RegSuccess mainMessage={messageTitle} secondaryMessage={description} />
+        <>
+            <ContainerUpHalf>
+                <H2Name>{messageTitle}</H2Name>
+            </ContainerUpHalf>
+            <SeparatorLine />
+            <ContainerDownHalf>
+                <H3Name>{description}</H3Name>
+            </ContainerDownHalf>
+        </>
     );
 }

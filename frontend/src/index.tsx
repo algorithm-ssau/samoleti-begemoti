@@ -25,23 +25,17 @@ export const network = new Network(config =>
 const router = createBrowserRouter(createRoutesFromElements(MainRouter()));
 
 function App() {
-    let token = localStorage.getItem("token");
-    console.log(token);
-    useEffect(() => {
-        if (token) {
-            const dispatch = useAppDispatch();
-            network.setToken(token);
-            dispatch(actions.setLogin(true));
-        }
-    }, [token]);
-
     return (
         <Provider store={store}>
             <RouterProvider router={router} />
         </Provider>
     );
 }
-
+let token = localStorage.getItem("token");
+if (token) {
+    network.setToken(token);
+    store.dispatch(actions.setLogin(true));
+}
 let container = document.getElementById("root");
 let root = createRoot(container!);
 root.render(<App />);

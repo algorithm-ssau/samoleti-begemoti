@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { lightPrimary } from "../../BaseStyle";
-import { Base } from "../Cash/style";
+import { Base, Close } from "../Cash/style";
 
 export const ProfileButton = styled.button`
     ${Base};
@@ -15,4 +15,7 @@ export const ProfileButton = styled.button`
     justify-content: center;
     background-color: ${lightPrimary};
     margin: 2% auto;
+`;
+export const NewClose = styled(Close)`
+    margin-left: 90%;
 `;
