@@ -1,31 +1,112 @@
-# samoleti-begemoti
+# samoleti-begemoti ✈️🦛
 
-## установка
+## ★ О проекте
 
-1. `git clone https://github.com/Shattered46/samoleti-begemoti.git`
-2. `cd samoleti-begemoti`
-3. `git checkout {имя вашей ветки}`
-4. Возможно надо применить все изменения с главной ветки `git merge main`
-5. Вы великолепны. Репозиторий успешно скопирован
+Описание проекта
 
-## установка дубль 2
+## 🖥️ Используемые технологии
 
-1. Открыть вашу папку проекта (backend/frontend) в VSCode.
-2. Открыть терминал
-3. `npm install`
-4. ???
-5. Вы великолепны. Можно запускать и менять код
+### Фронтенд:
+- TypeScript
+- React
+- Redux toolkit
+### Бэкенд:
+- Express
+- Mongodb
+- Python(Flask)
 
-## что потом?
+## ⚙️ Инструкция по запуску
 
-1. Берем задачу
-2. Выполняем
-3. Делаем `git add {файлы}` (Добавляем файлы в коммит).
-4. Делаем `git status` (Смотрим что мы там добавили и изменяем если что-то не то)
-5. Делаем `git commit -m "короткое описание коммита"` (сохраняем изменения локально)
-6. Делаем `git push` (отправляем коммиты в гитхаб)
-7. Идем на сайт гитхаба, оформляем pull request.
-8. После проверки код принимается в главную ветку
-9. Вы великолепны.
+### Локальный запуск
 
-Посмотрите файлы в info
+- Склонировать проект `git clone https://github.com/Shattered46/samoleti-begemoti.git`
+- Установить **mongodb**, **node js**, **python3**
+- Перейти в директорию проекта и выполнить команды:
+
+  - В директории **frontend**:
+
+    ```bash
+    npm i
+    npm run build
+	npm run start
+    ```
+
+  - В директории **backend**:
+
+    ```bash
+    npm i
+    npm run start
+    ```
+	
+  - В директории **common**:
+
+    ```bash
+    npm i
+    npm run build
+    ```
+
+  - В директории **python-api**:
+    ```bash
+    python -m venv .venv
+    . .venv/bin/activate
+    pip install -r requirements.txt
+    gunicorn wsgi:app --bind=0.0.0.0:5002 -w 13
+    ```
+
+
+- Вы великолепны. Приложение будет доступно по адресу: [http://localhost:5000](http://localhost:5000)
+
+### 🚀 хостинг
+- Также сайт можно найти по ссылочке: https://krowlexing.fun/
+
+## 👨‍💻🔥👩‍💻 Над проектом работали
+
+<table>
+	<tr>
+		<td align="left" valign="top">
+			<a href="https://github.com/Shattered46">
+				<img src="https://avatars.githubusercontent.com/u/47668304?v=4" width="80" height="80" alt=""/>
+				<br />
+				<sub>🔪<b>Нурсафин Салават</b>🔪</sub>
+			</a>
+			<br />
+			<sub>Team lead</br>Frontend</br>Express backend</sub>
+		</td>
+		<td align="left" valign="top">
+			<a href="https://github.com/golosoman">
+				<img src="https://avatars.githubusercontent.com/u/60601021?v=4" width="80" height="80" alt=""/>
+				<br />
+				<sub><b>Лапин Константин</b></sub>
+			</a>
+			<br />
+			<sub>Backend</sub>
+		</td>
+		<td align="left" valign="top">
+			<a href="https://github.com/kazkate">
+				<img src="https://avatars.githubusercontent.com/u/160167233?v=4" width="80" height="80" alt=""/>
+				<br />
+				<sub><b>Екатерина Казакова</b></sub>
+			</a>
+			<br />
+			<sub>Frontend</sub>
+		</td>
+		<td align="left" valign="top">
+			<a href="https://github.com/Mort3gar">
+				<img src="https://avatars.githubusercontent.com/u/104523214?v=4" width="80" height="80" alt=""/>
+				<br />
+				<sub><b>Степан Марковский</b></sub>
+			</a>
+			<br />
+			<sub>Backend</sub>
+		</td>
+		<td align="left" valign="top">
+			<a href="https://github.com/varizonix">
+				<img src="https://avatars.githubusercontent.com/u/160250358?v=4" width="80" height="80" alt=""/>
+				<br />
+				<sub><b>Кочеткова Наталья</b></sub>
+			</a>
+			<br />
+			<sub>Frontend</sub>
+		</td>
+	</tr>
+</table>
