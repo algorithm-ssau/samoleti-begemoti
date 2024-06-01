@@ -1,4 +1,9 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { type Room, type RoomCategory } from "samolet-common";
+import { useAppDispatch } from "../../store/store";
+import { creatHotelThunk } from "../../store/requestThunks";
 import {
     Container,
     LeftContainer,
@@ -9,22 +14,6 @@ import {
     InputButton,
     CustomSelect,
 } from "./style";
-import {
-    createAddressThunk,
-    createHotelThunk,
-    createRoomThunk,
-    getAllHotelsThunk,
-    useAppDispatch,
-    useAppSelector,
-} from "../../store/store";
-import {
-    RoomCategory,
-    type Address,
-    type Hotel,
-    type Room,
-} from "samolet-common";
-import type { TAddressWithoutId } from "samolet-common/src/network/address";
-import { useState } from "react";
 
 interface HotelInputs {
     name: string;
@@ -52,74 +41,37 @@ interface ReviewInputs {
 }
 
 export function AddHotel() {
-    const roomTypes = ["Luxary", "Normal", "Hell"];
+    const dispatch = useAppDispatch();
+    const [room, setRoom] = useState({} as Partial<Room>);
+    const {
+        register,
+        handleSubmit,
+        getValues: formValues,
+    } = useForm<HotelInputs>();
+    const roomTypes: RoomCategory[] = ["luxary", "normal", "bad"];
     const roomSelect = roomTypes.map(item => (
         <option key={item}>{item}</option>
     ));
-    const rateList = [
-        0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9,
-        9.5, 10,
-    ];
-    const rating = rateList.map(item => <option key={item}>{item}</option>);
 
-    const dispatch = useAppDispatch();
-    const requestCreateHotel = useAppSelector(
-        state => state.requests.createhotel,
-    );
-    const requestAllHotels = useAppSelector(
-        state => state.requests.getallhotels,
-    );
-
-    const requestAddress = useAppSelector(
-        state => state.requests.createaddress,
-    );
-    let lengthOfHotelList = requestAllHotels.value?.length;
-
-    const [room, setRoom] = useState({} as Room);
-    const [address, setAddress] = useState({} as Address);
-
-    const { register, handleSubmit } = useForm<HotelInputs>();
     const { register: registerRoom, handleSubmit: handleRoomSubmit } =
         useForm<RoomInputs>();
-    const { register: registerReview, handleSubmit: handleReviewSubmit } =
-        useForm<ReviewInputs>();
+    const {
+        register: registerReview,
+        handleSubmit: handleReviewSubmit,
+        control,
+    } = useForm<ReviewInputs>();
     const onHotelSubmit = (data: HotelInputs) => {
         dispatch(
-            createAddressThunk({
-                city: data.city,
-                country: data.country,
-                place: data.place,
-            } as Address),
-        );
-        setAddress({
-            city: data.city,
-            country: data.country,
-            place: data.place,
-        });
-        dispatch(
-            createHotelThunk({
+            creatHotelThunk({
                 name: data.name,
                 description: data.description,
-                photos: [],
-                address: address,
+                address: {
+                    country: data.country,
+                    city: data.city,
+                    place: data.place,
+                },
                 rooms: [room],
-                reviews: [],
-            } as Hotel),
-        );
-        dispatch(getAllHotelsThunk());
-        alert(lengthOfHotelList);
-        alert(
-            data.name +
-                " " +
-                data.description +
-                " " +
-                data.country +
-                " " +
-                data.city +
-                " " +
-                data.place +
-                " " +
-                data.photos.length,
+            }),
         );
     };
     const onReviewSubmit = (data: ReviewInputs) => {
@@ -136,37 +88,19 @@ export function AddHotel() {
         );
     };
     const onRoomSubmit = (data: RoomInputs) => {
-        dispatch(
-            createRoomThunk({
-                category: RoomCategory.Normal,
-                price: data.price,
-                bedAmount: data.bedAmount,
-                facilities: [{ name: data.facilities }],
-                number: data.amountOfRooms,
-            }),
-        );
         setRoom({
-            category:
-                data.roomCategory == "Luxary"
-                    ? RoomCategory.Luxary
-                    : data.roomCategory == "Normal"
-                      ? RoomCategory.Normal
-                      : RoomCategory.Shit,
-            price: data.price,
-            bedAmount: data.bedAmount,
-            facilities: [{ name: data.facilities }],
-            number: data.amountOfRooms,
+            category: "normal",
+            price: +data.price,
+            bedAmount: +data.bedAmount,
+            number: +data.price,
         });
-        alert(
-            data.roomCategory +
-                " " +
-                data.price +
-                " " +
-                data.bedAmount +
-                " " +
-                data.amountOfRooms +
-                " " +
-                data.facilities,
+        console.log(
+            `
+            ${data.roomCategory}
+            ${data.price}
+            ${data.bedAmount}
+            ${data.amountOfRooms}
+            `,
         );
     };
     return (
@@ -234,12 +168,13 @@ export function AddHotel() {
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Оценка:</H2PrimaryColor>
-                        <CustomSelect {...registerReview("mark")}>
-                            <option value="" selected disabled hidden>
-                                --
-                            </option>
-                            {rating}
-                        </CustomSelect>
+                        <input
+                            {...registerReview("mark")}
+                            min="0"
+                            max="10"
+                            step="0.5"
+                            type="range"
+                        />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Добавить фото отзыва:</H2PrimaryColor>

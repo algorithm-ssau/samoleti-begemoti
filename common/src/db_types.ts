@@ -8,6 +8,7 @@ export { type AuthSuccess, Network };
 
 export * from "./network";
 export * from "./booking";
+export * from "./hotel";
 
 export interface ModelAddition {
     _id: string;
@@ -43,11 +44,7 @@ export interface AirplaneTransaction {
 
 export type SomeTransaction = HotelTransaction | AirplaneTransaction;
 
-export enum RoomCategory {
-    Luxary = 0,
-    Normal = 1,
-    Shit = 2,
-}
+export type RoomCategory = "luxary" | "normal" | "bad";
 
 export interface HotelFacilities {
     name: string;

@@ -8,7 +8,7 @@ export function DefaultHeader(props: Props) {
     return (
         <>
             <ProfileHeader
-                onPersonalDataClicked={() => navigate("setting")}
+                onPersonalDataClicked={() => navigate("settings")}
                 onBookingClicked={() => navigate("booking")}
                 onTicketsClicked={() => navigate("setting")}
                 onCashClicked={() => navigate("cash")}

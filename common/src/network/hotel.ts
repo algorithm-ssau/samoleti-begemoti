@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Hotel, ModelAddition } from "../db_types";
+import { Hotel, ModelAddition, NewHotelRequest } from "../db_types";
 import { GenericNetwork } from "./genericNetwork";
 
 // GET /search/hotel?place=...
@@ -58,6 +58,16 @@ export class HotelNetwork extends GenericNetwork {
      */
     create(hotel: Hotel) {
         return this.axios.post<THotelWithoutId>(`/hotels`, hotel);
+    }
+
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    createFull(hotel: NewHotelRequest) {
+        return this.axios.post<THotel>(`/hotels-full`, hotel);
     }
 
     /**
