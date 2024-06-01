@@ -26,7 +26,6 @@ export { hotel as HotelController };
 export { hotelFacilities as HotelFacilitiesController };
 export { photos as PhotoController };
 export { review as ReviewController };
-export * as RoomCategoryController from "./RoomCategoryController";
 export { room as RoomsController };
 export { user as UserController };
 export { auth as AuthController };
