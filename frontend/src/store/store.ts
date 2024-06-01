@@ -7,7 +7,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { empty, trackRequest, type RequestState } from "./tracker";
 import {
+    type Address,
     type AuthSuccess,
+    type Hotel,
+    type Photo,
+    type Review,
+    type Room,
     type Booking,
     type PersonalInfo,
     type User,
@@ -24,8 +29,9 @@ import {
     updatePasswordThunk,
     updatePersonalInfoThunk,
 } from "./requestThunks";
+import type { TAddress } from "samolet-common/src/network/address";
 import type { THotel, THotelWithoutId } from "samolet-common/src/network/hotel";
-import type { TRoom, TRoomWithoutId } from "samolet-common/src/network/room";
+import type { TRoomWithoutId, TRoom } from "samolet-common/src/network/room";
 
 export type State = {
     value: number;
@@ -33,6 +39,10 @@ export type State = {
     requests: {
         register: RequestState<AuthSuccess, any>;
         login: RequestState<AuthSuccess, any>;
+        getallhotels: RequestState<Array<THotel>, any>;
+        createhotel: RequestState<THotelWithoutId, any>;
+        createaddress: RequestState<TAddress, any>;
+        createroom: RequestState<TRoomWithoutId, any>;
         getToken: RequestState<AuthSuccess, any>;
         getUserPersonalInfo: RequestState<PersonalInfo, any>;
         updatePersonalInfo: RequestState<void, any>;
@@ -72,11 +82,41 @@ export const loginThunk = createAsyncThunk(
 export const getTokenThunk = createAsyncThunk("getToken", async () => {
     return; // await network.auth.gosling().then(x => x.data);
 });
+
+export const getAllHotelsThunk = createAsyncThunk("getallhotels", async () => {
+    return await network.hotel.getAll().then(x => x.data);
+});
+
+export const createHotelThunk = createAsyncThunk(
+    "createhotel",
+    async (creds: Hotel) => {
+        return await network.hotel.create(creds).then(x => x.data);
+    },
+);
+
+export const createAddressThunk = createAsyncThunk(
+    "createaddress",
+    async (creds: Address) => {
+        return await network.address.create(creds).then(x => x.data);
+    },
+);
+
+export const createRoomThunk = createAsyncThunk(
+    "createroom",
+    async (creds: Room) => {
+        return await network.room.create(creds).then(x => x.data);
+    },
+);
+
 const initialState: State = {
     value: 0,
     requests: {
         register: empty(),
         login: empty(),
+        getallhotels: empty(),
+        createhotel: empty(),
+        createaddress: empty(),
+        createroom: empty(),
         getToken: empty(),
         getUserPersonalInfo: empty(),
         updatePersonalInfo: empty(),
@@ -111,6 +151,10 @@ const slice = createSlice({
     extraReducers: builder => {
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
+        trackRequest(builder, "getallhotels", getAllHotelsThunk);
+        trackRequest(builder, "createhotel", createHotelThunk);
+        trackRequest(builder, "createaddress", createAddressThunk);
+        trackRequest(builder, "createroom", createRoomThunk);
         //trackRequest(builder, "getToken", getTokenThunk);
         trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);
         trackRequest(builder, "updatePersonalInfo", updatePersonalInfoThunk);

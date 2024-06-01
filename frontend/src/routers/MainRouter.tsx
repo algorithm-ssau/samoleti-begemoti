@@ -5,6 +5,8 @@ import { TestPage } from "../pages/TestPage";
 import { ProfilePage } from "../pages/ProfilePage";
 import { AuthAndEntryPage } from "../pages/AuthAndEntryPage";
 import { DefaultHeader } from "../components/Header/DefaultHeader";
+import { SearchHotelPage } from "../pages/SearchHotelPage";
+
 export function Layout() {
     return (
         <>
@@ -20,7 +22,8 @@ export function MainRouter() {
             <Route element={<Layout />}>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/auth/*" element={<AuthAndEntryPage />} />
-                <Route path="hotel" element={<HotelPage id={0} />} />
+                <Route path="hotel" element={<SearchHotelPage />} />
+                <Route path="hotel/hotelpage" element={<HotelPage id={0} />} />
                 <Route path="test" element={<TestPage />} />
                 <Route
                     path="profile/*"

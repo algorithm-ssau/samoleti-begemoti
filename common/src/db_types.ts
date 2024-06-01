@@ -44,7 +44,7 @@ export interface AirplaneTransaction {
 
 export type SomeTransaction = HotelTransaction | AirplaneTransaction;
 
-export type RoomCategory = "luxary" | "normal" | "shit";
+export type RoomCategory = "luxary" | "normal" | "bad";
 
 export interface HotelFacilities {
     name: string;

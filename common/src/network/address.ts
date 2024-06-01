@@ -42,7 +42,7 @@ export class AddressNetwork extends GenericNetwork {
      *
      */
     create(address: Address) {
-        return this.axios.post<TAddressWithoutId>(`/addresses`, address);
+        return this.axios.post<TAddress>(`/addresses`, address);
     }
 
     /**
