@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import { UserRequestParser } from "../request-parsers/UserRequestParser";
 import { UserMongoWorker } from "../mongoworkers/UserMongoWorker";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { ACCESS_EXPIRES_IN, jwt_access } from "../config";
 import { ObjectId } from "mongodb";
