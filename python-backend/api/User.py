@@ -3,6 +3,7 @@ import pymongo
 from config import DevelopmentConfig
 from bson.objectid import ObjectId
 from bson import json_util
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 user_api_blueprint = Blueprint('user_api_blueprint', __name__, template_folder='templates')
 
@@ -11,9 +12,11 @@ db = client[DevelopmentConfig.MONGO_DOCUMENT]
 
 
 @user_api_blueprint.route('/profile/transactions', methods=['GET'])
+@jwt_required()  # Требуется JWT
 def get_transactions():
-    # Настроенный для примера фиксированный user_id, в реальном случае его следует получать из JWT
-    user_id = "665a05c03e0db8860252e47c"  # или user_id = get_jwt_identity()['id'], если используете JWT
+    # Предполагается, что user_id получен из JWT или другого источника
+    user_id = get_jwt_identity()
+    print(user_id)
 
     # Ищем пользователя в базе данных по его ObjectId
     user = db['users'].find_one({"_id": ObjectId(user_id)})
@@ -42,9 +45,11 @@ def get_transactions():
 #@jwt_required()
 # Маршрут для получения истории бронирований пользователя
 @user_api_blueprint.route('/profile/bookings')
+@jwt_required()  # Требуется JWT
 def get_bookings():
-    # Настроенный для примера фиксированный user_id, в реальном случае его следует получать из JWT
-    user_id = "665a05c03e0db8860252e47c"  # или user_id = get_jwt_identity()['id'], если используете JWT
+    # Предполагается, что user_id получен из JWT или другого источника
+    user_id = get_jwt_identity()
+    print(user_id)
 
     try:
         # Ищем пользователя в базе данных по его ObjectId

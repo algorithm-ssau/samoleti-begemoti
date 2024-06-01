@@ -3,6 +3,7 @@ import pymongo
 from config import DevelopmentConfig
 from datetime import datetime
 from bson.objectid import ObjectId
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 transaction_blueprint = Blueprint('transaction_blueprint', __name__,
                         template_folder='templates')
@@ -11,9 +12,12 @@ client = pymongo.MongoClient(DevelopmentConfig.MONGO_DB_URL)
 db = client[DevelopmentConfig.MONGO_DOCUMENT]
 
 @transaction_blueprint.route('/profile/money', methods=['POST'])
+@jwt_required()  # Требуется JWT
 def add_money():
     # Предполагается, что user_id получен из JWT или другого источника
-    user_id = "665a05c03e0db8860252e47c"  # или get_jwt_identity()['id'], если используете JWT
+    # Предполагается, что user_id получен из JWT или другого источника
+    user_id = get_jwt_identity()
+    print(user_id)
 
     amount_to_add = request.json.get("amount")  # Сумма для пополнения
 
@@ -54,9 +58,11 @@ def add_money():
     return jsonify({"message": "Account successfully recharged", "new_balance": new_amount}), 200
 
 @transaction_blueprint.route('/pay_for_booking/<booking_id>', methods=['POST'])
+@jwt_required()  # Требуется JWT
 def pay_for_booking(booking_id):
     # Предполагается, что user_id получен из JWT или другого источника
-    user_id = "665a05c03e0db8860252e47c"  # или get_jwt_identity()['id'], если используете JWT
+    user_id = get_jwt_identity()
+    print(user_id)
 
     # Находим пользователя и проверяем, включено ли бронирование в его историю
     user = db['users'].find_one({"_id": ObjectId(user_id)})
@@ -104,7 +110,7 @@ def pay_for_booking(booking_id):
     # Обновление статуса брони на "paid"
     db["hotelbookings"].update_one(
         {"_id": ObjectId(booking_id)},
-        {"$set": {"status": "paid"}}
+        {"$set": {"status": "Paid", "fixedPrice": room["price"]}}
     )
 
     return jsonify({"message": "Booking successfully paid"}), 200

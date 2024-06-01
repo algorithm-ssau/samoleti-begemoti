@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 import pymongo
 from config import DevelopmentConfig
 from bson.objectid import ObjectId
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 hotel_booking_blueprint = Blueprint('hotel_booking_blueprint', __name__,
                         template_folder='templates')
@@ -9,13 +10,14 @@ hotel_booking_blueprint = Blueprint('hotel_booking_blueprint', __name__,
 client = pymongo.MongoClient(DevelopmentConfig.MONGO_DB_URL)
 db = client[DevelopmentConfig.MONGO_DOCUMENT]
 
-#@jwt_required()
+
 @hotel_booking_blueprint.route('/hotelbooking/<booking_id>/cancel', methods=['POST'])
+@jwt_required()  # Требуется JWT
 def cancel_reservation(booking_id):
     try:
         # Предполагается, что user_id получен из JWT или другого источника
-        user_id = "665a05c03e0db8860252e47c"  # или get_jwt_identity()['id'], если используете JWT
-
+        user_id = get_jwt_identity()
+        print(user_id)
         # Находим пользователя и проверяем, включено ли бронирование в его историю
         user = db['users'].find_one({"_id": ObjectId(user_id)})
 
@@ -31,7 +33,7 @@ def cancel_reservation(booking_id):
         # Обновляем статус бронирования на "cancelled"
         result = db['hotelbookings'].update_one(
             {"_id": ObjectId(booking_id)},
-            {"$set": {"status": "cancelled"}}
+            {"$set": {"status": "Cancelled"}}
         )
 
         # Проверяем, что обновление прошло успешно
