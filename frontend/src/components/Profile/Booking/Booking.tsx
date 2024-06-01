@@ -51,21 +51,18 @@ export function Booking() {
     const reservations = useAppSelector(state => state.requests.bookings);
 
     const book = useAppSelector(state => state.requests.book);
-    const activeBooking: Booking[] = reservations.value ?? [];
-    // useEffect(() => {
-    //     dispatch(
-    //         bookThunk({
-    //             dateFrom: Number(new Date()),
-    //             dateTo: Number(new Date()),
-    //             hotelId: "1",
-    //             roomId: "1",
-    //             sum: 1000,
-    //             comment: "ляляял",
-    //             visitorsNumber: 1,
-    //         }),
-    //     );
-    // }, []);
-    //props.visitorsNumber = 1;
+    const activeBooking: Booking[] =
+        reservations.value?.filter(
+            booking =>
+                booking.status === "not-paid" ||
+                booking.status === "in-process",
+        ) ?? [];
+    const complitedBooking: Booking[] =
+        reservations.value?.filter(
+            booking =>
+                booking.status === "finished" || booking.status === "paid",
+        ) ?? [];
+
     console.log("status book" + book.status);
     //let complitedBooking: Booking[];
     console.log("брони");
@@ -76,19 +73,6 @@ export function Booking() {
     useEffect(() => {
         dispatch(bookingsThunk());
         if (reservations.value) {
-            // activeBooking = reservations.value;
-            // console.log("брони");
-            // console.log(reservations.status);
-            // console.log(reservations.value);
-            // .filter(
-            //     booking =>
-            //         booking.status === "not-paid" ||
-            //         booking.status === "in-process",
-            // );
-            let complitedBooking = reservations.value.filter(
-                booking =>
-                    booking.status === "finished" || booking.status === "paid",
-            );
             console.log("active");
             console.log(activeBooking);
         }
@@ -96,7 +80,7 @@ export function Booking() {
 
     //let activeBooking = getActiveBooking();
     let activeBookingres;
-    let complitedBooking = getComplitedBooking();
+    //let complitedBooking = getComplitedBooking();
     if (activeBooking.length) {
         activeBookingres = activeBooking.map(booking => (
             <BookingCard
@@ -109,11 +93,21 @@ export function Booking() {
                 }}
             />
         ));
-    } //...booking
-
-    let complitedBookingres = complitedBooking.map(booking => (
-        <BookingCard {...booking} />
-    ));
+    }
+    let complitedBookingres;
+    if (complitedBooking.length) {
+        complitedBookingres = complitedBooking.map(booking => (
+            <BookingCard
+                {...{
+                    idhotel: booking.hotelId,
+                    idroom: Number(booking.roomId),
+                    status: booking.status,
+                    arrivalDate: booking.dateFrom,
+                    departureDate: booking.dateTo,
+                }}
+            />
+        ));
+    }
     return (
         <div>
             <div>
