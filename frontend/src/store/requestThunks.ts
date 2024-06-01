@@ -3,7 +3,7 @@ import { network } from "..";
 import { users } from "../example_data/ProfileData";
 
 export const usersThunk = createAsyncThunk("users", async () => {
-    return await network.users().then(x => x.data);
+    return await network.user.getAll().then(x => x.data);
 });
 
 export const getUserPersonalInfoThunk = createAsyncThunk(

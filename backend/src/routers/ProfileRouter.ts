@@ -7,4 +7,5 @@ export const profileRouter = express
     .use(authMiddleware)
     .post("/changePassword", ProfileController.updatePassword)
     .get("/info", ProfileController.info)
+    .get("/bookings", ProfileController.bookings)
     .post("/info", ProfileController.updateInfo);

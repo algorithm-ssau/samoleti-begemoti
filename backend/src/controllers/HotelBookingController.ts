@@ -1,9 +1,9 @@
 import HotelBookingModel from "../models/HotelBooking";
-import { HotelBooking } from "samolet-common";
+import { Booking } from "samolet-common";
 import { GenericController } from "./GenericController";
 
 export class HotelBookingController extends GenericController<
-    HotelBooking,
+    Booking,
     typeof HotelBookingModel
 > {
     constructor() {
