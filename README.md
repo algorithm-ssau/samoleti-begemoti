@@ -38,7 +38,7 @@
     npm run start
     ```
 	
-	- В директории **common**:
+  - В директории **common**:
 
     ```bash
     npm i
@@ -67,7 +67,7 @@
 			<a href="https://github.com/Shattered46">
 				<img src="https://avatars.githubusercontent.com/u/47668304?v=4" width="80" height="80" alt=""/>
 				<br />
-				<sub><b>Нурсафин Салават</b></sub>
+				<sub>🔪<b>Нурсафин Салават</b>🔪</sub>
 			</a>
 			<br />
 			<sub>Team lead</br>Frontend</br>Express backend</sub>
