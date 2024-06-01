@@ -1,3 +1,4 @@
+import { AddHotel } from "../components/AddHotel/AddHotel";
 import AddReview from "../components/AddReview";
 import { City, HotelList } from "../components/Card";
 import EnterProfile from "../components/EnterProfile";
@@ -27,6 +28,7 @@ export function TestPage() {
     ];
     return (
         <>
+            <AddHotel />
             <HotelRoom />
             <HotelReservation />
             <RoomReview />

@@ -7,7 +7,7 @@ import {
     baseText,
 } from "./BaseStyle";
 
-const Container = styled.div`
+export const Container = styled.div`
     background-color: ${lightPrimary};
     display: block;
     box-shadow: 0px 2px 4px ${lightPrimary};
@@ -18,7 +18,7 @@ const Container = styled.div`
     border: 0px;
     margin-top: 0%;
 `;
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
     width: 25px;
     height: 25px;
     margin-left: 93%;
@@ -30,20 +30,20 @@ const CloseButton = styled.button`
     font-size: 15px;
     padding-bottom: 0%;
 `;
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
     width: 100%;
     height: 5%;
 `;
-const ContainerUpHalf = styled.div`
+export const ContainerUpHalf = styled.div`
     width: 100%;
     margin-top: 10%;
 `;
-const ContainerDownHalf = styled.div`
+export const ContainerDownHalf = styled.div`
     width: 100%;
     margin-top: 5%;
     padding-bottom: 10%;
 `;
-const SeparatorLine = styled.div`
+export const SeparatorLine = styled.div`
     background-color: ${accent};
     height: 1px;
     opacity: 0.6;
@@ -51,13 +51,13 @@ const SeparatorLine = styled.div`
     margin-left: auto;
     margin-right: auto;
 `;
-const H2Name = styled.h2`
+export const H2Name = styled.h2`
     ${primaryText}
     ${baseText}
     font-size: 24px;
     text-align: center;
 `;
-const H3Name = styled.h3`
+export const H3Name = styled.h3`
     ${secondaryText}
     ${baseText}
     font-size: 24px;

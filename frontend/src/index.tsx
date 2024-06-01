@@ -8,7 +8,7 @@ import {
 import { Provider } from "react-redux";
 import axios, { type CreateAxiosDefaults } from "axios";
 
-import { store } from "./store/store";
+import { actions, store } from "./store/store";
 
 import { Network } from "samolet-common";
 
@@ -30,7 +30,11 @@ function App() {
         </Provider>
     );
 }
-
+let token = localStorage.getItem("token");
+if (token) {
+    network.setToken(token);
+    store.dispatch(actions.setLogin(true));
+}
 let container = document.getElementById("root");
 let root = createRoot(container!);
 root.render(<App />);

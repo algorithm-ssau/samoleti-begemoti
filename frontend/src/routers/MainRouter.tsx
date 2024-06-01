@@ -5,7 +5,6 @@ import { TestPage } from "../pages/TestPage";
 import { ProfilePage } from "../pages/ProfilePage";
 import { AuthAndEntryPage } from "../pages/AuthAndEntryPage";
 import { DefaultHeader } from "../components/Header/DefaultHeader";
-
 export function Layout() {
     return (
         <>
