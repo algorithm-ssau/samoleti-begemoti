@@ -1,47 +1,48 @@
 import HotelModel from "../models/Hotel";
 import { Request, Response } from "express";
-import { GenericController } from "./GenericController";
-import { Hotel } from "../types/db_types";
+import { Hotel } from "samolet-common";
+import { NewGenericController } from "./NewGenericController";
+import { HotelMongoWorker } from "../mongoworkers/HotelMongoWorker";
+import { HotelRequestParser } from "../request-parsers/HotelRequestParser";
+import { RequestHandler } from "express-serve-static-core";
+import { warn } from "../log";
 
-export class HotelController extends GenericController<
+export class HotelController extends NewGenericController<
     Hotel,
-    typeof HotelModel
+    HotelRequestParser,
+    HotelMongoWorker
 > {
     constructor() {
-        super(HotelModel);
+        super(new HotelRequestParser(), new HotelMongoWorker());
         this.getByPlace = this.getByPlace.bind(this);
     }
 
-    deleteOneErrorMessages(): [string, string, string] {
-        return [
-            "Отель не найден",
-            "Не удалось вернуть отель",
-            "Не удалось получить отель",
-        ];
-    }
+    createFull: RequestHandler = async (req, res) => {
+        const hotel = this.parser.parseCreateRequest(req);
 
-    updateOneErrorMessages(): [string, string, string] {
-        return [
-            "Отель не найден",
-            "Не удалось вернуть отель",
-            "Не удалось получить отель",
-        ];
-    }
-    createErrorMessages(): [string] {
-        return ["Не удалось создать отель"];
-    }
+        const hotelObj: Hotel = {
+            ...hotel,
+            reviews: [],
+            photos: [],
+        } as any as Hotel;
+        const result = await this.mongo.createFull(hotelObj);
 
-    getAllErrorMessages(): [string] {
-        return ["Не удалось получить адреса"];
-    }
+        if (result === "address-failure") {
+            warn("failed to create address");
+            res.status(500).send();
+            return;
+        }
+        if (result === "room-failure") {
+            warn("failed to create rooms");
+            res.status(500).send();
+        }
+        if (!result) {
+            warn(`failed to create hotel`);
+            res.status(500).send();
+        }
+        res.status(200).send(result);
+    };
 
-    getOneErrorMessages(): [string, string, string] {
-        return [
-            "Отель не найден",
-            "Не удалось вернуть отель",
-            "Не удалось получить отель",
-        ];
-    }
     async getByPlace(req: Request, res: Response) {
         try {
             const placeName = req.query.place;
@@ -111,17 +112,4 @@ export class HotelController extends GenericController<
             });
         }
     }
-    
-    // async addReviewToHotel(req: Request, res: Response) {
-    //     try {
-    //         const _id = req.params.id;
-    //         const hotel = HotelModel.findOne({"_id": _id});
-    //         const user_id = req.userId;
-    //     } catch (error) {
-    //         console.log(error);
-    //         res.status(500).json({
-    //             message: 'Нет доступа'
-    //         });
-    //     }
-    // }
 }

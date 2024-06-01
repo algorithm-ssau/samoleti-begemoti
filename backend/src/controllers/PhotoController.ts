@@ -1,5 +1,5 @@
 import PhotoModel from "../models/Photo";
-import { Photo } from "../types/db_types";
+import { Photo } from "samolet-common";
 import { GenericController } from "./GenericController";
 
 export class PhotoController extends GenericController<

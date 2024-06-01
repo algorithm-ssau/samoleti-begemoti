@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { baseText, lightPrimary, primaryText } from "../../BaseStyle";
 
 export const Container = styled.div`
-    width: 40%;
+    width: 300px;
     margin: 5% auto;
     font-size: 1.25rem;
 `;
@@ -30,7 +30,7 @@ export const Button = styled.button`
     ${primaryText}
     font-size: 1.25rem;
     border: none;
-    margin: 2% auto;
+    margin: 10% auto;
     padding: auto 2%;
     background-color: white;
     border-radius: 20px;

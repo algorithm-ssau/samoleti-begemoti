@@ -10,7 +10,7 @@ import {
     PName,
 } from "./style";
 import { IconButton } from "@mui/material";
-
+import ExploreIcon from "@mui/icons-material/Explore";
 export interface HeaderProps {
     login: boolean;
     onTicketClicked: () => void;
@@ -22,7 +22,8 @@ export function Header(props: HeaderProps) {
     return (
         <Container>
             <ContainerIco>
-                <Ico src="hippopotamus.ico" alt="hippopotamus" />
+                <ExploreIcon />
+                {/* <Ico src="hippopotamus.ico" alt="hippopotamus" /> */}
                 <PName>samoleti-begemoti</PName>
             </ContainerIco>
             <ContainerCenter>

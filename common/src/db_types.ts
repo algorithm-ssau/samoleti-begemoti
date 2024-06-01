@@ -1,8 +1,14 @@
 import { Review, User } from "./user_type";
 
+export type * from "./user_type";
+
 import { AuthSuccess } from "./network/auth";
 import { Network } from "./network";
 export { type AuthSuccess, Network };
+
+export * from "./network";
+export * from "./booking";
+export * from "./hotel";
 
 export interface ModelAddition {
     _id: string;
@@ -26,20 +32,6 @@ export interface Address {
     place: string;
 }
 
-enum BookingStatus {
-    Paid = 0,
-    NotPaid = 1,
-    Finished = 2,
-    InProcess = 3,
-}
-
-export interface HotelBooking {
-    room: Room;
-    dateStart: Date;
-    dateEnd: Date;
-    status: BookingStatus;
-}
-
 export interface HotelTransaction {
     type: "hotel";
     room: Room;
@@ -52,11 +44,7 @@ export interface AirplaneTransaction {
 
 export type SomeTransaction = HotelTransaction | AirplaneTransaction;
 
-export enum RoomCategory {
-    Luxary = 0,
-    Normal = 1,
-    Shit = 2,
-}
+export type RoomCategory = "luxary" | "normal" | "bad";
 
 export interface HotelFacilities {
     name: string;
@@ -71,7 +59,5 @@ export interface Room {
 }
 
 export interface Photo {
-    url: string;
+    imageUrl: String;
 }
-
-export const x = 124;

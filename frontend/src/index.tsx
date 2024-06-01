@@ -1,14 +1,19 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+
+import {
+    RouterProvider,
+    createBrowserRouter,
+    createRoutesFromElements,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import axios, { type CreateAxiosDefaults } from "axios";
 
-import { store } from "./store/store";
+import { actions, store } from "./store/store";
 
 import { Network } from "samolet-common";
 
 import "./index.css";
-import { App } from "./App";
+import { MainRouter } from "./routers/MainRouter";
 
 const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
 
@@ -16,12 +21,20 @@ export const network = new Network(config =>
     axios.create({ ...axiosConfig, ...config }),
 );
 
+const router = createBrowserRouter(createRoutesFromElements(MainRouter()));
+
+function App() {
+    return (
+        <Provider store={store}>
+            <RouterProvider router={router} />
+        </Provider>
+    );
+}
+let token = localStorage.getItem("token");
+if (token) {
+    network.setToken(token);
+    store.dispatch(actions.setLogin(true));
+}
 let container = document.getElementById("root");
 let root = createRoot(container!);
-root.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </Provider>,
-);
+root.render(<App />);

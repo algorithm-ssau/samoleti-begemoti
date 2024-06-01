@@ -1,12 +1,13 @@
 import { Schema, model } from "mongoose";
-import { HotelBooking } from "../types/db_types";
+import { Booking } from "samolet-common";
 
-const HotelBookingSchema = new Schema<HotelBooking>(
+const HotelBookingSchema = new Schema<Booking>(
     {
-        room: { type: Schema.Types.ObjectId, ref: "Room" },
-        dateStart: {type: Date},
-        dateEnd: {type: Date},
-        status: {type: Number, default: 1}
+        hotelId: { type: String },
+        roomId: { type: String },
+        dateFrom: { type: Date },
+        dateTo: { type: Date },
+        status: { type: String },
     },
     {
         timestamps: true,

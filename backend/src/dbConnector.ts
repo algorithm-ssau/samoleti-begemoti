@@ -3,14 +3,14 @@ import mongoose, { Mongoose } from "mongoose";
 class MongoConnector {
     constructor() {}
     static connect(dbUrl: String, dbName: String) {
-        mongoose
+        return mongoose
             .connect(`${dbUrl}${dbName}`)
-            .then((dbConnection) => {
+            .then(dbConnection => {
                 console.log("Соединение с БД установлено");
                 return dbConnection;
             })
-            .catch((err) => {
-                console.log("Ошибка подключения к БД", err);
+            .catch(err => {
+                console.log("Ошибка подключения к БД {}", err);
                 return null;
             });
     }
@@ -24,7 +24,7 @@ class MongoConnector {
                 .then(() => {
                     console.log("Соединение с БД разорвано");
                 })
-                .catch((err) => {
+                .catch(err => {
                     console.log("Ошибка разрыва соединения с БД", err);
                 });
         }

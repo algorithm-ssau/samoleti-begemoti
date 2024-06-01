@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { User } from "../types/user_type";
+import { User } from "samolet-common";
 
 const UserSchema = new Schema<User>(
     {
@@ -12,7 +12,10 @@ const UserSchema = new Schema<User>(
             type: String,
             required: true,
         },
-        info: { type: Schema.Types.ObjectId, ref: "PersonalInfo" },
+        info: {
+            type: Schema.Types.ObjectId,
+            ref: "PersonalInfo",
+        },
         reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
         account: { type: Schema.Types.ObjectId, ref: "BankAccount" },
         hotelHistory: [{ type: Schema.Types.ObjectId, ref: "HotelBooking" }],

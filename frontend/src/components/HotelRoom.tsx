@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { lightPrimary, primaryText, baseText } from "./BaseStyle";
+import { Restaurant, Wifi } from "@mui/icons-material";
+import LocalHotelIcon from '@mui/icons-material/LocalHotel';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import BathroomIcon from '@mui/icons-material/Bathroom';
 
 const Container = styled.div`
     display: flex;
@@ -121,23 +125,23 @@ function HotelRoom() {
                         <H2Name>{roomPrice} ₽</H2Name>
                     </RowContainer>
                     <RowContainer>
-                        <Icon src="" />
+                    <PeopleAltIcon sx={{ fontSize: 30 }} />
                         <H2Name2>Вмещает мало людей</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                        <Icon src="" />
+                    <LocalHotelIcon sx={{ fontSize: 30 }} />
                         <H2Name2>Тип и количество кроватей</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                        <Icon src="" />
+                    <Restaurant sx={{ fontSize: 30 }} />
                         <H2Name2>Питание включено</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                        <Icon src="" />
+                    <Wifi sx={{ fontSize: 30 }} />
                         <H2Name2>Бесплатный Wi-Fi</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                        <Icon src="" />
+                    <BathroomIcon sx={{ fontSize: 30 }} />
                         <H2Name2>Санузел</H2Name2>
                     </RowContainer>
                     <RowContainer>
