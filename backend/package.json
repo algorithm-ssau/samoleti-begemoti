@@ -6,7 +6,8 @@
     "scripts": {
         "clean": "rimraf dist",
         "build": "tsc --build tsconfig.build.json",
-        "build-production": "node prod.build.mjs",
+        "typia-generate": "npx typia generate --input src/ --output build/ --project tsconfig.json",
+        "build-production": "npm run typia-generate && node prod.build.mjs",
         "watch:build": "tsc --build --watch",
         "watch:server": "nodemon './dist/src/index.js' --watch './dist/src'",
         "start": "npm-run-all build --parallel watch:build watch:server --print-label",

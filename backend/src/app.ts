@@ -7,7 +7,6 @@ import {
     addressRouter,
     hotelRouter,
     hotelFacilityRouter,
-    roomCategoryRouter,
     roomRouter,
     photoRouter,
     authRouter,
@@ -26,7 +25,6 @@ app.use((req, res, next) => {
     .use("/", addressRouter)
     .use("/", hotelRouter)
     .use("/", hotelFacilityRouter)
-    .use("/", roomCategoryRouter)
     .use("/", roomRouter)
     .use("/", photoRouter)
     .use("/", userRouter)
