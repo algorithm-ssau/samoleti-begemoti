@@ -49,14 +49,15 @@ export interface BookingProps {
 export function Booking() {
     const dispatch = useAppDispatch();
     const reservations = useAppSelector(state => state.requests.bookings);
-    let activeBooking: Booking[] = [];
+
     const book = useAppSelector(state => state.requests.book);
+    const activeBooking: Booking[] = reservations.value ?? [];
     // useEffect(() => {
     //     dispatch(
     //         bookThunk({
     //             dateFrom: Number(new Date()),
     //             dateTo: Number(new Date()),
-    //             hotelId: "1'",
+    //             hotelId: "1",
     //             roomId: "1",
     //             sum: 1000,
     //             comment: "ляляял",
@@ -70,10 +71,12 @@ export function Booking() {
     console.log("брони");
     console.log(reservations.status);
     console.log(reservations.value);
+    console.log("active");
+    console.log(activeBooking);
     useEffect(() => {
         dispatch(bookingsThunk());
         if (reservations.value) {
-            activeBooking = reservations.value;
+            // activeBooking = reservations.value;
             // console.log("брони");
             // console.log(reservations.status);
             // console.log(reservations.value);
@@ -86,6 +89,7 @@ export function Booking() {
                 booking =>
                     booking.status === "finished" || booking.status === "paid",
             );
+            console.log("active");
             console.log(activeBooking);
         }
     }, []);

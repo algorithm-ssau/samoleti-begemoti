@@ -1,7 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { network } from "..";
 import { users } from "../example_data/ProfileData";
-import type { BookingRequest } from "samolet-common";
+import type {
+    Address,
+    BookingRequest,
+    Hotel,
+    HotelFacilities,
+    Photo,
+    Review,
+    Room,
+    RoomCategory,
+} from "samolet-common";
 
 export const usersThunk = createAsyncThunk("users", async () => {
     return await network.user.getAll().then(x => x.data);
@@ -73,5 +82,48 @@ export const roomByIdThunk = createAsyncThunk(
     "roomById",
     async (creds: { id: number }) => {
         return await network.room.getById(creds.id).then(x => x.data);
+    },
+);
+
+export const creatHotelThunk = createAsyncThunk(
+    "creatHotel",
+    async (creds: {
+        name: string;
+        description: string;
+        photos: Photo[];
+        address: Address;
+        rooms: Room[];
+        reviews: Review[];
+    }) => {
+        return await network.hotel
+            .create({
+                name: creds.name,
+                description: creds.description,
+                photos: creds.photos,
+                address: creds.address,
+                rooms: creds.rooms,
+                reviews: creds.reviews,
+            } as Hotel)
+            .then(x => x.data);
+    },
+);
+export const creatRoomThunk = createAsyncThunk(
+    "creatRoom",
+    async (creds: {
+        category: RoomCategory;
+        price: number;
+        bedAmount: number;
+        facilities: HotelFacilities[];
+        number: number;
+    }) => {
+        return await network.room
+            .create({
+                category: creds.category,
+                price: creds.price,
+                bedAmount: creds.bedAmount,
+                facilities: creds.facilities,
+                number: creds.number,
+            } as Room)
+            .then(x => x.data);
     },
 );

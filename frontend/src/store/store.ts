@@ -16,14 +16,16 @@ import { network } from "..";
 import {
     bookThunk,
     bookingsThunk,
+    creatHotelThunk,
+    creatRoomThunk,
     getUserPersonalInfoThunk,
     hotelByIdThunk,
     roomByIdThunk,
     updatePasswordThunk,
     updatePersonalInfoThunk,
 } from "./requestThunks";
-import type { THotel } from "samolet-common/src/network/hotel";
-import type { TRoom } from "samolet-common/src/network/room";
+import type { THotel, THotelWithoutId } from "samolet-common/src/network/hotel";
+import type { TRoom, TRoomWithoutId } from "samolet-common/src/network/room";
 
 export type State = {
     value: number;
@@ -39,6 +41,8 @@ export type State = {
         bookings: RequestState<Booking[], any>;
         hotelById: RequestState<THotel, any>;
         roomById: RequestState<TRoom, any>;
+        creatHotel: RequestState<THotelWithoutId, any>;
+        creatRoom: RequestState<TRoomWithoutId, any>;
     };
     isLogin: boolean;
     id: string;
@@ -81,6 +85,8 @@ const initialState: State = {
         bookings: empty(),
         hotelById: empty(),
         roomById: empty(),
+        creatHotel: empty(),
+        creatRoom: empty(),
     },
     isLogin: false,
     id: "",
@@ -113,6 +119,8 @@ const slice = createSlice({
         trackRequest(builder, "bookings", bookingsThunk);
         trackRequest(builder, "hotelById", hotelByIdThunk);
         trackRequest(builder, "roomById", roomByIdThunk);
+        trackRequest(builder, "creatHotel", creatHotelThunk);
+        trackRequest(builder, "creatRoom", creatRoomThunk);
     },
 });
 

@@ -9,6 +9,11 @@ import {
     InputButton,
     CustomSelect,
 } from "./style";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { creatHotelThunk, creatRoomThunk } from "../../store/requestThunks";
+import { RoomCategoryNetwork } from "samolet-common/src/network/roomCategory";
+import { RoomCategory, type Room } from "samolet-common";
+import { useState } from "react";
 
 interface HotelInputs {
     name: string;
@@ -36,6 +41,8 @@ interface ReviewInputs {
 }
 
 export function AddHotel() {
+    const dispatch = useAppDispatch();
+    const addoteHl = useAppSelector(state => state.requests.creatHotel);
     const roomTypes = ["Luxary", "Normal", "Hell"];
     const roomSelect = roomTypes.map(item => (
         <option key={item}>{item}</option>
@@ -50,7 +57,22 @@ export function AddHotel() {
         useForm<RoomInputs>();
     const { register: registerReview, handleSubmit: handleReviewSubmit } =
         useForm<ReviewInputs>();
+    const [room, setRoom] = useState({} as Room);
     const onHotelSubmit = (data: HotelInputs) => {
+        dispatch(
+            creatHotelThunk({
+                name: data.name,
+                description: data.description,
+                photos: [], ////должны быть фото
+                address: {
+                    country: data.country,
+                    city: data.city,
+                    place: data.place,
+                },
+                rooms: [room],
+                reviews: [],
+            }),
+        );
         alert(
             data.name +
                 " " +
@@ -79,6 +101,22 @@ export function AddHotel() {
         );
     };
     const onRoomSubmit = (data: RoomInputs) => {
+        dispatch(
+            creatRoomThunk({
+                category: RoomCategory.Normal, //data.roomCategory,//типы разные
+                price: data.price,
+                bedAmount: data.bedAmount,
+                facilities: [{ name: data.facilities }],
+                number: data.price, //номер в форму добавить
+            }),
+        );
+        setRoom({
+            category: RoomCategory.Normal, //data.roomCategory,//типы разные
+            price: data.price,
+            bedAmount: data.bedAmount,
+            facilities: [{ name: data.facilities }],
+            number: data.price,
+        });
         alert(
             data.roomCategory +
                 " " +
