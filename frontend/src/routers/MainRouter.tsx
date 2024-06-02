@@ -23,7 +23,10 @@ export function MainRouter() {
                 <Route path="/" element={<MainPage />} />
                 <Route path="/auth/*" element={<AuthAndEntryPage />} />
                 <Route path="hotel" element={<SearchHotelPage />} />
-                <Route path="hotel/hotelpage" element={<HotelPage id={0} />} />
+                <Route
+                    path="hotel/hotelpage"
+                    element={<HotelPage id={"0"} />}
+                />
                 <Route path="test" element={<TestPage />} />
                 <Route
                     path="profile/*"
