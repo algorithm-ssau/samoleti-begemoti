@@ -344,7 +344,7 @@ function SearchHotel() {
             price: 5500,
         },
     ];
-    const cityNames = hotelInfo.map(one => one.city);
+    const cityNames = [...new Set( hotelInfo.map(one => one.city))];
     const cities = cityNames.map(item => <option key={item}>{item}</option>);
     const [hotelList, setHotelList] = useState(
         hotelInfo.map(one => (
