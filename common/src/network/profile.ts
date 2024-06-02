@@ -37,5 +37,68 @@ export class ProfileRequests extends GenericNetwork {
         return this.axios.get<Partial<PersonalInfo>>("/profile/info");
     };
 
-    
+    /**
+     * 
+     * Предварительно нужен токен
+     * 
+     * Possible errors:
+     * 
+     * status 400 - Missing amount
+     * 
+     * status 401 - Missing Authorization Header 
+     * 
+     * status 404 - BankAccount not found | User not found 
+     * 
+     * status 422 - Signature verification failed(Это про токен)
+     * 
+     * status 500 - internal server error
+     * 
+     */
+    addMoney(amount: number){
+        return this.axios.post(
+            `/profile/money`, {"amount": amount}
+        );
+    }
+
+    /**
+     * 
+     * Предварительно нужен токен
+     * 
+     * Possible errors:
+     * 
+     * status 401 - Missing Authorization Header 
+     * 
+     * status 404 - User not found 
+     * 
+     * status 422 - Signature verification failed(Это про токен)
+     * 
+     * status 500 - internal server error
+     * 
+     */
+    getTransactions(){
+        return this.axios.get("/profile/transactions");
+    }
+
+
+    /**
+     * 
+     * Предварительно нужен токен
+     * 
+     * Possible errors:
+     * 
+     * status 401 - Missing Authorization Header 
+     * 
+     * status 404 - Hotel not found | User not found 
+     * 
+     * status 422 - Signature verification failed(Это про токен)
+     * 
+     * status 500 - internal server error
+     * 
+     */
+    getBookings(){
+        return this.axios.post(
+            `/profile/bookings`
+        );
+    }
+
 }

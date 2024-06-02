@@ -14,14 +14,46 @@ export class HotelBookingNetwork extends GenericNetwork {
 
     /**
      * 
-     * status 404 - 
+     * Предварительно нужен токен
+     * 
+     * Possible errors:
+     * 
+     * status 401 - Missing Authorization Header 
+     * 
+     * status 404 - HotelBooking not found | User not found
+     * 
+     * status 422 - Signature verification failed(Это про токен)
      * 
      * status 500 - internal server error
      * 
      */
-    setCancelStatus(id: string) {
+    cancelReservation(id: string) {
         return this.axios.post(
             `/hotelbooking/${id}/status/cancel`
+        );
+    }
+
+
+    /**
+     * 
+     * Предварительно нужен токен
+     * 
+     * Possible errors:
+     * 
+     * status 400 - Insufficient funds
+     * 
+     * status 401 - Missing Authorization Header 
+     * 
+     * status 404 - HotelBooking not found | Room not found | BankAccount not found | User not found
+     * 
+     * status 422 - Signature verification failed(Это про токен)
+     * 
+     * status 500 - internal server error
+     * 
+     */
+    payment(id: string){
+        return this.axios.post(
+            `/hotelbooking/${id}/pay`
         );
     }
 
