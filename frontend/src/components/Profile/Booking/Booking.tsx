@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-    bookThunk,
-    bookingsThunk,
-    hotelByIdThunk,
-    roomByIdThunk,
-} from "../../../store/requestThunks";
+
 import {
     hotelThunks,
     roomThunks,
