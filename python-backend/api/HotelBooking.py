@@ -1,14 +1,19 @@
 from flask import Blueprint, jsonify
 import pymongo
 from config import DevelopmentConfig
+import os
+from dotenv import load_dotenv
 from bson.objectid import ObjectId
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 hotel_booking_blueprint = Blueprint('hotel_booking_blueprint', __name__,
                         template_folder='templates')
 
-client = pymongo.MongoClient(DevelopmentConfig.MONGO_DB_URL)
-db = client[DevelopmentConfig.MONGO_DOCUMENT]
+load_dotenv()
+print(os.getenv('MONGO_DB_URL'))
+
+client = pymongo.MongoClient(os.getenv('MONGO_DB_URL'))
+db = client[os.getenv('MONGO_DOCUMENT')]
 
 
 @hotel_booking_blueprint.route('/hotelbooking/<booking_id>/cancel', methods=['POST'])

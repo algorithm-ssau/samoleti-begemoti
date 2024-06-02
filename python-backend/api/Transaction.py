@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 import pymongo
 from config import DevelopmentConfig
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 from bson.objectid import ObjectId
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -8,8 +10,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 transaction_blueprint = Blueprint('transaction_blueprint', __name__,
                         template_folder='templates')
 
-client = pymongo.MongoClient(DevelopmentConfig.MONGO_DB_URL)
-db = client[DevelopmentConfig.MONGO_DOCUMENT]
+load_dotenv()
+
+client = pymongo.MongoClient(os.getenv('MONGO_DB_URL'))
+db = client[os.getenv('MONGO_DOCUMENT')]
 
 @transaction_blueprint.route('/profile/money', methods=['POST'])
 @jwt_required()  # Требуется JWT
