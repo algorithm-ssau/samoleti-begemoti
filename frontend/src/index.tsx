@@ -6,20 +6,12 @@ import {
     createRoutesFromElements,
 } from "react-router-dom";
 import { Provider } from "react-redux";
-import axios, { type CreateAxiosDefaults } from "axios";
 
 import { actions, store } from "./store/store";
 
-import { Network } from "samolet-common";
-
 import "./index.css";
 import { MainRouter } from "./routers/MainRouter";
-
-const axiosConfig: CreateAxiosDefaults = { baseURL: "/api" };
-
-export const network = new Network(config =>
-    axios.create({ ...axiosConfig, ...config }),
-);
+import { network } from "./network";
 
 const router = createBrowserRouter(createRoutesFromElements(MainRouter()));
 

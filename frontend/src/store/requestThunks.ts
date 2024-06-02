@@ -1,37 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { network } from "..";
-import type {
-    BookingRequest,
-    HotelFacilities,
-    NewHotelRequest,
-    Room,
-    RoomCategory,
-} from "samolet-common";
+
+import type { BookingRequest, NewHotelRequest, Room } from "samolet-common";
+import { fromDescription, type NetworkDescription } from "./utils/wrapNetwork";
+import { getNetwork } from "../network";
 
 export const usersThunk = createAsyncThunk("users", async () => {
     return await network.user.getAll().then(x => x.data);
 });
 
-export const getUserPersonalInfoThunk = createAsyncThunk(
-    "getUserPersonalInfo",
-    async () => {
-        return await network.profile.info().then(x => x.data);
-        //return users.find(x => x._id === creds.id)!;
-    },
-);
-export const updatePersonalInfoThunk = createAsyncThunk(
-    "updatePersonalInfo",
-    async (creds: { name: string; surname: string; cardNumber: number }) => {
-        return await network.profile
-            .update({
-                name: creds.name,
-                surname: creds.surname,
-                cardNumber: creds.cardNumber,
-                patronim: "",
-            })
-            .then(x => x.data);
-    },
-);
 export const updatePasswordThunk = createAsyncThunk(
     "updatePassword",
     async (creds: { oldPassword: string; newPassword: string }) => {
@@ -81,21 +57,24 @@ export const roomByIdThunk = createAsyncThunk(
     },
 );
 
-export const creatHotelThunk = createAsyncThunk(
+export const createHotelThunk = createAsyncThunk(
     "createHotel",
     async (hotel: NewHotelRequest) => {
         return await network.hotel.createFull(hotel).then(x => x.data);
     },
 );
-export const creatRoomThunk = createAsyncThunk(
+export const createRoomThunk = createAsyncThunk(
     "createRoom",
-    async (room: {
-        category: RoomCategory;
-        price: number;
-        bedAmount: number;
-        facilities: HotelFacilities[];
-        number: number;
-    }) => {
-        return await network.room.create(room as Room).then(x => x.data);
+    async (room: Room) => {
+        return await network.room.create(room).then(x => x.data);
     },
 );
+
+const network = getNetwork();
+const description = {
+    createRoom: network.room.create,
+    createHotel: network.hotel.create,
+    roomById: network.room.getById,
+} satisfies NetworkDescription;
+
+export const roomThunks = fromDescription(description);
