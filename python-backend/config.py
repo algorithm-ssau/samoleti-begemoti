@@ -14,7 +14,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     MAX_CONTENT_LENGTH = 16 * 1000 * 1000
     # JWT config
-    JWT_SECRET_KEY = 'ldjhkmvsdlkskeddssd'
+    SECRET_KEY = 'ldjhkmvsdlkskeddssd'
     JWT_IDENTITY_CLAIM = 'user_id'
     # Mongo config
     MONGO_DB_URL = "mongodb://localhost:27017/"

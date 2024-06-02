@@ -11,6 +11,20 @@ export type THotelBooking = ModelAddition & Booking;
 export type THotelBookingWithoutId = Omit<THotelBooking, "_id">;
 
 export class HotelBookingNetwork extends GenericNetwork {
+
+    /**
+     * 
+     * status 404 - 
+     * 
+     * status 500 - internal server error
+     * 
+     */
+    setCancelStatus(id: string) {
+        return this.axios.post(
+            `/hotelbooking/${id}/status/cancel`
+        );
+    }
+
     /**
      * Possible errors:
      *
@@ -29,7 +43,7 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    getById(id: number) {
+    getById(id: string) {
         return this.axios.get<THotelBooking>(`/hotelBookings/${id}`);
     }
 
@@ -54,7 +68,7 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    deleteById(id: number) {
+    deleteById(id: string) {
         return this.axios.delete<THotelBooking>(`/hotelBookings/${id}`);
     }
 
@@ -66,10 +80,12 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      *
      */
-    updateById(id: number, newHotelBooking: Booking) {
+    updateById(id: string, newHotelBooking: Booking) {
         return this.axios.patch<THotelBooking>(
             `/hotelBookings/${id}`,
             newHotelBooking
         );
     }
+
+
 }

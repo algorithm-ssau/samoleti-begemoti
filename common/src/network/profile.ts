@@ -36,4 +36,6 @@ export class ProfileRequests extends GenericNetwork {
     info = () => {
         return this.axios.get<Partial<PersonalInfo>>("/profile/info");
     };
+
+    
 }
