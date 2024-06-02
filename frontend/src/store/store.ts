@@ -5,55 +5,29 @@ import {
     type PayloadAction,
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { empty, trackRequest, type RequestState } from "./tracker";
-import {
-    type Address,
-    type AuthSuccess,
-    type Hotel,
-    type Photo,
-    type Review,
-    type Room,
-    type Booking,
-    type PersonalInfo,
-    type User,
-} from "samolet-common";
-import { network } from "..";
+import { autoTrack, empty, trackRequest } from "./utils/tracker";
+import { type Address } from "samolet-common";
+
 import {
     bookThunk,
     bookingsThunk,
-    creatHotelThunk,
-    creatRoomThunk,
-    getUserPersonalInfoThunk,
+    createHotelThunk,
+    createRoomThunk,
     hotelByIdThunk,
     roomByIdThunk,
+    roomThunks,
     updatePasswordThunk,
-    updatePersonalInfoThunk,
 } from "./requestThunks";
-import type { TAddress } from "samolet-common/src/network/address";
-import type { THotel, THotelWithoutId } from "samolet-common/src/network/hotel";
-import type { TRoomWithoutId, TRoom } from "samolet-common/src/network/room";
-
+import {
+    profileThunks,
+    requestsInitialValues,
+    type Requests,
+} from "./requests";
+import { network } from "../network";
+export * from "./requests";
 export type State = {
     value: number;
-
-    requests: {
-        register: RequestState<AuthSuccess, any>;
-        login: RequestState<AuthSuccess, any>;
-        getallhotels: RequestState<Array<THotel>, any>;
-        createhotel: RequestState<THotelWithoutId, any>;
-        createaddress: RequestState<TAddress, any>;
-        createroom: RequestState<TRoomWithoutId, any>;
-        getToken: RequestState<AuthSuccess, any>;
-        getUserPersonalInfo: RequestState<PersonalInfo, any>;
-        updatePersonalInfo: RequestState<void, any>;
-        updatePassword: RequestState<void, any>;
-        book: RequestState<void, any>;
-        bookings: RequestState<Booking[], any>;
-        hotelById: RequestState<THotel, any>;
-        roomById: RequestState<TRoom, any>;
-        creatHotel: RequestState<THotelWithoutId, any>;
-        creatRoom: RequestState<TRoomWithoutId, any>;
-    };
+    requests: Requests;
     isLogin: boolean;
     id: string;
 };
@@ -87,13 +61,6 @@ export const getAllHotelsThunk = createAsyncThunk("getallhotels", async () => {
     return await network.hotel.getAll().then(x => x.data);
 });
 
-export const createHotelThunk = createAsyncThunk(
-    "createhotel",
-    async (creds: Hotel) => {
-        return await network.hotel.create(creds).then(x => x.data);
-    },
-);
-
 export const createAddressThunk = createAsyncThunk(
     "createaddress",
     async (creds: Address) => {
@@ -101,33 +68,9 @@ export const createAddressThunk = createAsyncThunk(
     },
 );
 
-export const createRoomThunk = createAsyncThunk(
-    "createroom",
-    async (creds: Room) => {
-        return await network.room.create(creds).then(x => x.data);
-    },
-);
-
 const initialState: State = {
     value: 0,
-    requests: {
-        register: empty(),
-        login: empty(),
-        getallhotels: empty(),
-        createhotel: empty(),
-        createaddress: empty(),
-        createroom: empty(),
-        getToken: empty(),
-        getUserPersonalInfo: empty(),
-        updatePersonalInfo: empty(),
-        updatePassword: empty(),
-        book: empty(),
-        bookings: empty(),
-        hotelById: empty(),
-        roomById: empty(),
-        creatHotel: empty(),
-        creatRoom: empty(),
-    },
+    requests: requestsInitialValues,
     isLogin: false,
     id: "",
 };
@@ -149,22 +92,17 @@ const slice = createSlice({
         },
     },
     extraReducers: builder => {
+        autoTrack(builder, roomThunks);
+        autoTrack(builder, profileThunks);
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
         trackRequest(builder, "getallhotels", getAllHotelsThunk);
-        trackRequest(builder, "createhotel", createHotelThunk);
         trackRequest(builder, "createaddress", createAddressThunk);
-        trackRequest(builder, "createroom", createRoomThunk);
         //trackRequest(builder, "getToken", getTokenThunk);
-        trackRequest(builder, "getUserPersonalInfo", getUserPersonalInfoThunk);
-        trackRequest(builder, "updatePersonalInfo", updatePersonalInfoThunk);
         trackRequest(builder, "updatePassword", updatePasswordThunk);
         trackRequest(builder, "book", bookThunk);
         trackRequest(builder, "bookings", bookingsThunk);
         trackRequest(builder, "hotelById", hotelByIdThunk);
-        trackRequest(builder, "roomById", roomByIdThunk);
-        trackRequest(builder, "creatHotel", creatHotelThunk);
-        trackRequest(builder, "creatRoom", creatRoomThunk);
     },
 });
 
