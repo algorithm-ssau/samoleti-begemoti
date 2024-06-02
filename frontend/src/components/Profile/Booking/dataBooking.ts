@@ -11,13 +11,13 @@ export enum RoomType {
     Standart = "Стандарт",
     Lux = "Люкс",
 }
-export function getActiveBooking(): BookingProps[] {
-    return booking.filter(
-        aBooking =>
-            aBooking.status === Status.NotPaidFor ||
-            aBooking.status === Status.PaidFor,
-    );
-}
+// export function getActiveBooking(): BookingProps[] {
+//     return booking.filter(
+//         aBooking =>
+//             aBooking.status === Status.NotPaidFor ||
+//             aBooking.status === Status.PaidFor,
+//     );
+// }
 export function getComplitedBooking(): BookingProps[] {
     return booking.filter(
         aBooking =>

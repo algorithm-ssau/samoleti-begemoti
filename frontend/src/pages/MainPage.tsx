@@ -38,7 +38,6 @@ export function MainPage(props: Props) {
             <AddReview />
             <RegistrationSuccess />
             <EnterProfile />
-
             <HotelPage id={0} />
             <HotelList city={City.Moscow} />
             <PlacePicker

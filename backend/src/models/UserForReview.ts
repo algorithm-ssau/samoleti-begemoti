@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { UserForReview } from "../types/user_type";
+import { UserForReview } from "samolet-common";
 
 const ReviewSchema = new Schema<UserForReview>(
     {

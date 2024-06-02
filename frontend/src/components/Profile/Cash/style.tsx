@@ -14,6 +14,11 @@ export const Base = `
     padding: 2% 4%; 
 `;
 export const Container = styled.div``;
+export const DialogContainer = styled.div`
+    width: 300px;
+    height: 75px;
+    margin: 0;
+`;
 export const ContainerRow = styled.div`
     display: flex;
     width: 70%;
@@ -54,6 +59,18 @@ export const Replenish = styled.button`
     border-radius: 30em;
     background-color: ${lightPrimary};
 `;
+export const DialogReplenish = styled(Replenish)`
+    margin: 3% auto;
+    width: 200px;
+`;
+export const Close = styled.button`
+    margin-right: 0;
+    margin-left: 260px;
+    border: 0;
+    border-radius: 20em;
+    background-color: White;
+`;
+
 export const Money = styled.div`
     ${Base}
 `;

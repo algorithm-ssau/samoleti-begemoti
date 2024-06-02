@@ -1,9 +1,9 @@
 import { Schema, model } from "mongoose";
-import { Room } from "../types/db_types";
+import { Room } from "samolet-common";
 
 const RoomSchema = new Schema<Room>(
     {
-        category: [{ type: Schema.Types.ObjectId, ref: "RoomCategory" }],
+        category: { type: String },
         price: { type: Number },
         bedAmount: { type: Number },
         facilities: [{ type: Schema.Types.ObjectId, ref: "HotelFacilities" }],

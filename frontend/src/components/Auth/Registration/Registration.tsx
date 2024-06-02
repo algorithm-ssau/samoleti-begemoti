@@ -1,19 +1,28 @@
 // import type { login } from "samolet-common";
+import { Dialog } from "@mui/material";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import {
     useAppDispatch,
     useAppSelector,
     registerThunk,
 } from "../../../store/store";
-import RegSuccess from "../../RegistrationSuccess";
+import RegSuccess, {
+    ContainerDownHalf,
+    ContainerUpHalf,
+    H2Name,
+    H3Name,
+    SeparatorLine,
+} from "../../RegistrationSuccess";
 import { Block, Button, Container, Input, PasswordCheck, Row } from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NewClose } from "../../Profile/Settings/style";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function Registration() {
-    let dispatch = useAppDispatch();
-    let registerRequest = useAppSelector(state => state.requests.register);
+    const dispatch = useAppDispatch();
+    const registerRequest = useAppSelector(state => state.requests.register);
     const [passwordInputType, invert, showPassword] = useShowPassword();
-    let status = registerRequest.status;
+    const status = registerRequest.status;
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +31,15 @@ export function Registration() {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    useEffect(() => {
+        if (status == "error" || status == "fulfilled") {
+            setOpen(true);
+        }
+    }, [status]);
     return (
         <>
             <Container>
@@ -69,9 +87,18 @@ export function Registration() {
                     </Button>
                 </Block>
             </Container>
-            {(status == "error" || status == "fulfilled") && (
+            <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                style={{ padding: 0 }}
+                open={open}
+                onClose={handleClose}
+            >
+                <NewClose onClick={handleClose}>
+                    <CloseIcon />
+                </NewClose>
                 <Message status={status} />
-            )}
+            </Dialog>
         </>
     );
 }
@@ -90,10 +117,19 @@ export function Message(props: MessageProps) {
             "Заполните данные в профиле, чтобы бронировать и совершать покупки!";
     }
     return (
-        <RegSuccess
-            mainMessage={mainMessage}
-            secondaryMessage={secondaryMessage}
-        />
+        // <RegSuccess
+        //     mainMessage={mainMessage}
+        //     secondaryMessage={secondaryMessage}
+        // />
+        <>
+            <ContainerUpHalf>
+                <H2Name>{mainMessage}</H2Name>
+            </ContainerUpHalf>
+            <SeparatorLine />
+            <ContainerDownHalf>
+                <H3Name>{secondaryMessage}</H3Name>
+            </ContainerDownHalf>
+        </>
     );
 }
 export interface FormRowProps {

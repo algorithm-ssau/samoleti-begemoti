@@ -1,5 +1,7 @@
 // tsconfig.build.json
 {
+    "references": [{ "path": "../common" }],
     "extends": "./tsconfig",
+    "include": ["src/**/*"],
     "exclude": ["**/*.test.*", "**/__mocks__/*", "**/__tests__/*"]
-  }
+}

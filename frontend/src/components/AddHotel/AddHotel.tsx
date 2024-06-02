@@ -1,4 +1,9 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { type Room, type RoomCategory } from "samolet-common";
+import { useAppDispatch } from "../../store/store";
+import { creatHotelThunk } from "../../store/requestThunks";
 import {
     Container,
     LeftContainer,
@@ -36,33 +41,37 @@ interface ReviewInputs {
 }
 
 export function AddHotel() {
-    const roomTypes = ["Luxary", "Normal", "Hell"];
+    const dispatch = useAppDispatch();
+    const [room, setRoom] = useState({} as Partial<Room>);
+    const {
+        register,
+        handleSubmit,
+        getValues: formValues,
+    } = useForm<HotelInputs>();
+    const roomTypes: RoomCategory[] = ["luxary", "normal", "bad"];
     const roomSelect = roomTypes.map(item => (
         <option key={item}>{item}</option>
     ));
-    const rateList = [
-        0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9,
-        9.5, 10,
-    ];
-    const rating = rateList.map(item => <option key={item}>{item}</option>);
-    const { register, handleSubmit } = useForm<HotelInputs>();
+
     const { register: registerRoom, handleSubmit: handleRoomSubmit } =
         useForm<RoomInputs>();
-    const { register: registerReview, handleSubmit: handleReviewSubmit } =
-        useForm<ReviewInputs>();
+    const {
+        register: registerReview,
+        handleSubmit: handleReviewSubmit,
+        control,
+    } = useForm<ReviewInputs>();
     const onHotelSubmit = (data: HotelInputs) => {
-        alert(
-            data.name +
-                " " +
-                data.description +
-                " " +
-                data.country +
-                " " +
-                data.city +
-                " " +
-                data.place +
-                " " +
-                data.photos.length,
+        dispatch(
+            creatHotelThunk({
+                name: data.name,
+                description: data.description,
+                address: {
+                    country: data.country,
+                    city: data.city,
+                    place: data.place,
+                },
+                rooms: [room],
+            }),
         );
     };
     const onReviewSubmit = (data: ReviewInputs) => {
@@ -79,16 +88,19 @@ export function AddHotel() {
         );
     };
     const onRoomSubmit = (data: RoomInputs) => {
-        alert(
-            data.roomCategory +
-                " " +
-                data.price +
-                " " +
-                data.bedAmount +
-                " " +
-                data.amountOfRooms +
-                " " +
-                data.facilities,
+        setRoom({
+            category: "normal",
+            price: +data.price,
+            bedAmount: +data.bedAmount,
+            number: +data.price,
+        });
+        console.log(
+            `
+            ${data.roomCategory}
+            ${data.price}
+            ${data.bedAmount}
+            ${data.amountOfRooms}
+            `,
         );
     };
     return (
@@ -156,12 +168,13 @@ export function AddHotel() {
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Оценка:</H2PrimaryColor>
-                        <CustomSelect {...registerReview("mark")}>
-                            <option value="" selected disabled hidden>
-                                --
-                            </option>
-                            {rating}
-                        </CustomSelect>
+                        <input
+                            {...registerReview("mark")}
+                            min="0"
+                            max="10"
+                            step="0.5"
+                            type="range"
+                        />
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Добавить фото отзыва:</H2PrimaryColor>

@@ -4,6 +4,7 @@
     "description": "",
     "scripts": {
         "build": "webpack",
+        "build-production": "webpack --config prod.webpack.config.js",
         "start": "webpack-dev-server",
         "check": "tsc --noEmit",
         "format": "prettier . --write",
