@@ -44,6 +44,11 @@ module.exports = {
                 target: "http://localhost:3000",
                 pathRewrite: { "^/api": "" },
             },
+            {
+                context: ["/python"],
+                target: "http://localhost:3001",
+                pathRewrite: { "^/python": "" },
+            },
         ],
     },
 };
