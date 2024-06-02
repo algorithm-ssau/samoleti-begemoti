@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+
 import {
-    bookThunk,
-    bookingsThunk,
-    hotelByIdThunk,
-    roomByIdThunk,
-} from "../../../store/requestThunks";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+    hotelThunks,
+    roomThunks,
+    useAppDispatch,
+    useAppSelector,
+    userThunks,
+} from "../../../store/store";
 import { ContainerChapter, Line, Text } from "../Cash/style";
 import {
     RoomType,
@@ -28,7 +29,7 @@ import {
     TextStatus,
     TextStatusParam,
 } from "./style";
-import { RoomCategory, type Booking, type BookingStatus } from "samolet-common";
+import type { RoomCategory, Booking, BookingStatus } from "samolet-common";
 
 export interface BookingProps {
     idroom?: number;
@@ -71,7 +72,7 @@ export function Booking() {
     console.log("active");
     console.log(activeBooking);
     useEffect(() => {
-        dispatch(bookingsThunk());
+        dispatch(userThunks.bookings({}));
         if (reservations.value) {
             console.log("active");
             console.log(activeBooking);
@@ -137,7 +138,7 @@ export function BookingCard(props: BookingProps) {
     const room = useAppSelector(state => state.requests.roomById);
     useEffect(() => {
         if (props.idhotel) {
-            dispatch(hotelByIdThunk({ id: props.idhotel }));
+            dispatch(hotelThunks.hotelById(props.idhotel));
             if (hotel.status === "fulfilled") {
                 if (hotel.value?.name) props.title = hotel.value?.name;
                 if (hotel.value?.address)
@@ -150,13 +151,13 @@ export function BookingCard(props: BookingProps) {
             }
         }
         if (props.idroom) {
-            dispatch(roomByIdThunk({ id: Number(props.idroom) }));
+            dispatch(roomThunks.roomById(Number(props.idroom)));
             if (room.status === "fulfilled") {
                 if (room.value.price) props.sum = room.value.price * 1; //props.visitorsNumber!;
                 if (room.value.category) {
-                    if (room.value.category == RoomCategory.Shit)
+                    if (room.value.category == "bad")
                         props.roomType = RoomType.Economy;
-                    else if (room.value.category == RoomCategory.Normal)
+                    else if (room.value.category == "luxary")
                         props.roomType = RoomType.Standart;
                     else props.roomType = RoomType.Lux;
                 }

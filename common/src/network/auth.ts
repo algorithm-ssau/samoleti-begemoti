@@ -25,12 +25,12 @@ export class AuthNetwork extends GenericNetwork {
    *
    * status 500 - internal server error
    */
-  register(login: string, password: string) {
+  register = (login: string, password: string) => {
     return this.axios.post<AuthSuccess>("/auth/register", {
       login,
       password,
     });
-  }
+  };
 
   /**
    * Possible errors:
@@ -39,12 +39,10 @@ export class AuthNetwork extends GenericNetwork {
    *
    * status 500 - internal server error
    */
-  login(login_: string, password: string) {
+  login = (login_: string, password: string) => {
     return this.axios.post<AuthSuccess>("/auth/login", {
       login: login_,
       password,
     });
-  }
-
-  sum(array: number[]) {}
+  };
 }
