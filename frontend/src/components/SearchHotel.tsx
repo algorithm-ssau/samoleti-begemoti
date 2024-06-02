@@ -7,8 +7,9 @@ import {
     accent,
 } from "./BaseStyle";
 import {
+    hotelThunks,
     useAppDispatch,
-    getAllHotelsThunk,
+    //getAllHotelsThunk,
     useAppSelector,
 } from "../store/store";
 import { useState } from "react";
@@ -165,7 +166,7 @@ function SearchHotel() {
     const guests = guestAmount.map(item => <option key={item}>{item}</option>);
     const dispatch = useAppDispatch();
     const requestAllHotels = useAppSelector(
-        state => state.requests.getallhotels,
+        state => state.requests.getAllHotels,
     );
     let hotels = requestAllHotels.value;
     console.log(hotels?.length);
@@ -299,7 +300,13 @@ function SearchHotel() {
                     <H2Filters>Питание</H2Filters>
                     <Checkbox type="checkbox" onChange={handleWifiChange} />
                     <H2Filters>Wi-Fi</H2Filters>
-                    <FindButton>
+
+                    <FindButton
+                        onClick={() => {
+                            dispatch(hotelThunks.getAllHotels({}));
+                            alert(hotels?.length);
+                        }}
+                    >
                         <H2Headings>Найти</H2Headings>
                     </FindButton>
                 </ContainerDown>

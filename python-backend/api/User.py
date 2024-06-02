@@ -1,14 +1,18 @@
 from flask import Blueprint, jsonify, json
 import pymongo
 from config import DevelopmentConfig
+import os
+from dotenv import load_dotenv
 from bson.objectid import ObjectId
 from bson import json_util
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 user_api_blueprint = Blueprint('user_api_blueprint', __name__, template_folder='templates')
 
-client = pymongo.MongoClient(DevelopmentConfig.MONGO_DB_URL)
-db = client[DevelopmentConfig.MONGO_DOCUMENT]
+load_dotenv()
+
+client = pymongo.MongoClient(os.getenv('MONGO_DB_URL'))
+db = client[os.getenv('MONGO_DOCUMENT')]
 
 
 @user_api_blueprint.route('/profile/transactions', methods=['GET'])

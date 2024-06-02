@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RegSuccess, {
+import {
     ContainerDownHalf,
     ContainerUpHalf,
     H2Name,
@@ -10,7 +10,9 @@ import { FormRow, type MessageProps } from "../Registration/Registration";
 import { Block, Button, Container, PasswordCheck } from "../Registration/style";
 import {
     actions,
-    loginThunk,
+    authThunks,
+    profileThunks,
+    //loginThunk,
     useAppDispatch,
     useAppSelector,
 } from "../../../store/store";
@@ -83,7 +85,7 @@ export function Entry() {
                     <Button
                         onClick={() =>
                             dispatch(
-                                loginThunk({
+                                authThunks.login({
                                     login: login,
                                     password: password,
                                 }),

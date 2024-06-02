@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {
     actions,
-    getTokenThunk,
+    //getTokenThunk,
     profileThunks,
     useAppDispatch,
     useAppSelector,
@@ -23,7 +23,7 @@ import {
 } from "../../RegistrationSuccess";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import { useEffect, useState } from "react";
-import { updatePasswordThunk } from "../../../store/requestThunks";
+//import { updatePasswordThunk } from "../../../store/requestThunks";
 import Dialog from "@mui/material/Dialog";
 import { network } from "../../../network";
 
@@ -180,7 +180,7 @@ export function DataPersonal() {
             <ProfileButton
                 onClick={() =>
                     dispatch(
-                        updatePasswordThunk({
+                        profileThunks.updatePassword({
                             oldPassword,
                             newPassword,
                         }),

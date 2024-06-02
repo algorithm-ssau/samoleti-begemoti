@@ -1,5 +1,5 @@
 import { Registration } from "../components/Auth/Registration/Registration";
-import { registerThunk, useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 interface Props {}
 

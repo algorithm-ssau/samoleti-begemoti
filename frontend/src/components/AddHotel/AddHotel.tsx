@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { type Room, type RoomCategory } from "samolet-common";
-import { useAppDispatch } from "../../store/store";
-import { createHotelThunk } from "../../store/requestThunks";
+import { hotelThunks, useAppDispatch } from "../../store/store";
+
 import {
     Container,
     LeftContainer,
@@ -62,7 +62,7 @@ export function AddHotel() {
     } = useForm<ReviewInputs>();
     const onHotelSubmit = (data: HotelInputs) => {
         dispatch(
-            createHotelThunk({
+            hotelThunks.createHotel({
                 name: data.name,
                 description: data.description,
                 address: {
