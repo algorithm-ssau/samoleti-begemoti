@@ -30,7 +30,7 @@ export class RoomNetwork extends GenericNetwork {
    * status 500 - internal server error
    *
    */
-  getById = (id: number) => {
+  getById = (id: string) => {
     return this.axios.get<TRoom>(`/rooms/${id}`);
   };
 
@@ -52,7 +52,7 @@ export class RoomNetwork extends GenericNetwork {
    * status 500 - internal server error
    *
    */
-  deleteById = (id: number) => {
+  deleteById = (id: string) => {
     return this.axios.delete<TRoom>(`/rooms/${id}`);
   };
 
@@ -64,7 +64,7 @@ export class RoomNetwork extends GenericNetwork {
    * status 500 - internal server error
    *
    */
-  updateById = (id: number, newRoom: Room) => {
+  updateById = (id: string, newRoom: Room) => {
     return this.axios.patch<TRoom>(`/rooms/${id}`, newRoom);
   };
 }

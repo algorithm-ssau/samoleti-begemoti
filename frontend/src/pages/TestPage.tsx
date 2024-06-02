@@ -29,8 +29,8 @@ export function TestPage() {
     return (
         <>
             <AddHotel />
-            <HotelRoom />
-            <HotelReservation />
+            {/* <HotelRoom /> */}
+            {/* <HotelReservation /> */}
             <RoomReview />
             <AddReview />
             <RegistrationSuccess

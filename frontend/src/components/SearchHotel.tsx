@@ -12,7 +12,7 @@ import {
     //getAllHotelsThunk,
     useAppSelector,
 } from "../store/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HotelCard from "./HotelCard";
 import type { Address } from "samolet-common";
 
@@ -148,7 +148,8 @@ function SearchHotel() {
     const requestAllHotels = useAppSelector(
         state => state.requests.getAllHotels,
     );
-    let hotels = requestAllHotels.value;
+
+    let hotels = requestAllHotels.value ?? [];
     console.log(hotels?.length);
     const [arrivalDate, setArravalDate] = useState("");
     const [departureDate, setDepartureDate] = useState("");
@@ -193,15 +194,13 @@ function SearchHotel() {
         setWifi(e.target.checked);
     };
 
-    let hotelList = cityNames.map(one => (
+    let hotelList = hotels.map(one => (
         <HotelCard
-            name={one}
+            name={one.name}
             luxary={true}
             normal={false}
             reallyBad={true}
-            address={
-                { city: "ddff ", country: "djjf ", place: "fjff" } as Address
-            }
+            address={one.address}
             isFood={true}
             isWiFi={false}
             raiting={7}

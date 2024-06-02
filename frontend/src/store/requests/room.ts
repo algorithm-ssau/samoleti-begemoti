@@ -9,7 +9,7 @@ const description = {
     roomById: network.room.getById,
     getAllRooms: network.room.getAll,
     deleteRoomById: network.room.deleteById,
-    updateRoomById: (data: { id: number; newRoom: Room }) =>
+    updateRoomById: (data: { id: string; newRoom: Room }) =>
         network.room.updateById(data.id, data.newRoom),
 } satisfies NetworkDescription;
 
