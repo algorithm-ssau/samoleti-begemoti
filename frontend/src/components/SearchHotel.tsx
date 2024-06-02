@@ -7,8 +7,9 @@ import {
     accent,
 } from "./BaseStyle";
 import {
+    hotelThunks,
     useAppDispatch,
-    getAllHotelsThunk,
+    //getAllHotelsThunk,
     useAppSelector,
 } from "../store/store";
 import { useState } from "react";
@@ -145,7 +146,7 @@ function SearchHotel() {
 
     const dispatch = useAppDispatch();
     const requestAllHotels = useAppSelector(
-        state => state.requests.getallhotels,
+        state => state.requests.getAllHotels,
     );
     let hotels = requestAllHotels.value;
     console.log(hotels?.length);
@@ -270,7 +271,7 @@ function SearchHotel() {
                     <H2Filters>Wi-Fi</H2Filters>
                     <FindButton
                         onClick={() => {
-                            dispatch(getAllHotelsThunk());
+                            dispatch(hotelThunks.getAllHotels({}));
                             alert(hotels?.length);
                         }}
                     >

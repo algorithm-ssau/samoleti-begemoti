@@ -2,11 +2,11 @@
 import { Dialog } from "@mui/material";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import {
+    authThunks,
     useAppDispatch,
     useAppSelector,
-    registerThunk,
 } from "../../../store/store";
-import RegSuccess, {
+import {
     ContainerDownHalf,
     ContainerUpHalf,
     H2Name,
@@ -76,7 +76,7 @@ export function Registration() {
                     <Button
                         onClick={() =>
                             dispatch(
-                                registerThunk({
+                                authThunks.register({
                                     login: login,
                                     password: password,
                                 }),

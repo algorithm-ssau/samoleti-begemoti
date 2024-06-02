@@ -36,7 +36,7 @@ export function MainPage(props: Props) {
             <HotelReservation />
             <RoomReview />
             <AddReview />
-            <RegistrationSuccess />
+            {/* <RegistrationSuccess /> */}
             <EnterProfile />
             <HotelPage id={0} />
             <HotelList city={City.Moscow} />
