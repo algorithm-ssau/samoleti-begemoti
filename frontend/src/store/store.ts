@@ -15,12 +15,13 @@ import {
     createRoomThunk,
     hotelByIdThunk,
     roomByIdThunk,
-    roomThunks,
     updatePasswordThunk,
 } from "./requestThunks";
 import {
+    hotelThunks,
     profileThunks,
     requestsInitialValues,
+    roomThunks,
     type Requests,
 } from "./requests";
 import { network } from "../network";
@@ -94,6 +95,7 @@ const slice = createSlice({
     extraReducers: builder => {
         autoTrack(builder, roomThunks);
         autoTrack(builder, profileThunks);
+        autoTrack(builder, hotelThunks);
         trackRequest(builder, "register", registerThunk);
         trackRequest(builder, "login", loginThunk);
         trackRequest(builder, "getallhotels", getAllHotelsThunk);

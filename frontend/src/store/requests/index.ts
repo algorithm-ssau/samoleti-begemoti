@@ -5,7 +5,8 @@ import type { TRoomWithoutId, TRoom } from "samolet-common/src/network/room";
 import { empty, type RequestState } from "../utils/tracker";
 
 export * from "./profile";
-
+export * from "./room";
+export * from "./hotel";
 type Convert<T> = {
     -readonly [K in keyof T]: T[K] extends RequestState<infer A, infer B>
         ? RequestState<A, B>
@@ -29,6 +30,9 @@ export const requestsInitialValues = {
     roomById: empty<TRoom>(),
     creatHotel: empty<THotelWithoutId>(),
     creatRoom: empty<TRoomWithoutId>(),
+    hotelsByPlace: empty<Array<THotel>>(),
+    hotelDeleteById: empty<THotel>(),
+    hotelUpdateById: empty<THotel>(),
 } as const;
 
 export type Requests = Convert<typeof requestsInitialValues>;

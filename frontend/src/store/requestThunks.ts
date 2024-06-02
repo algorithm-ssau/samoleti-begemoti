@@ -71,10 +71,10 @@ export const createRoomThunk = createAsyncThunk(
 );
 
 const network = getNetwork();
-const description = {
-    createRoom: network.room.create,
-    createHotel: network.hotel.create,
-    roomById: network.room.getById,
-} satisfies NetworkDescription;
+// const description = {
+//     createRoom: network.room.create,
+//     createHotel: network.hotel.create,
+//     roomById: network.room.getById,
+// } satisfies NetworkDescription;
 
-export const roomThunks = fromDescription(description);
+// export const roomThunks = fromDescription(description);
