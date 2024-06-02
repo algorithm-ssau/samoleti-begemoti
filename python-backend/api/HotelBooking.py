@@ -20,11 +20,12 @@ def cancel_reservation(booking_id):
         print(user_id)
         # Находим пользователя и проверяем, включено ли бронирование в его историю
         user = db['users'].find_one({"_id": ObjectId(user_id)})
-
+        if not user:
+            return jsonify({"error": "Отмена доступа"}), 403
         # booking_id_str = str(booking_id)  # Преобразуем ObjectId в строку
         # if not user or booking_id_str not in [h['$oid'] for h in user.get('hotelHistory', [])]:
         #     return jsonify({"error": "No rights to cancel this booking"}), 403
-        print('sadasdasd')
+
         # Находим запись бронирования
         hotel_book = db['hotelbookings'].find_one({"_id": ObjectId(booking_id)})
         if not hotel_book:
