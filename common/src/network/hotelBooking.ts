@@ -29,7 +29,19 @@ export class HotelBookingNetwork extends GenericNetwork {
       cancelReservation = (id: string) => {
         return this.axios.post(
             `/hotelbooking/${id}/status/cancel`
-        );
+        ).then(response => {
+            const parsedDateFrom = new Date(response.data.dateFrom);
+            const parsedDateTo = new Date(response.data.dateTo);
+            return {
+                ...response.data,
+                dateFrom: parsedDateFrom,
+                dateTo: parsedDateTo
+            };
+        })
+        .catch(error => {
+            console.error('Ошибка при отмене бронирования:', error);
+            throw error;
+        });
     }
 
 
@@ -53,7 +65,19 @@ export class HotelBookingNetwork extends GenericNetwork {
     payment = (id: string) => {
         return this.axios.post(
             `/hotelbooking/${id}/pay`
-        );
+        ).then(response => {
+            const parsedDateFrom = new Date(response.data.dateFrom);
+            const parsedDateTo = new Date(response.data.dateTo);
+            return {
+                ...response.data,
+                dateFrom: parsedDateFrom,
+                dateTo: parsedDateTo
+            };
+        })
+        .catch(error => {
+            console.error('Ошибка при выполнении платежа:', error);
+            throw error;
+        });
     }
 
     /**

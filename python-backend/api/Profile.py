@@ -46,13 +46,6 @@ def add_money():
             return jsonify({"error": "BankAccount not found"}), 404
         print(account["amount"])
 
-        # Обновляем баланс аккаунта
-        new_amount = int(account["amount"]["$numberLong"]) + amount_to_add
-        db["bankaccount"].update_one(
-            {"_id": account["_id"]},
-            {"$set": {"amount": {"$numberLong": str(new_amount)}}}
-        )
-
         # Создаем транзакцию
         transaction = {
             "user": user["_id"],
@@ -60,10 +53,29 @@ def add_money():
             "amount": amount_to_add,  # Сумма пополнения
             "description": "Account recharge"
         }
-        db["accounttransaction"].insert_one(transaction)
+        transaction_result = db["accounttransaction"].insert_one(transaction)
+        transaction_id = transaction_result.inserted_id  # Получаем _id новой транзакции
+
+        # Обновляем баланс аккаунта
+        new_amount = int(account["amount"]["$numberLong"]) + amount_to_add
+        db["bankaccount"].update_one(
+            {"_id": account["_id"]},
+            {"$set": {"amount": {"$numberLong": str(new_amount)}},
+             "$push": {"transactions": transaction_id}  # Добавляем _id транзакции
+             }
+        )
+
+        # Преобразуем данные в желаемый формат
+        account_transaction = {
+            "_id": str(transaction_id),
+            "user": str(transaction["user"]),  # Преобразуем ObjectId в строку
+            "date": transaction["date"].isoformat(),  # Используем строковое представление даты
+            "amount": transaction["amount"],  # amount уже в подходящем формате
+            "description": transaction["description"]
+        }
 
         # return jsonify({"message": "Account successfully recharged", "new_balance": new_amount}), 200
-        return jsonify(transaction), 200
+        return jsonify(account_transaction), 200
     except Exception as e:
         # Любые другие ошибки отлавливаются здесь и возвращается ошибка 500
         return jsonify({"error": f"Internal server error: {e}"}), 500
@@ -149,8 +161,8 @@ def get_bookings():
             booking['_id'] = str(booking['_id'])
             booking['hotelId'] = str(hotel['_id'])
             booking['roomId'] = str(booking['room'])
-            booking['dateFrom'] = booking.pop('dateStart')
-            booking['dateTo'] = booking.pop('dateEnd')
+            booking['dateFrom'] = booking.pop('dateStart').isoformat()
+            booking['dateTo'] = booking.pop('dateEnd').isoformat()
 
             # Удаляем ненужное поле 'room'
             booking.pop('room')

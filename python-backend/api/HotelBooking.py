@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 import pymongo
 from bson.objectid import ObjectId
+from bson.json_util import dumps
 from dotenv import load_dotenv
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -56,23 +57,37 @@ def pay_for_booking(booking_id):
             "amount": -room["price"],  # Сумма списания
             "description": f"Payment for booking {booking_id}"
         }
-        db["accounttransaction"].insert_one(transaction)
+        transaction_result = db["accounttransaction"].insert_one(transaction)
+        transaction_id = transaction_result.inserted_id  # Получаем _id новой транзакции
 
         # Обновление счета пользователя
         new_amount = int(account["amount"]["$numberLong"]) - room["price"]
         db["bankaccount"].update_one(
             {"_id": account["_id"]},
-            {"$set": {"amount": {"$numberLong": str(new_amount)}}}
+            {"$set": {"amount": {"$numberLong": str(new_amount)}},
+             "$push": {"transactions": transaction_id}  # Добавляем _id транзакции
+            }
         )
 
         # Обновление статуса брони на "paid"
         db["hotelbookings"].update_one(
             {"_id": ObjectId(booking_id)},
-            {"$set": {"status": "Paid", "fixedPrice": room["price"]}}
+            {"$set": {"status": "paid", "fixedPrice": room["price"]}}
         )
 
+        response = db["hotelbookings"].find_one({"_id": ObjectId(booking_id)})
+        # Преобразуем данные в желаемый формат JSON
+        booking = {
+            "_id": str(response["_id"]),
+            "dateFrom": response["dateStart"].isoformat() if response.get("dateStart") else None,
+            "dateTo": response["dateEnd"].isoformat() if response.get("dateEnd") else None,
+            "hotelId": str(response["room"]),  # Предполагается, что это поле содержит идентификатор гостиницы
+            "roomId": str(response["room"]),  # Предполагается, что это поле содержит идентификатор комнаты
+            "status": response["status"],
+            "fixedPrice": response['fixedPrice']
+        }
         # return jsonify({"message": "Booking successfully paid"}), 200
-        return jsonify(transaction), 200
+        return jsonify(booking), 200
     except Exception as e:
         # Любые другие ошибки отлавливаются здесь и возвращается ошибка 500
         return jsonify({"error": f"Internal server error: {e}"}), 500
@@ -103,12 +118,24 @@ def cancel_reservation(booking_id):
         # Обновляем статус бронирования на "cancelled"
         result = db['hotelbookings'].update_one(
             {"_id": ObjectId(booking_id)},
-            {"$set": {"status": "Cancelled"}}
+            {"$set": {"status": "cancelled"}}
         )
 
+        response = db['hotelbookings'].find_one({"_id": ObjectId(booking_id)})
+
+        print(response)
         # Проверяем, что обновление прошло успешно
         if result.matched_count:
-            return jsonify(result), 200
+            # Преобразуем данные в желаемый формат JSON
+            booking = {
+                "_id": str(response["_id"]),
+                "dateFrom": response["dateStart"].isoformat() if response.get("dateStart") else None,
+                "dateTo": response["dateEnd"].isoformat() if response.get("dateEnd") else None,
+                "hotelId": str(response["room"]),  # Предполагается, что это поле содержит идентификатор гостиницы
+                "roomId": str(response["room"]),  # Предполагается, что это поле содержит идентификатор комнаты
+                "status": response["status"]
+            }
+            return jsonify(booking), 200
         else:
             return jsonify({"error": "HotelBooking not updated"}), 500
     except Exception as e:

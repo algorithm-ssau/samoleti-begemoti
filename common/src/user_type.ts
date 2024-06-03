@@ -18,7 +18,7 @@ export interface AccountTransaction {
     user: User;
     date: Date;
     amount: BigInt;
-    description: SomeTransaction;
+    description: string;
 }
 
 export interface PersonalInfo {
