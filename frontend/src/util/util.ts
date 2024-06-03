@@ -5,6 +5,6 @@ interface HotelInfo {
     info: HotelInfoProps;
 }
 
-export function getHotel(id: number): HotelInfo {
+export function getHotel(id: string): HotelInfo {
     return { info: hotelInfo.find(aHotel => aHotel.id === id)! };
 }

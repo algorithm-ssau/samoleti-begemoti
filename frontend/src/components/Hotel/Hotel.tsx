@@ -20,16 +20,16 @@ import { LocalParking, Place, Restaurant, Wifi } from "@mui/icons-material";
 import LinkIcon from "@mui/icons-material/Link";
 //import starIcon from '../ico/star72.png'
 export interface HotelInfoProps {
-    name: string;
-    id: number;
+    name?: string;
+    id?: string;
     aboutHotel: string;
-    address: string;
-    rating: number;
-    parking: boolean;
-    nutrition: boolean;
-    wifi: boolean;
-    link: string;
-    onHotelClicked: (aboutHotel: string) => void;
+    address?: string;
+    rating?: number;
+    parking?: boolean;
+    nutrition?: boolean;
+    wifi?: boolean;
+    link?: string;
+    onHotelClicked?: (aboutHotel: string) => void;
 }
 
 export function HotelInfoCard(props: HotelInfoProps) {
@@ -39,9 +39,7 @@ export function HotelInfoCard(props: HotelInfoProps) {
                 <H1Name>{props.name}</H1Name>
                 <H2Name>Об отеле</H2Name>
                 <Text>{props.aboutHotel}</Text>
-                <ButtonInf
-                    onClick={() => props.onHotelClicked(props.aboutHotel)}
-                >
+                <ButtonInf onClick={() => alert(props.aboutHotel)}>
                     Подробнее
                 </ButtonInf>
             </ContainerHalf>
