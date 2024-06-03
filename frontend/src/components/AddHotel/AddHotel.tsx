@@ -20,6 +20,7 @@ import {
     AddReviewForm,
     type ReviewFormState,
 } from "../../forms/AddRoomForm/AddReviewForm.tsx/AddReviewForm";
+import type { Room } from "samolet-common";
 
 interface HotelInputs {
     name: string;
@@ -30,20 +31,33 @@ interface HotelInputs {
     place: string;
 }
 
-type HotelFormState = {
+export type HotelFormState = {
     rooms: RoomFormState[];
     reviews: ReviewFormState[];
 } & HotelInputs;
 
+function convertToApiType(room: RoomFormState) {
+    const { amountOfRooms, bedAmount, facilities, price, roomCategory } = room;
+    return {
+        amountOfRooms: +amountOfRooms,
+        bedAmount: +bedAmount,
+        facilities: [],
+        price: +price,
+        roomCategory,
+    };
+}
+
 export function AddHotel() {
     const dispatch = useAppDispatch();
-    const { register, handleSubmit, control } = useForm<HotelFormState>();
+    const { register, handleSubmit, control, watch } =
+        useForm<HotelFormState>();
 
     const { fields, remove, append } = useFieldArray({
         name: "rooms",
         control,
     });
 
+    const form = watch();
     const {
         fields: reviews,
         remove: removeReview,
@@ -72,7 +86,7 @@ export function AddHotel() {
                     city: data.city,
                     place: data.place,
                 },
-                rooms: [], // rooms,
+                rooms: form.rooms.map(convertToApiType),
             }),
         );
     };
@@ -129,11 +143,16 @@ export function AddHotel() {
             </RightContainer>
             <RightContainer>
                 {fields.map(({}, index) => (
-                    <AddRoomForm
-                        register={fieldName =>
-                            register(`rooms[${index}].${fieldName}` as any)
-                        }
-                    />
+                    <>
+                        <AddRoomForm
+                            rawRegister={register}
+                            index={index}
+                            form={form}
+                            register={fieldName =>
+                                register(`rooms[${index}].${fieldName}` as any)
+                            }
+                        />
+                    </>
                 ))}
             </RightContainer>
             <Button onClick={() => append(defaultRoomFormState)}>

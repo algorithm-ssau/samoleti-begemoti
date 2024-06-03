@@ -9,8 +9,6 @@ import { useState } from "react";
 import { Dialog } from "@mui/material";
 import HotelReservation from "./HotelReservation";
 import type { TRoom } from "samolet-common/src/network/room";
-import { booking } from "./Profile/Booking/dataBooking";
-import { useAppSelector } from "../store/store";
 
 const Container = styled.div`
     display: flex;

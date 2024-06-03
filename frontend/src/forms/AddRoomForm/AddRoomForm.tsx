@@ -1,61 +1,91 @@
-import { Input, MenuItem } from "@mui/base";
-import { Table, Select, TableRow, TableCell } from "@mui/material";
+import { Input } from "@mui/base";
+import {
+    Table,
+    Select,
+    TableRow,
+    TableCell,
+    MenuItem,
+    TableBody,
+} from "@mui/material";
 import {
     type UseFormRegister,
     type UseFormRegisterReturn,
 } from "react-hook-form";
 import { H2PrimaryColor, InputButton } from "../../components/AddHotel/style";
 import type { RoomCategory } from "samolet-common";
+import type { HotelSearchFormState } from "../../components/HotelSearchForm";
+import type { HotelFormState } from "../../components/AddHotel/AddHotel";
 
 export type RoomFormState = {
     roomCategory: string;
-    price: number;
-    bedAmount: number;
+    price: string;
+    bedAmount: string;
     facilities: string;
-    amountOfRooms: number;
+    amountOfRooms: string;
 };
 
 export const defaultRoomFormState: RoomFormState = {
     roomCategory: "",
-    price: 1,
-    bedAmount: 0,
+    price: "1",
+    bedAmount: "0",
     facilities: "",
-    amountOfRooms: 0,
+    amountOfRooms: "0",
 };
 
 interface Props {
     register: UseFormRegister<RoomFormState>;
+    rawRegister: UseFormRegister<HotelFormState>;
+    form?: HotelFormState;
+    index: number;
 }
 
 export function AddRoomForm(props: Props) {
-    const { register } = props;
-    const roomTypes: RoomCategory[] = ["luxary", "normal", "bad"];
-    const roomSelect = roomTypes.map(item => (
+    const { register, rawRegister, index } = props;
+
+    const roomSelect = ["luxary", "normal", "bad"].map(item => (
         <MenuItem value={item} key={item}>
             {item}
         </MenuItem>
     ));
 
     return (
-        <Table>
-            <GenericInputRow
-                title="Категория"
-                element={
-                    <Select {...register("roomCategory")}>{roomSelect}</Select>
-                }
-            ></GenericInputRow>
-
-            <InputRow title={"Цена:"} register={register("price")} />
-            <InputRow
-                title={"Кол-во кроватей:"}
-                register={register("bedAmount")}
-            />
-            <InputRow
-                title={"Количество комнат"}
-                register={register("amountOfRooms")}
-            />
-            <InputRow title="Удобства" register={register("facilities")} />
-        </Table>
+        <>
+            {JSON.stringify(props.form)}
+            <Table>
+                <TableBody>
+                    <GenericInputRow
+                        title="Категория"
+                        element={
+                            <Select {...register("roomCategory")}>
+                                {roomSelect}
+                            </Select>
+                        }
+                    ></GenericInputRow>
+                    <TableRow>
+                        <TableCell>
+                            price
+                            <input {...rawRegister(`rooms.${index}.price`)} />
+                            <InputRow
+                                title={"Цена:"}
+                                register={register("price")}
+                            />
+                        </TableCell>
+                    </TableRow>
+                    <InputRow
+                        title={"Кол-во кроватей:"}
+                        register={register("bedAmount")}
+                    />
+                    <InputRow
+                        title={"Количество комнат"}
+                        register={register("amountOfRooms")}
+                    />
+                    <InputRow
+                        title="Удобства"
+                        register={register("facilities")}
+                    />
+                </TableBody>
+            </Table>
+        </>
     );
 }
 

@@ -8,7 +8,6 @@ import {
     ContainerVertical,
     H1Name,
     H2Name,
-    Ico,
     IcoMui,
     Link,
     PName,
@@ -18,7 +17,6 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import { LocalParking, Place, Restaurant, Wifi } from "@mui/icons-material";
 
 import LinkIcon from "@mui/icons-material/Link";
-//import starIcon from '../ico/star72.png'
 export interface HotelInfoProps {
     name?: string;
     id?: string;
