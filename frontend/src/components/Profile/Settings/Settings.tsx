@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import {
     actions,
-    getTokenThunk,
+    //getTokenThunk,
+    profileThunks,
     useAppDispatch,
     useAppSelector,
 } from "../../../store/store";
-import { network } from "../../..";
 import { NewClose, ProfileButton } from "./style";
 import { ContainerChapter, Line, Text } from "../Cash/style";
 import { Block, Container, PasswordCheck } from "../../Auth/Registration/style";
@@ -23,12 +23,9 @@ import {
 } from "../../RegistrationSuccess";
 import { useShowPassword } from "../../../hooks/useShowPassword";
 import { useEffect, useState } from "react";
-import {
-    getUserPersonalInfoThunk,
-    updatePasswordThunk,
-    updatePersonalInfoThunk,
-} from "../../../store/requestThunks";
+//import { updatePasswordThunk } from "../../../store/requestThunks";
 import Dialog from "@mui/material/Dialog";
+import { network } from "../../../network";
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 export function exit() {}
@@ -45,7 +42,7 @@ export function DataPersonal() {
     );
 
     useEffect(() => {
-        dispatch(getUserPersonalInfoThunk());
+        dispatch(profileThunks.getUserPersonalInfo(0));
     }, []);
     const [passwordInputType, invert, showPassword] = useShowPassword();
     const [surname, setSurname] = useState("");
@@ -136,7 +133,7 @@ export function DataPersonal() {
             <ProfileButton
                 onClick={() =>
                     dispatch(
-                        updatePersonalInfoThunk({
+                        profileThunks.updatePersonalInfo({
                             name,
                             surname,
                             cardNumber,
@@ -183,7 +180,7 @@ export function DataPersonal() {
             <ProfileButton
                 onClick={() =>
                     dispatch(
-                        updatePasswordThunk({
+                        profileThunks.updatePassword({
                             oldPassword,
                             newPassword,
                         }),

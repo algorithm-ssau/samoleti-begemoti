@@ -1,12 +1,14 @@
-import styled from "styled-components";
-import { lightPrimary, primaryText, baseText } from "./BaseStyle";
-import type { Address } from "samolet-common";
 import { useNavigate } from "react-router";
-import StarRateIcon from "@mui/icons-material/StarRate";
+
+import styled from "@emotion/styled";
+import { purple } from "@mui/material/colors";
+import { Button } from "@mui/material";
 import { Place, Restaurant, Wifi } from "@mui/icons-material";
 import ChairIcon from "@mui/icons-material/Chair";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
-import { purple } from "@mui/material/colors";
+import type { Address } from "samolet-common";
+import { lightPrimary, primaryText, baseText } from "./BaseStyle";
 
 const Container = styled.div`
     display: flex;
@@ -120,18 +122,18 @@ function RightButtonClick() {
 }
 
 export interface hotelCardProps {
+    id?: string;
     name: string;
     price: number;
     address: Address;
-    luxary: boolean;
-    normal: boolean;
-    reallyBad: boolean;
+
     isFood: boolean;
     isWiFi: boolean;
     raiting: number;
 }
 
-function HotelCard(props: hotelCardProps) {
+export function HotelCard(props: hotelCardProps) {
+    const { id } = props;
     const foodMessage = props.isFood
         ? "Питание включено"
         : "Питание не включено";
@@ -139,9 +141,9 @@ function HotelCard(props: hotelCardProps) {
     let rooms = "";
     const addressMessage =
         props.address.country + props.address.city + props.address.place;
-    rooms = props.luxary ? rooms + "Люкс " : rooms + "";
-    rooms = props.luxary ? rooms + "Стандарт " : rooms + "";
-    rooms = props.luxary ? rooms + "Эконом " : rooms + "";
+    // rooms = props.luxary ? rooms + "Люкс " : rooms + "";
+    // rooms = props.luxary ? rooms + "Стандарт " : rooms + "";
+    // rooms = props.luxary ? rooms + "Эконом " : rooms + "";
     const navigate = useNavigate();
     return (
         <Container>
@@ -178,9 +180,16 @@ function HotelCard(props: hotelCardProps) {
                     <H2SecondaryColor>{wifiMessage}</H2SecondaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <BookButton onClick={() => navigate("hotelpage")}>
+                    <BookButton
+                        onClick={() => {
+                            navigate("hotelpage");
+                        }}
+                    >
                         Забронировать
                     </BookButton>
+                    <Button onClick={() => id && navigate(id)}>
+                        Подробнее пожалуйста ничего не понятно
+                    </Button>
                 </RowContainer>
             </LeftContainer>
             <RightContainer>
@@ -191,5 +200,3 @@ function HotelCard(props: hotelCardProps) {
         </Container>
     );
 }
-
-export default HotelCard;

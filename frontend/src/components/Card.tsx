@@ -81,7 +81,7 @@ export let hotels: Hotel[] = [
 ];
 
 export function getHotels(city: City): Hotel[] {
-    return hotels.filter((aHotel) => aHotel.city === city);
+    return hotels.filter(aHotel => aHotel.city === city);
 }
 
 export function HotelCard(props: HotelCardProps) {
@@ -106,8 +106,8 @@ interface HotelListProps {
 }
 export function HotelList(prop: HotelListProps) {
     let hotels = getHotels(prop.city);
-    let resHotels = hotels.map((aHotel) => (
-        <HotelCard hotel={aHotel} onHotelClicked={(text) => alert(text)} />
+    let resHotels = hotels.map(aHotel => (
+        <HotelCard hotel={aHotel} onHotelClicked={text => alert(text)} />
     ));
     return <div className="hotelsContainer">{resHotels}</div>;
 }

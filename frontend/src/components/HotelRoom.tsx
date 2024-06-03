@@ -1,16 +1,21 @@
 import styled from "styled-components";
 import { lightPrimary, primaryText, baseText } from "./BaseStyle";
 import { Restaurant, Wifi } from "@mui/icons-material";
-import LocalHotelIcon from '@mui/icons-material/LocalHotel';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import BathroomIcon from '@mui/icons-material/Bathroom';
+import LocalHotelIcon from "@mui/icons-material/LocalHotel";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import BathroomIcon from "@mui/icons-material/Bathroom";
+
+import { useState } from "react";
+import { Dialog } from "@mui/material";
+import HotelReservation from "./HotelReservation";
+import type { TRoom } from "samolet-common/src/network/room";
 
 const Container = styled.div`
     display: flex;
     box-shadow: 0px 2px 4px ${lightPrimary};
     width: 62%;
-    margin: auto;
-    margin-top: 5%;
+    margin: 5% auto;
+
     border-radius: 0px;
     align-items: center;
 `;
@@ -109,43 +114,61 @@ function RightButtonClick() {
 function BookButtonClick() {
     alert("BookButton was pressed");
 }
-
-function HotelRoom() {
+interface Props {
+    hotelId: string;
+    rooms: TRoom[];
+}
+export function HotelRooms(props: Props) {
+    let rooms = props.rooms.map(aRoom => (
+        <HotelRoom {...{ hotelId: props.hotelId, room: aRoom }} />
+    ));
+    return <>{rooms}</>;
+}
+interface PropsRoom {
+    hotelId: string;
+    room: TRoom;
+}
+function HotelRoom(props: PropsRoom) {
     const roomName = "Название комнаты"; // получаем из бд
     const roomPrice = 2700; // получаем из бд
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             <Container>
                 <LeftContainer>
                     <RowContainer>
-                        <H2Name>{roomName}</H2Name>
+                        <H2Name>{props.room.number}</H2Name>
                     </RowContainer>
                     <RowContainer>
                         <H2Name2>Цена за ночь:</H2Name2>
-                        <H2Name>{roomPrice} ₽</H2Name>
+                        <H2Name>{props.room.price} ₽</H2Name>
                     </RowContainer>
                     <RowContainer>
-                    <PeopleAltIcon sx={{ fontSize: 30 }} />
-                        <H2Name2>Вмещает мало людей</H2Name2>
+                        <PeopleAltIcon sx={{ fontSize: 30 }} />
+                        <H2Name2>{props.room.bedAmount}</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                    <LocalHotelIcon sx={{ fontSize: 30 }} />
-                        <H2Name2>Тип и количество кроватей</H2Name2>
+                        <LocalHotelIcon sx={{ fontSize: 30 }} />
+                        <H2Name2>{props.room.category}</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                    <Restaurant sx={{ fontSize: 30 }} />
+                        <Restaurant sx={{ fontSize: 30 }} />
                         <H2Name2>Питание включено</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                    <Wifi sx={{ fontSize: 30 }} />
+                        <Wifi sx={{ fontSize: 30 }} />
                         <H2Name2>Бесплатный Wi-Fi</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                    <BathroomIcon sx={{ fontSize: 30 }} />
+                        <BathroomIcon sx={{ fontSize: 30 }} />
                         <H2Name2>Санузел</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                        <BookButton onClick={BookButtonClick}>
+                        <BookButton onClick={() => setOpen(true)}>
                             Забронировать
                         </BookButton>
                     </RowContainer>
@@ -156,6 +179,21 @@ function HotelRoom() {
                     <RightButton onClick={RightButtonClick} />
                 </RightContainer>
             </Container>
+            <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                style={{ padding: 0 }}
+                open={open}
+                onClose={handleClose}
+            >
+                <HotelReservation
+                    {...{
+                        hotelId: props.hotelId,
+                        roomId: props.room._id,
+                        close: handleClose,
+                    }}
+                />
+            </Dialog>
         </>
     );
 }
