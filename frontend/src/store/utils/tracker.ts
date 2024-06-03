@@ -4,8 +4,7 @@ import {
     type PayloadAction,
     type Dispatch,
 } from "@reduxjs/toolkit";
-import type { NetworkDescription, NetworkThunks } from "./wrapNetwork";
-import { type State as AppState } from "../store";
+
 // copied from @reduxjs/toolkit/createAsyncThunk.d.ts because it's private
 export type AsyncThunkConfig = {
     state?: unknown;
@@ -142,13 +141,13 @@ type Thunk<Return, Arg> = AsyncThunk<Return, Arg, AsyncThunkConfig>;
 //     name: "thunk";
 // };
 
-/**
- * Очень опасная функция, никаких проверок, использовать аккуратно
- */
 type AutoTrackThunks = {
     [requestKey: string]: Thunk<any, any>;
 };
 
+/**
+ * Очень опасная функция, никаких проверок, использовать аккуратно
+ */
 export function autoTrack(builder: any, thunks: AutoTrackThunks) {
     for (let [requestKey, thunk] of Object.entries(thunks)) {
         trackRequest(builder, requestKey as never, thunk as any);

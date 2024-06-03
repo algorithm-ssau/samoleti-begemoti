@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import {
     baseText,
     lightPrimary,
@@ -6,12 +6,17 @@ import {
     secondaryText,
 } from "../BaseStyle";
 
+const FlexContainer = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 export const Ico = styled.img`
     width: 71px;
     height: 71px;
     background-color: rgba(0, 0, 0, 0);
 `;
-export const PName = styled.h2`
+export const Text = styled.h2`
     ${secondaryText}
     ${baseText}
     font-size: 18px;
@@ -39,26 +44,21 @@ export const Container = styled.div`
     margin-bottom: 5%;
     background-color: ${lightPrimary};
 `;
-export const ContainerIco = styled.div`
-    display: flex;
+export const IconContainer = styled(FlexContainer)`
     justify-content: flex-start;
-    align-items: center;
 `;
-export const ContainerCenter = styled.div`
-    display: flex;
+export const CentralContainer = styled(FlexContainer)`
     justify-content: flex-center;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
     margin: auto;
-    align-items: center;
 `;
-export const ContainerProfile = styled.div`
-    display: flex;
-    align-items: center;
+export const ProfileContainer = styled(FlexContainer)`
     justify-content: flex-end;
     width: 20%;
 `;
+
 export const Profile = styled.img`
     width: 45px;
     height: 45px;

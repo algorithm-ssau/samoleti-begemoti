@@ -23,8 +23,8 @@ export interface ClientImg {
     alt: string;
 }
 export interface ReviewProps {
-    hotelId: number;
-    reviewId: number;
+    hotelId: string;
+    reviewId: string;
     rating: number;
     pluses: string;
     minuses: string;

@@ -9,12 +9,13 @@ export function DefaultHeader(props: Props) {
     const log = useAppSelector(state => state.isLogin);
     return (
         <Header
+            onLogoClicked={() => navigate("/")}
             onHotelClicked={() => navigate("/hotel")}
             onProfileClicked={() =>
                 log ? navigate("/profile/settings") : navigate("/auth/entry")
             }
-            onRoutClicked={() => navigate("/test")} //"rout"
-            onTicketClicked={() => navigate("/test")}
+            onRouteClicked={() => navigate("/admin")} //"rout"
+            onTicketClicked={() => navigate("/admin")}
             login={log}
         />
     );

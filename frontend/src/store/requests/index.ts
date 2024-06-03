@@ -43,6 +43,7 @@ type Convert<T> = {
 export const requestsInitialValues = {
     register: empty<AuthSuccess>(),
     login: empty<AuthSuccess>(),
+    users: empty<TUser[]>(),
     getAllHotels: empty<Array<THotel>>(),
     createHotel: empty<THotel>(),
     createaddress: empty<TAddress>(),
