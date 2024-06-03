@@ -2,16 +2,25 @@ import { getHotel } from "../util/util";
 import { HotelInfoCard } from "../components/Hotel/Hotel";
 import { HotelReviewsBlock } from "../components/HotelReviewComponent/HotelReview";
 import HotelRoom from "../components/HotelRoom";
-import { actions, useAppDispatch } from "../store/store";
+import { useParams } from "react-router";
 
-interface Props {
-    id: number;
+interface RouteParams {
+    id: string;
 }
-export function HotelPage(props: Props) {
-    const { id } = props;
-    let hotel = getHotel(id);
 
-    const dispatch = useAppDispatch();
+export function HotelPage() {
+    const { id } = useParams<keyof RouteParams>() as RouteParams;
+
+    if (id == null) {
+        return (
+            <div>
+                <p>can't display hotel page without hotel id.</p>
+                <p>This page requires ':id' path parameter</p>
+            </div>
+        );
+    }
+
+    let hotel = getHotel(id);
 
     return (
         <div>

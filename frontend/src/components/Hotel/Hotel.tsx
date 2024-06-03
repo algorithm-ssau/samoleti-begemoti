@@ -21,7 +21,7 @@ import LinkIcon from "@mui/icons-material/Link";
 //import starIcon from '../ico/star72.png'
 export interface HotelInfoProps {
     name: string;
-    id: number;
+    id: string;
     aboutHotel: string;
     address: string;
     rating: number;

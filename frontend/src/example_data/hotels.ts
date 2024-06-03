@@ -3,7 +3,7 @@ import type { HotelInfoProps } from "../components/Hotel/Hotel";
 export let hotelInfo: HotelInfoProps[] = [
     {
         name: "ОЧЕНЬ ДЛИННОЕ НАЗВАНИЕ",
-        id: 0,
+        id: "0",
         aboutHotel:
             "Alas, study of useful practices becomes extremely important for The Framework of Useful Ground " +
             "Noble Vandyke in The Book of the Crucial Component" +
@@ -29,11 +29,11 @@ export let hotelInfo: HotelInfoProps[] = [
         nutrition: true,
         wifi: true,
         link: "https://ssau.ru/",
-        onHotelClicked: (text) => alert(text),
+        onHotelClicked: text => alert(text),
     },
     {
         name: "ОЧЕНЬ ДЛИННОЕ НАЗВАНИЕ 2",
-        id: 1,
+        id: "1",
         aboutHotel:
             "Alas, study of useful practices becomes extremely important for The Framework of Useful Ground " +
             "Noble Vandyke in The Book of the Crucial Component" +
@@ -50,6 +50,6 @@ export let hotelInfo: HotelInfoProps[] = [
         nutrition: false,
         wifi: true,
         link: "https://ssau.ru/",
-        onHotelClicked: (text) => alert(text),
+        onHotelClicked: text => alert(text),
     },
 ];

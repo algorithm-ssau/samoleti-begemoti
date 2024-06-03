@@ -3,6 +3,7 @@ import type { TAddress } from "samolet-common/src/network/address";
 import type { THotel, THotelWithoutId } from "samolet-common/src/network/hotel";
 import type { TRoomWithoutId, TRoom } from "samolet-common/src/network/room";
 import { empty, type RequestState } from "../utils/tracker";
+import type { TUser } from "samolet-common/src/network/user";
 
 export * from "./profile";
 
@@ -15,6 +16,7 @@ type Convert<T> = {
 export const requestsInitialValues = {
     register: empty<AuthSuccess>(),
     login: empty<AuthSuccess>(),
+    users: empty<TUser[]>(),
     getallhotels: empty<Array<THotel>>(),
     createhotel: empty<THotel>(),
     createaddress: empty<TAddress>(),

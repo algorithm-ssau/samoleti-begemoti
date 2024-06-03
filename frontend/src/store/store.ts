@@ -11,10 +11,7 @@ import { type Address } from "samolet-common";
 import {
     bookThunk,
     bookingsThunk,
-    createHotelThunk,
-    createRoomThunk,
     hotelByIdThunk,
-    roomByIdThunk,
     roomThunks,
     updatePasswordThunk,
 } from "./requestThunks";
@@ -43,6 +40,7 @@ export const registerThunk = createAsyncThunk(
             });
     },
 );
+
 export const loginThunk = createAsyncThunk(
     "login",
     async (creds: { login: string; password: string }) => {

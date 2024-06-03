@@ -23,8 +23,8 @@ export interface ClientImg {
     alt: string;
 }
 export interface ReviewProps {
-    hotelId: number;
-    reviewId: number;
+    hotelId: string;
+    reviewId: string;
     rating: number;
     pluses: string;
     minuses: string;
@@ -50,7 +50,7 @@ export function HotelReviewCard(props: ReviewProps) {
     );
 }
 interface HotelProps {
-    hotelId: number;
+    hotelId: string;
 }
 export function HotelReviewsBlock(props: HotelProps) {
     let reviews = getReviews(props.hotelId);

@@ -108,9 +108,7 @@ export class ProfileController {
         const result = await bookingMongo.newBooking(userId, bookingRequest);
 
         if (result == "user-not-found") {
-            warn(
-                `user '${userId}' tried to update own info, but failed to exist. Loser.`
-            );
+            warn(`user '${userId}' tried to book, but failed to exist. Loser.`);
             res.status(418).json({
                 message: "user doesn't exist",
             });
@@ -134,7 +132,7 @@ export class ProfileController {
 
         if (result == "user-not-found") {
             warn(
-                `user '${userId}' tried to update own info, but failed to exist. Loser.`
+                `user '${userId}' tried to get own bookings, but failed to exist. Loser.`
             );
             res.status(418).json({
                 message: "user doesn't exist",

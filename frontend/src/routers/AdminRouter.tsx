@@ -1,12 +1,13 @@
-import { Route, Routes } from "react-router";
-import { store, useAppDispatch } from "../store/store";
+import { Route } from "react-router";
+import { store } from "../store/store";
 import { usersThunk } from "../store/requestThunks";
 import { UsersPage } from "../pages/admin/UsersPage";
-import React from "react";
+import { AddHotelPage } from "../pages/admin/AddHotelPage";
+import { AdminIndexPage } from "../pages/admin/AdminIndexPage";
 
 export function AdminRoutes() {
     return [
-        <Route path="" element={<div>admin index</div>} />,
+        <Route path="" element={<AdminIndexPage />} />,
         <Route
             path="users"
             element={<UsersPage />}
@@ -15,5 +16,6 @@ export function AdminRoutes() {
                 return null;
             }}
         />,
+        <Route path="add-hotel" element={<AddHotelPage />} />,
     ];
 }

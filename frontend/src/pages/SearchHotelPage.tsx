@@ -1,4 +1,4 @@
-import SearchHotel from "../components/SearchHotel";
+import SearchHotel from "../components/HotelSearch/SearchHotel";
 
 export function SearchHotelPage() {
     return (
