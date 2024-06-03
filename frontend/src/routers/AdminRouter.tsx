@@ -1,6 +1,5 @@
 import { Route } from "react-router";
-import { store } from "../store/store";
-import { usersThunk } from "../store/requestThunks";
+import { store, userThunks } from "../store/store";
 import { UsersPage } from "../pages/admin/UsersPage";
 import { AddHotelPage } from "../pages/admin/AddHotelPage";
 import { AdminIndexPage } from "../pages/admin/AdminIndexPage";
@@ -12,7 +11,7 @@ export function AdminRoutes() {
             path="users"
             element={<UsersPage />}
             loader={props => {
-                store.dispatch(usersThunk());
+                store.dispatch(userThunks.getAllUsers({}));
                 return null;
             }}
         />,

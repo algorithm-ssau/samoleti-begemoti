@@ -1,26 +1,26 @@
 import {
     createSlice,
     configureStore,
-    createAsyncThunk,
     type PayloadAction,
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { autoTrack, empty, trackRequest } from "./utils/tracker";
-import { type Address } from "samolet-common";
+import { autoTrack, empty } from "./utils/tracker";
 
 import {
-    bookThunk,
-    bookingsThunk,
-    hotelByIdThunk,
-    roomThunks,
-    updatePasswordThunk,
-} from "./requestThunks";
-import {
+    addressThunks,
+    authThunks,
+    hotelBookingThunks,
+    hotelFacilityThunks,
+    hotelThunks,
+    photoThunks,
     profileThunks,
     requestsInitialValues,
+    reviewThunks,
+    roomCategoryThunks,
+    roomThunks,
+    userThunks,
     type Requests,
 } from "./requests";
-import { network } from "../network";
 export * from "./requests";
 export type State = {
     value: number;
@@ -28,43 +28,6 @@ export type State = {
     isLogin: boolean;
     id: string;
 };
-
-export const registerThunk = createAsyncThunk(
-    "register",
-    async (creds: { login: string; password: string }) => {
-        return await network.auth
-            .register(creds.login, creds.password)
-            .then(x => {
-                network.setToken(x.data.token);
-                return x.data;
-            });
-    },
-);
-
-export const loginThunk = createAsyncThunk(
-    "login",
-    async (creds: { login: string; password: string }) => {
-        return await network.auth.login(creds.login, creds.password).then(x => {
-            network.setToken(x.data.token);
-            localStorage.setItem("token", x.data.token);
-            return x.data;
-        });
-    },
-);
-export const getTokenThunk = createAsyncThunk("getToken", async () => {
-    return; // await network.auth.gosling().then(x => x.data);
-});
-
-export const getAllHotelsThunk = createAsyncThunk("getallhotels", async () => {
-    return await network.hotel.getAll().then(x => x.data);
-});
-
-export const createAddressThunk = createAsyncThunk(
-    "createaddress",
-    async (creds: Address) => {
-        return await network.address.create(creds).then(x => x.data);
-    },
-);
 
 const initialState: State = {
     value: 0,
@@ -92,15 +55,15 @@ const slice = createSlice({
     extraReducers: builder => {
         autoTrack(builder, roomThunks);
         autoTrack(builder, profileThunks);
-        trackRequest(builder, "register", registerThunk);
-        trackRequest(builder, "login", loginThunk);
-        trackRequest(builder, "getallhotels", getAllHotelsThunk);
-        trackRequest(builder, "createaddress", createAddressThunk);
-        //trackRequest(builder, "getToken", getTokenThunk);
-        trackRequest(builder, "updatePassword", updatePasswordThunk);
-        trackRequest(builder, "book", bookThunk);
-        trackRequest(builder, "bookings", bookingsThunk);
-        trackRequest(builder, "hotelById", hotelByIdThunk);
+        autoTrack(builder, hotelThunks);
+        autoTrack(builder, addressThunks);
+        autoTrack(builder, authThunks);
+        autoTrack(builder, hotelBookingThunks);
+        autoTrack(builder, hotelFacilityThunks);
+        autoTrack(builder, photoThunks);
+        autoTrack(builder, reviewThunks);
+        autoTrack(builder, roomCategoryThunks);
+        autoTrack(builder, userThunks);
     },
 });
 

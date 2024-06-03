@@ -1,11 +1,13 @@
-import {
-    useAppDispatch,
-    getAllHotelsThunk,
-    useAppSelector,
-} from "../../store/store";
 import { useState } from "react";
-import HotelCard from "../HotelCard";
 import type { Address } from "samolet-common";
+import {
+    hotelInfo,
+    type Filters,
+    type HotelInfoProps,
+} from "../../example_data/hotelInfo";
+import { hotelThunks } from "../../store/requests";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+
 import {
     ContainerUp,
     ContainerLeftHalf,
@@ -18,31 +20,43 @@ import {
     ContainerDown,
     H2Filters,
     FindButton,
-    Checkbox,
     Container,
+    Checkbox,
 } from "./style";
+import HotelCard from "../HotelCard";
+
+function filterHotels(
+    hotel: HotelInfoProps,
+    { city, food, wifi, lowPrice, highPrice }: Filters,
+): boolean {
+    const badConditions = [
+        city && city != hotel.city,
+        food && food != hotel.hotelFood,
+        wifi && wifi != hotel.hotelWiFi,
+        lowPrice && lowPrice > hotel.price,
+        highPrice && highPrice < hotel.price,
+    ];
+    const goodHotel = badConditions.every(condition => condition == false);
+    const badHotel = !goodHotel;
+    return !badHotel;
+}
 
 function SearchHotel() {
-    const cityNames = ["one", "two", "three", "four", "five"];
-    const cities = cityNames.map(item => <option key={item}>{item}</option>);
     const guestAmount = [1, 2, 3, 4, 5, 6, 7, 8];
     const guests = guestAmount.map(item => <option key={item}>{item}</option>);
-
     const dispatch = useAppDispatch();
     const requestAllHotels = useAppSelector(
-        state => state.requests.getallhotels,
+        state => state.requests.getAllHotels,
     );
-    let hotels = requestAllHotels.value;
+
+    let hotels = requestAllHotels.value ?? [];
     console.log(hotels?.length);
     const [arrivalDate, setArravalDate] = useState("");
     const [departureDate, setDepartureDate] = useState("");
     const [peopleAmount, setPeopleAmount] = useState(0);
     const [city, setCity] = useState("");
-    const [lowPrice, setLowPrice] = useState(0);
-    const [highPrice, setHighPrice] = useState(0);
     const [parking, setParking] = useState(false);
-    const [food, setFood] = useState(false);
-    const [wifi, setWifi] = useState(false);
+
     const handleArrivalDateChange = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
@@ -59,39 +73,54 @@ function SearchHotel() {
         setPeopleAmount(Number(e.target.value));
     };
     const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setCity(e.target.value);
+        setUserFilters({ ...userFilters, city: e.target.value });
     };
     const handleLowPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLowPrice(Number(e.target.value));
+        setUserFilters({ ...userFilters, lowPrice: Number(e.target.value) });
     };
     const handleHighPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setHighPrice(Number(e.target.value));
+        setUserFilters({ ...userFilters, highPrice: Number(e.target.value) });
     };
     const handleParkingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setParking(e.target.checked);
     };
     const handleFoodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFood(e.target.checked);
+        setUserFilters({ ...userFilters, food: e.target.checked });
     };
     const handleWifiChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setWifi(e.target.checked);
+        setUserFilters({ ...userFilters, wifi: e.target.checked });
     };
 
-    let hotelList = cityNames.map(one => (
-        <HotelCard
-            name={one}
-            luxary={true}
-            normal={false}
-            reallyBad={true}
-            address={
-                { city: "ddff ", country: "djjf ", place: "fjff" } as Address
-            }
-            isFood={true}
-            isWiFi={false}
-            raiting={7}
-            price={3200}
-        />
-    )); //works
+    const cityNames = [...new Set(hotelInfo.map(one => one.city))];
+    const cities = cityNames.map(item => <option key={item}>{item}</option>);
+    const [userFilters, setUserFilters] = useState({
+        city: "",
+        food: false,
+        wifi: false,
+        lowPrice: 0,
+        highPrice: 0,
+    });
+    const hotelList = hotelInfo
+        .filter(hotel => filterHotels(hotel, userFilters))
+        .map(one => (
+            <HotelCard
+                name={one.name}
+                luxary={one.isLuxary}
+                normal={one.isNormal}
+                reallyBad={one.isReallyBad}
+                address={
+                    {
+                        city: one.city,
+                        country: one.country,
+                        place: one.place,
+                    } as Address
+                }
+                isFood={one.hotelFood}
+                isWiFi={one.hotelWiFi}
+                raiting={one.rate}
+                price={one.price}
+            />
+        ));
     return (
         <>
             <Container>
@@ -153,9 +182,10 @@ function SearchHotel() {
                     <H2Filters>Питание</H2Filters>
                     <Checkbox type="checkbox" onChange={handleWifiChange} />
                     <H2Filters>Wi-Fi</H2Filters>
+
                     <FindButton
                         onClick={() => {
-                            dispatch(getAllHotelsThunk());
+                            dispatch(hotelThunks.getAllHotels({}));
                             alert(hotels?.length);
                         }}
                     >

@@ -53,7 +53,7 @@ interface HotelProps {
     hotelId: string;
 }
 export function HotelReviewsBlock(props: HotelProps) {
-    let reviews = getReviews(props.hotelId);
+    let reviews = getReviews(Number(props.hotelId));
     let resreviews = reviews.map(aReview => <HotelReviewCard {...aReview} />);
     return (
         <Container>

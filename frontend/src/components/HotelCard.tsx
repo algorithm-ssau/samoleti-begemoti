@@ -178,7 +178,11 @@ function HotelCard(props: hotelCardProps) {
                     <H2SecondaryColor>{wifiMessage}</H2SecondaryColor>
                 </RowContainer>
                 <RowContainer>
-                    <BookButton onClick={() => navigate("hotelpage")}>
+                    <BookButton
+                        onClick={() => {
+                            navigate("hotelpage");
+                        }}
+                    >
                         Забронировать
                     </BookButton>
                 </RowContainer>

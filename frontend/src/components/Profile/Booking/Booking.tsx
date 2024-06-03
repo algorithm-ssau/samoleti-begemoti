@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import {
-    bookThunk,
-    bookingsThunk,
-    hotelByIdThunk,
-    roomByIdThunk,
-} from "../../../store/requestThunks";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+    hotelThunks,
+    roomThunks,
+    useAppDispatch,
+    useAppSelector,
+    userThunks,
+} from "../../../store/store";
 import { ContainerChapter, Line, Text } from "../Cash/style";
 import {
     RoomType,
@@ -28,10 +29,16 @@ import {
     TextStatus,
     TextStatusParam,
 } from "./style";
-import { RoomCategory, type Booking, type BookingStatus } from "samolet-common";
+import type {
+    RoomCategory,
+    Booking,
+    BookingStatus,
+    Address,
+} from "samolet-common";
+import { Category } from "@mui/icons-material";
 
 export interface BookingProps {
-    idroom?: number;
+    idroom?: string;
     idhotel?: string;
     title?: string;
     status?: BookingStatus;
@@ -49,21 +56,19 @@ export interface BookingProps {
 export function Booking() {
     const dispatch = useAppDispatch();
     const reservations = useAppSelector(state => state.requests.bookings);
-
-    const book = useAppSelector(state => state.requests.book);
+    const booking = reservations.value || [];
     const activeBooking: Booking[] =
-        reservations.value?.filter(
+        booking.filter(
             booking =>
                 booking.status === "not-paid" ||
                 booking.status === "in-process",
         ) ?? [];
     const complitedBooking: Booking[] =
-        reservations.value?.filter(
+        booking.filter(
             booking =>
                 booking.status === "finished" || booking.status === "paid",
         ) ?? [];
 
-    console.log("status book" + book.status);
     //let complitedBooking: Booking[];
     console.log("брони");
     console.log(reservations.status);
@@ -71,7 +76,7 @@ export function Booking() {
     console.log("active");
     console.log(activeBooking);
     useEffect(() => {
-        dispatch(bookingsThunk());
+        dispatch(userThunks.bookings({}));
         if (reservations.value) {
             console.log("active");
             console.log(activeBooking);
@@ -86,7 +91,7 @@ export function Booking() {
             <BookingCard
                 {...{
                     idhotel: booking.hotelId,
-                    idroom: Number(booking.roomId),
+                    idroom: booking.roomId,
                     status: booking.status,
                     arrivalDate: booking.dateFrom,
                     departureDate: booking.dateTo,
@@ -100,7 +105,7 @@ export function Booking() {
             <BookingCard
                 {...{
                     idhotel: booking.hotelId,
-                    idroom: Number(booking.roomId),
+                    idroom: booking.roomId,
                     status: booking.status,
                     arrivalDate: booking.dateFrom,
                     departureDate: booking.dateTo,
@@ -130,37 +135,36 @@ export function Booking() {
 export function onButtonClick(string: string) {
     return alert(string);
 }
-
+export function formatAddress({ country, city, place }: Address) {
+    return `${country} ${city} ${place}`;
+}
+function roomCategoryRoom(category: RoomCategory) {
+    if (category == "bad") return RoomType.Economy;
+    else if (category == "luxary") return RoomType.Standart;
+    else return RoomType.Lux;
+}
 export function BookingCard(props: BookingProps) {
     const dispatch = useAppDispatch();
     const hotel = useAppSelector(state => state.requests.hotelById);
+
     const room = useAppSelector(state => state.requests.roomById);
+
+    const title = hotel.value?.name ?? "";
+
+    const address = hotel.value?.address
+        ? formatAddress(hotel.value?.address)
+        : "";
+    const sum = room.value?.price ?? "0";
+    const category = room.value?.category
+        ? roomCategoryRoom(room.value?.category)
+        : "";
+
     useEffect(() => {
         if (props.idhotel) {
-            dispatch(hotelByIdThunk({ id: props.idhotel }));
-            if (hotel.status === "fulfilled") {
-                if (hotel.value?.name) props.title = hotel.value?.name;
-                if (hotel.value?.address)
-                    props.address =
-                        hotel.value?.address.country +
-                        " " +
-                        hotel.value.address.city +
-                        " " +
-                        hotel.value.address.place;
-            }
+            dispatch(hotelThunks.hotelById(props.idhotel));
         }
         if (props.idroom) {
-            dispatch(roomByIdThunk({ id: Number(props.idroom) }));
-            if (room.status === "fulfilled") {
-                if (room.value.price) props.sum = room.value.price * 1; //props.visitorsNumber!;
-                if (room.value.category) {
-                    if (room.value.category == RoomCategory.Shit)
-                        props.roomType = RoomType.Economy;
-                    else if (room.value.category == RoomCategory.Normal)
-                        props.roomType = RoomType.Standart;
-                    else props.roomType = RoomType.Lux;
-                }
-            }
+            dispatch(roomThunks.roomById(props.idroom));
         }
     }, []);
     let alertText = "";
@@ -181,7 +185,7 @@ export function BookingCard(props: BookingProps) {
     return (
         <Container>
             <ContainerRow>
-                <Title>{props.title}</Title>
+                <Title>{title}</Title>
                 <TextStatus>Статус:</TextStatus>
                 <TextStatusParam>{props.status}</TextStatusParam>
                 <Button onClick={() => alert(alertText)}>{buttonText}</Button>
@@ -190,7 +194,7 @@ export function BookingCard(props: BookingProps) {
                 <InfoContainer>
                     <InfoRow>
                         <Parameter>Адрес:</Parameter>{" "}
-                        <BookingText>{props.address}</BookingText>
+                        <BookingText>{address}</BookingText>
                     </InfoRow>
                     <InfoRow>
                         <Parameter>Телефон:</Parameter>{" "}
@@ -206,7 +210,7 @@ export function BookingCard(props: BookingProps) {
                     </InfoRow>
                     <InfoRow>
                         <Parameter>Тип комнаты:</Parameter>
-                        <BookingText>{props.roomType}</BookingText>
+                        <BookingText>{category}</BookingText>
                     </InfoRow>
                     <InfoRow>
                         <Parameter>Контакты заказчика:</Parameter>
@@ -231,7 +235,7 @@ export function BookingCard(props: BookingProps) {
                         <CommentText>{props.comment}</CommentText>
                     </CommentBlock>
 
-                    <Info title="Стоимость:" text={`${props.sum} Р`} />
+                    <Info title="Стоимость:" text={`${sum} Р`} />
                 </InfoContainer>
             </Block>
         </Container>

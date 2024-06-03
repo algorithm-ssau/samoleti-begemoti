@@ -14,8 +14,8 @@ export function DefaultHeader(props: Props) {
             onProfileClicked={() =>
                 log ? navigate("/profile/settings") : navigate("/auth/entry")
             }
-            onRouteClicked={() => navigate("/test")} //"rout"
-            onTicketClicked={() => navigate("/test")}
+            onRouteClicked={() => navigate("/admin")} //"rout"
+            onTicketClicked={() => navigate("/admin")}
             login={log}
         />
     );

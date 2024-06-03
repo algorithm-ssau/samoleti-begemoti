@@ -1,5 +1,6 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../store/store";
+
+import { hotelThunks, useAppDispatch } from "../../store/store";
 import {
     Container,
     LeftContainer,
@@ -62,40 +63,19 @@ export function AddHotel() {
     // const reviewFormValues = watch();
 
     const onHotelSubmit = (data: HotelInputs) => {
-        console.log(data);
-        // dispatch(
-        //     createHotelThunk({
-        //         name: data.name,
-        //         description: data.description,
-        //         address: {
-        //             country: data.country,
-        //             city: data.city,
-        //             place: data.place,
-        //         },
-        //         rooms: [], //rooms,
-        //     }),
-        // );
+        dispatch(
+            hotelThunks.createHotel({
+                name: data.name,
+                description: data.description,
+                address: {
+                    country: data.country,
+                    city: data.city,
+                    place: data.place,
+                },
+                rooms: [], // rooms,
+            }),
+        );
     };
-    // const onReviewSubmit = (data: ReviewInputs) => {
-    //     alert(
-    //         data.userId +
-    //             " " +
-    //             data.title +
-    //             " " +
-    //             data.content +
-    //             " " +
-    //             data.mark +
-    //             " " +
-    //             data.photos.length,
-    //     );
-    // };
-
-    // setRoom({
-    //     category: "normal",
-    //     price: +data.price,
-    //     bedAmount: +data.bedAmount,
-    //     number: +data.price,
-    // });
 
     return (
         <Container>
