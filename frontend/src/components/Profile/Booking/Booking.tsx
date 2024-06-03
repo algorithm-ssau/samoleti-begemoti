@@ -9,12 +9,6 @@ import {
 } from "../../../store/store";
 import { ContainerChapter, Line, Text } from "../Cash/style";
 import {
-    RoomType,
-    Status,
-    //getActiveBooking,
-    getComplitedBooking,
-} from "./dataBooking";
-import {
     Block,
     Container,
     ContainerRow,
@@ -36,6 +30,9 @@ import type {
     Address,
 } from "samolet-common";
 import { Category } from "@mui/icons-material";
+import { network } from "../../../network";
+import type { THotel } from "samolet-common/src/network/hotel";
+import type { TRoom } from "samolet-common/src/network/room";
 
 export interface BookingProps {
     idroom?: string;
@@ -45,7 +42,7 @@ export interface BookingProps {
     address?: string;
     telephone?: number;
     visitorsNumber?: number;
-    roomType?: RoomType;
+    roomType?: RoomCategory;
     visitirContact?: string;
     arrivalDate: Date;
     departureDate: Date;
@@ -138,35 +135,42 @@ export function onButtonClick(string: string) {
 export function formatAddress({ country, city, place }: Address) {
     return `${country} ${city} ${place}`;
 }
-function roomCategoryRoom(category: RoomCategory) {
-    if (category == "bad") return RoomType.Economy;
-    else if (category == "luxary") return RoomType.Standart;
-    else return RoomType.Lux;
+function roomCategoryRoom(category: RoomCategory): string {
+    switch (category) {
+        case "bad":
+            return "ну не очень";
+        case "normal":
+            return "пойдет";
+        case "luxary":
+            return "ну это конечно кринжатина";
+    }
 }
 export function BookingCard(props: BookingProps) {
     const dispatch = useAppDispatch();
-    const hotel = useAppSelector(state => state.requests.hotelById);
 
-    const room = useAppSelector(state => state.requests.roomById);
-
-    const title = hotel.value?.name ?? "";
-
-    const address = hotel.value?.address
-        ? formatAddress(hotel.value?.address)
-        : "";
-    const sum = room.value?.price ?? "0";
-    const category = room.value?.category
-        ? roomCategoryRoom(room.value?.category)
-        : "";
+    const [hotel, setHotel] = useState<THotel | null>();
+    const [room, setRoom] = useState<TRoom | null>();
 
     useEffect(() => {
         if (props.idhotel) {
-            dispatch(hotelThunks.hotelById(props.idhotel));
+            network.hotel
+                .getById(props.idhotel)
+                .then(_ => _.data)
+                .then(setHotel);
         }
         if (props.idroom) {
-            dispatch(roomThunks.roomById(props.idroom));
+            network.room
+                .getById(props.idroom)
+                .then(_ => _.data)
+                .then(setRoom);
         }
     }, []);
+
+    const title = hotel?.name ?? "";
+
+    const address = hotel?.address ? formatAddress(hotel?.address) : "";
+    const sum = room?.price ?? "0";
+    const category = room?.category ? roomCategoryRoom(room?.category) : "";
     let alertText = "";
     let buttonText = "";
     if (props.status === "paid") {
