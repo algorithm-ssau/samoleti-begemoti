@@ -1,14 +1,19 @@
 from flask import Blueprint, jsonify
 import pymongo
 from config import DevelopmentConfig
+import os
+from dotenv import load_dotenv
 from bson.objectid import ObjectId
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 hotel_booking_blueprint = Blueprint('hotel_booking_blueprint', __name__,
                         template_folder='templates')
 
-client = pymongo.MongoClient(DevelopmentConfig.MONGO_DB_URL)
-db = client[DevelopmentConfig.MONGO_DOCUMENT]
+load_dotenv()
+print(os.getenv('MONGO_DB_URL'))
+
+client = pymongo.MongoClient(os.getenv('MONGO_DB_URL'))
+db = client[os.getenv('MONGO_DOCUMENT')]
 
 
 @hotel_booking_blueprint.route('/hotelbooking/<booking_id>/cancel', methods=['POST'])
@@ -20,11 +25,12 @@ def cancel_reservation(booking_id):
         print(user_id)
         # Находим пользователя и проверяем, включено ли бронирование в его историю
         user = db['users'].find_one({"_id": ObjectId(user_id)})
-
+        if not user:
+            return jsonify({"error": "Отмена доступа"}), 403
         # booking_id_str = str(booking_id)  # Преобразуем ObjectId в строку
         # if not user or booking_id_str not in [h['$oid'] for h in user.get('hotelHistory', [])]:
         #     return jsonify({"error": "No rights to cancel this booking"}), 403
-        print('sadasdasd')
+
         # Находим запись бронирования
         hotel_book = db['hotelbookings'].find_one({"_id": ObjectId(booking_id)})
         if not hotel_book:
