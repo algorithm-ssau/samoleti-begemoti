@@ -26,7 +26,7 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      * 
      */
-      cancelReservation(id: string) {
+      cancelReservation = (id: string) => {
         return this.axios.post(
             `/hotelbooking/${id}/status/cancel`
         );
@@ -50,71 +50,71 @@ export class HotelBookingNetwork extends GenericNetwork {
      * status 500 - internal server error
      * 
      */
-    payment(id: string){
+    payment = (id: string) => {
         return this.axios.post(
             `/hotelbooking/${id}/pay`
         );
     }
 
     /**
-   * Possible errors:
-   *
-   * status 500 - internal server error
-   *
-   */
-  getAll = () => {
-    return this.axios.get<Array<THotelBooking>>(`/hotelBookings`);
-  };
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    getAll = () => {
+        return this.axios.get<Array<THotelBooking>>(`/hotelBookings`);
+    };
 
-  /**
-   * Possible errors:
-   *
-   * status 404 - hotel not found
-   *
-   * status 500 - internal server error
-   *
-   */
-  getById = (id: number) => {
-    return this.axios.get<THotelBooking>(`/hotelBookings/${id}`);
-  };
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    getById = (id: number) => {
+        return this.axios.get<THotelBooking>(`/hotelBookings/${id}`);
+    };
 
-  /**
-   * Possible errors:
-   *
-   * status 500 - internal server error
-   *
-   */
-  create = (hotelBooking: Booking) => {
-    return this.axios.post<THotelBookingWithoutId>(
-      `/hotelBookings`,
-      hotelBooking
-    );
-  };
+    /**
+     * Possible errors:
+     *
+     * status 500 - internal server error
+     *
+     */
+    create = (hotelBooking: Booking) => {
+        return this.axios.post<THotelBookingWithoutId>(
+        `/hotelBookings`,
+        hotelBooking
+        );
+    };
 
-  /**
-   * Possible errors:
-   *
-   * status 404 - hotel not found
-   *
-   * status 500 - internal server error
-   *
-   */
-  deleteById = (id: number) => {
-    return this.axios.delete<THotelBooking>(`/hotelBookings/${id}`);
-  };
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    deleteById = (id: number) => {
+        return this.axios.delete<THotelBooking>(`/hotelBookings/${id}`);
+    };
 
-  /**
-   * Possible errors:
-   *
-   * status 404 - hotel not found
-   *
-   * status 500 - internal server error
-   *
-   */
-  updateById = (id: number, newHotelBooking: Booking) => {
-    return this.axios.patch<THotelBooking>(
-      `/hotelBookings/${id}`,
-      newHotelBooking
-    );
-  };
+    /**
+     * Possible errors:
+     *
+     * status 404 - hotel not found
+     *
+     * status 500 - internal server error
+     *
+     */
+    updateById = (id: number, newHotelBooking: Booking) => {
+        return this.axios.patch<THotelBooking>(
+        `/hotelBookings/${id}`,
+        newHotelBooking
+        );
+    };
 }

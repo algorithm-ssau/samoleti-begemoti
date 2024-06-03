@@ -54,7 +54,7 @@ export class ProfileRequests extends GenericNetwork {
      * status 500 - internal server error
      * 
      */
-    addMoney(amount: number){
+    addMoney = (amount: number) => {
         return this.axios.post(
             `/profile/money`, {"amount": amount}
         );
@@ -75,7 +75,7 @@ export class ProfileRequests extends GenericNetwork {
      * status 500 - internal server error
      * 
      */
-    getTransactions(){
+    getTransactions = () => {
         return this.axios.get("/profile/transactions");
     }
 
@@ -95,7 +95,7 @@ export class ProfileRequests extends GenericNetwork {
      * status 500 - internal server error
      * 
      */
-    getBookings(){
+    getBookings = () => {
         return this.axios.post(
             `/profile/bookings`
         );
