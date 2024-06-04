@@ -17,7 +17,7 @@ const Container = styled.div`
     box-shadow: 0px 2px 4px ${lightPrimary};
     width: 62%;
     margin: 5% auto;
-
+    min-width: 350px;
     border-radius: 0px;
     align-items: center;
 `;

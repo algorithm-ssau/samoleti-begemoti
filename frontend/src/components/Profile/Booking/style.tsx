@@ -9,6 +9,7 @@ export const Base = `
 `;
 export const Container = styled.div`
     width: 70%;
+    min-width: 400px;
     box-shadow: 0px 2px 4px ${lightPrimary};
     margin: 4% auto;
     border-radius: 1em;

@@ -14,6 +14,7 @@ const Container = styled.div`
     display: flex;
     box-shadow: 0px 2px 4px ${lightPrimary};
     width: 62%;
+    min-width: 595px;
     margin: auto;
     margin-top: 5%;
     border-radius: 0px;

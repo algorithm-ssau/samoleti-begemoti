@@ -11,7 +11,9 @@ export const Container = styled.div`
     background-color: ${lightPrimary};
     display: block;
     box-shadow: 0px 2px 4px ${lightPrimary};
-    width: 48%;
+    width: 70%;
+    min-width: 490px;
+    min-height: 230px;
     margin: auto;
     align-items: center;
     border-radius: 8px;
@@ -47,7 +49,7 @@ export const SelectContainer = styled.div`
 `;
 
 export const ContainerRightHalf = styled.div`
-    width: 35%;
+    width: 45%;
     margin: auto;
     display: flex;
     justify-content: center;
