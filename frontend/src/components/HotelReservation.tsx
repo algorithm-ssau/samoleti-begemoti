@@ -297,11 +297,6 @@ function HotelReservation(props: Prpos) {
         </>
     );
 }
-// interface MessageProps {
-//     status: string;
-//     messageTitle: string;
-//     description: string;
-// }
 export function Message(props: MessageProps) {
     let messageTitle = "";
     let description = "";
@@ -325,7 +320,6 @@ export function Message(props: MessageProps) {
                 <H3Name>{description}</H3Name>
             </ContainerDownHalf>
         </>
-        //<RegSuccess mainMessage={messageTitle} secondaryMessage={description} />
     );
 }
 
