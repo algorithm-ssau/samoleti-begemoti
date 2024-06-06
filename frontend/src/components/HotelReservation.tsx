@@ -22,7 +22,7 @@ import {
 
 const Container = styled.div`
     display: block;
-    box-shadow: 0px 2px 4px ${lightPrimary};
+    // box-shadow: 0px 2px 4px ${lightPrimary};
     width: 75%;
     margin: auto;
     border-radius: 30px;
