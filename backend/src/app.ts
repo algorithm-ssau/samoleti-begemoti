@@ -37,15 +37,15 @@ app.use((req, res, next) => {
     );
     next();
 })
+    .use("/", authRouter)
     .use("/", addressRouter)
-    .use("/", hotelRouter)
     .use("/", hotelFacilityRouter)
     .use("/", roomRouter)
     .use("/", photoRouter)
     .use("/", userRouter)
-    .use("/", authRouter)
     .use("/booking", hotelBookingRouter)
     .use("/profile", profileRouter)
+    .use("/", hotelRouter)
     .use(
         Router()
             .use(authMiddleware)
