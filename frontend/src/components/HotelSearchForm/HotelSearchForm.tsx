@@ -1,7 +1,5 @@
-import { useForm, type UseFormRegister } from "react-hook-form";
-import { hotelThunks } from "../../store/requests";
+import { type UseFormRegister } from "react-hook-form";
 import { useAppDispatch } from "../../store/store";
-import { hotels } from "../Card";
 import {
     ContainerUp,
     ContainerLeftHalf,
@@ -23,6 +21,8 @@ export type HotelSearchFormState = {
     dateTo: Date;
     guests: number;
     city: string;
+    lowPrice: string;
+    highPrice: string;
 };
 
 const guestAmount = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -80,8 +80,16 @@ export function HotelSearchForm(props: Props) {
                                 </option>
                             ))}
                         </CustomSelect>
-                        <DataPriceInput type="text" placeholder="мало" />
-                        <DataPriceInput type="text" placeholder="много" />
+                        <DataPriceInput
+                            type="text"
+                            placeholder="мало"
+                            {...register("lowPrice")}
+                        />
+                        <DataPriceInput
+                            type="text"
+                            placeholder="много"
+                            {...register("highPrice")}
+                        />
                     </SelectContainer>
                 </ContainerRightHalf>
             </ContainerUp>

@@ -8,6 +8,7 @@ const RoomSchema = new Schema<Room>(
         bedAmount: { type: Number },
         facilities: [{ type: Schema.Types.ObjectId, ref: "HotelFacilities" }],
         number: { type: Number },
+        photos: [{ type: String }],
     },
     {
         timestamps: true,

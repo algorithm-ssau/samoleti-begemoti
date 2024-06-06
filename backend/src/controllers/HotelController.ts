@@ -20,11 +20,17 @@ export class HotelController extends NewGenericController<
     createFull: RequestHandler = async (req, res) => {
         const hotel = this.parser.parseCreateRequest(req);
 
+        const price = hotel.rooms.reduce(
+            (minPrice, room) => Math.min(minPrice, room.price ?? 1000),
+            9999
+        );
+
         const hotelObj: Hotel = {
             ...hotel,
+            price,
             reviews: [],
-            photos: [],
         } as any as Hotel;
+
         const result = await this.mongo.createFull(hotelObj);
 
         if (result === "address-failure") {

@@ -131,6 +131,9 @@ interface PropsRoom {
     room: TRoom;
 }
 function HotelRoom(props: PropsRoom) {
+    const {
+        room: { photos },
+    } = props;
     const roomName = "Название комнаты"; // получаем из бд
     const roomPrice = 2700; // получаем из бд
     const [open, setOpen] = useState(false);
@@ -139,6 +142,7 @@ function HotelRoom(props: PropsRoom) {
     };
     const navigate = useNavigate();
     const log = useAppSelector(state => state.isLogin);
+    const photoUrl = photos[0] ? photos[0] : "room1.jpg";
     return (
         <>
             <Container>
@@ -181,7 +185,7 @@ function HotelRoom(props: PropsRoom) {
                     </RowContainer>
                 </LeftContainer>
                 <RightContainer>
-                    <Photo src="" alt="фото комнаты" />
+                    <Photo src={`/${photoUrl}`} alt="фото комнаты" />
                     <LeftButton onClick={LeftButtonClick} />
                     <RightButton onClick={RightButtonClick} />
                 </RightContainer>

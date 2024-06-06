@@ -16,13 +16,15 @@ function filterHotels(
     hotel: THotel,
     { city, food, wifi, lowPrice, highPrice }: Filters,
 ): boolean {
+    const price = hotel.price ?? 9999;
     const badConditions = [
         city && city != hotel.address.city,
         // food && food != hotel.hotelFood,
         // wifi && wifi != hotel.hotelWiFi,
-        // lowPrice && lowPrice > hotel.price,
-        // highPrice && highPrice < hotel.price,
+        lowPrice && lowPrice > price,
+        highPrice && highPrice < price,
     ];
+
     const goodHotel = badConditions.every(condition => condition == false);
     const badHotel = !goodHotel;
     return !badHotel;
@@ -57,8 +59,8 @@ export function SearchHotelPage() {
                 ...form,
                 wifi: false,
                 food: false,
-                lowPrice: 1000,
-                highPrice: 2000,
+                lowPrice: +form.lowPrice,
+                highPrice: +form.highPrice,
             }),
         )
         .map(hotel => (
@@ -66,7 +68,6 @@ export function SearchHotelPage() {
                 {...hotel}
                 isFood={false}
                 isWiFi={false}
-                price={4000}
                 raiting={5.5}
                 id={hotel._id}
             />
@@ -74,7 +75,6 @@ export function SearchHotelPage() {
 
     return (
         <>
-            {JSON.stringify(form)}
             <HotelSearchForm cities={cities} register={register} />
             <RequestStatus status={requestStatus} />
             {hotelList}
