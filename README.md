@@ -60,7 +60,7 @@
     python -m venv .venv
     . .venv/bin/activate
     pip install -r requirements.txt
-    gunicorn wsgi:app --bind=0.0.0.0:5002 -w 13
+    gunicorn --config gunicorn_config.py app:app
     ```
 
 
