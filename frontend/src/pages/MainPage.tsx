@@ -14,7 +14,7 @@ export function MainPage() {
     return (
         <div>
             <Main>Добро пожаловать!</Main>
-            <EnterProfile />
+            {/* <EnterProfile /> */}
         </div>
     );
 }

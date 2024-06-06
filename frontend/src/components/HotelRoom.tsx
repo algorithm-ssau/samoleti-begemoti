@@ -9,13 +9,15 @@ import { useState } from "react";
 import { Dialog } from "@mui/material";
 import HotelReservation from "./HotelReservation";
 import type { TRoom } from "samolet-common/src/network/room";
+import { useAppSelector } from "../store/store";
+import { useNavigate } from "react-router";
 
 const Container = styled.div`
     display: flex;
     box-shadow: 0px 2px 4px ${lightPrimary};
     width: 62%;
     margin: 5% auto;
-
+    min-width: 350px;
     border-radius: 0px;
     align-items: center;
 `;
@@ -135,7 +137,8 @@ function HotelRoom(props: PropsRoom) {
     const handleClose = () => {
         setOpen(false);
     };
-
+    const navigate = useNavigate();
+    const log = useAppSelector(state => state.isLogin);
     return (
         <>
             <Container>
@@ -168,7 +171,11 @@ function HotelRoom(props: PropsRoom) {
                         <H2Name2>Санузел</H2Name2>
                     </RowContainer>
                     <RowContainer>
-                        <BookButton onClick={() => setOpen(true)}>
+                        <BookButton
+                            onClick={() =>
+                                log ? setOpen(true) : navigate("/auth/entry")
+                            }
+                        >
                             Забронировать
                         </BookButton>
                     </RowContainer>

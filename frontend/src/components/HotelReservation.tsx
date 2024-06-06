@@ -8,10 +8,21 @@ import {
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector, userThunks } from "../store/store";
 import type { BookingRequest } from "samolet-common";
+import { Dialog } from "@mui/material";
+import type { MessageProps } from "./Auth/Registration/Registration";
+import { NewClose } from "./Profile/Settings/style";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+    ContainerDownHalf,
+    ContainerUpHalf,
+    H3Name,
+    H2Name as Title,
+    SeparatorLine,
+} from "./RegistrationSuccess";
 
 const Container = styled.div`
     display: block;
-    box-shadow: 0px 2px 4px ${lightPrimary};
+    // box-shadow: 0px 2px 4px ${lightPrimary};
     width: 75%;
     margin: auto;
     border-radius: 30px;
@@ -196,75 +207,119 @@ function HotelReservation(props: Prpos) {
                 guestAmount: guestAmountSelected,
             } as BookingRequest),
         );
+        setOpen(true);
     };
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+        props.close();
+    };
+    return (
+        <>
+            <Container>
+                <ButtonContainer>
+                    <CloseButton onClick={() => props.close()}>✖</CloseButton>
+                </ButtonContainer>
+                <UpContainer>
+                    <SelectRoom
+                        onChange={e => setRoomTypesSelected(e.target.value)}
+                    >
+                        <option value="" selected disabled hidden>
+                            Тип комнаты
+                        </option>
+                        {rooms}
+                    </SelectRoom>
+                </UpContainer>
+                <MiddleContainer>
+                    <RowContainer>
+                        <H2Name>
+                            Количество гостей:
+                            <SelectGuestAmount
+                                onChange={e => setGuestAmount(e.target.value)}
+                            >
+                                <option value="" selected disabled hidden>
+                                    --
+                                </option>
+                                {guests}
+                            </SelectGuestAmount>
+                        </H2Name>
+                    </RowContainer>
+                    <RowContainer>
+                        <H2Name>Выбор даты:</H2Name>
+                    </RowContainer>
+                    <RowContainer2>
+                        <RowContainer2Left>
+                            <H2Name>с</H2Name>
+                            <H2Name>по</H2Name>
+                        </RowContainer2Left>
+                        <RowContainer2Right>
+                            <ChooseDate
+                                type="date"
+                                onChange={e => setDateFrom(e.target.value)}
+                            />
+                            <ChooseDate
+                                type="date"
+                                onChange={e => setDateTo(e.target.value)}
+                            />
+                        </RowContainer2Right>
+                    </RowContainer2>
+                    <RowContainer>
+                        <TextArea
+                            placeholder="Комментарий к брони"
+                            value={comment}
+                            onChange={e => setComment(e.target.value)}
+                        />
+                    </RowContainer>
+                </MiddleContainer>
+                <DownContainer>
+                    <H2Name>Итого к оплате:</H2Name>
+                    <H2Name>Много</H2Name>
+                    <PayAndBookButton onClick={PayButton}>
+                        Оплатить
+                    </PayAndBookButton>
+                    <PayAndBookButton onClick={() => onBook()}>
+                        Бронировать
+                    </PayAndBookButton>
+                </DownContainer>
+            </Container>
+            <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                style={{ padding: 0 }}
+                open={open}
+                onClose={handleClose}
+            >
+                <NewClose onClick={handleClose}>
+                    <CloseIcon />
+                </NewClose>
+                <Message status={booking.status} />
+            </Dialog>
+        </>
+    );
+}
+export function Message(props: MessageProps) {
+    let messageTitle = "";
+    let description = "";
+
+    if (props.status == "fulfilled") {
+        messageTitle = "Бронь совершена!";
+        description = "Подробности можно увидеть в личном кабинете.";
+    } else if (props.status == "error") {
+        messageTitle = "Пожалуйста, авторизируйтесь!";
+        description =
+            "Для совершения брони необходимо пройти процедура регистрации/авторизции";
+    }
 
     return (
-        <Container>
-            <ButtonContainer>
-                <CloseButton onClick={() => props.close()}>✖</CloseButton>
-            </ButtonContainer>
-            <UpContainer>
-                <SelectRoom
-                    onChange={e => setRoomTypesSelected(e.target.value)}
-                >
-                    <option value="" selected disabled hidden>
-                        Тип комнаты
-                    </option>
-                    {rooms}
-                </SelectRoom>
-            </UpContainer>
-            <MiddleContainer>
-                <RowContainer>
-                    <H2Name>
-                        Количество гостей:
-                        <SelectGuestAmount
-                            onChange={e => setGuestAmount(e.target.value)}
-                        >
-                            <option value="" selected disabled hidden>
-                                --
-                            </option>
-                            {guests}
-                        </SelectGuestAmount>
-                    </H2Name>
-                </RowContainer>
-                <RowContainer>
-                    <H2Name>Выбор даты:</H2Name>
-                </RowContainer>
-                <RowContainer2>
-                    <RowContainer2Left>
-                        <H2Name>с</H2Name>
-                        <H2Name>по</H2Name>
-                    </RowContainer2Left>
-                    <RowContainer2Right>
-                        <ChooseDate
-                            type="date"
-                            onChange={e => setDateFrom(e.target.value)}
-                        />
-                        <ChooseDate
-                            type="date"
-                            onChange={e => setDateTo(e.target.value)}
-                        />
-                    </RowContainer2Right>
-                </RowContainer2>
-                <RowContainer>
-                    <TextArea
-                        placeholder="Комментарий к брони"
-                        value={comment}
-                        onChange={e => setComment(e.target.value)}
-                    />
-                </RowContainer>
-            </MiddleContainer>
-            <DownContainer>
-                <H2Name>Итого к оплате:</H2Name>
-                <H2Name>Много</H2Name>
-                <PayAndBookButton onClick={PayButton}>
-                    Оплатить
-                </PayAndBookButton>
-                <PayAndBookButton onClick={() => onBook()}>
-                    Бронировать
-                </PayAndBookButton>
-            </DownContainer>
-        </Container>
+        <>
+            <ContainerUpHalf>
+                <Title>{messageTitle}</Title>
+            </ContainerUpHalf>
+            <SeparatorLine />
+            <ContainerDownHalf>
+                <H3Name>{description}</H3Name>
+            </ContainerDownHalf>
+        </>
     );
 }
 

@@ -49,6 +49,7 @@ export const Container = styled.div`
     padding-left: 3%;
     box-shadow: 0px 2px 4px ${lightPrimary};
     width: 60%;
+    min-width: 350px;
     margin: auto;
     margin-top: 5%;
     margin-bottom: 5%;

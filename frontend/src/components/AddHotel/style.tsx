@@ -3,8 +3,10 @@ import { lightPrimary, primaryText, baseText } from "../BaseStyle";
 
 export const Container = styled.div`
     display: flex;
+    flex-direction: column;
     box-shadow: 0px 2px 4px ${lightPrimary};
     width: 75%;
+    min-width: 690px;
     margin: auto;
     margin-left: 12%;
     margin-top: 5%;
