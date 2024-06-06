@@ -20,10 +20,11 @@ export interface ModelAddition {
 export interface Hotel {
     name: string;
     description: string;
-    photos: Photo[];
+    photos: string[];
     address: Address;
     rooms: Room[];
     reviews: Review[];
+    price: number;
 }
 
 export interface Address {
@@ -56,6 +57,7 @@ export interface Room {
     bedAmount: number;
     facilities: HotelFacilities[];
     number: number;
+    photos: string[];
 }
 
 export interface Photo {

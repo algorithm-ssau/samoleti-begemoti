@@ -10,7 +10,7 @@ import { hotelThunks, useAppDispatch, useAppSelector } from "../store/store";
 import { HotelInfoCard } from "../components/Hotel/Hotel";
 import { HotelReviewsBlock } from "../components/HotelReviewComponent/HotelReview";
 import { HotelRooms } from "../components/HotelRoom";
-import { formatAddress } from "../components/Profile/Booking/Booking";
+import { formatAddress } from "../util";
 
 interface RouteParams {
     id: string;

@@ -11,9 +11,7 @@ import {
     type UseFormRegister,
     type UseFormRegisterReturn,
 } from "react-hook-form";
-import { H2PrimaryColor, InputButton } from "../../components/AddHotel/style";
-import type { RoomCategory } from "samolet-common";
-import type { HotelSearchFormState } from "../../components/HotelSearchForm";
+import { H2PrimaryColor } from "../../components/AddHotel/style";
 import type { HotelFormState } from "../../components/AddHotel/AddHotel";
 
 export type RoomFormState = {
@@ -22,6 +20,7 @@ export type RoomFormState = {
     bedAmount: string;
     facilities: string;
     amountOfRooms: string;
+    photos: string;
 };
 
 export const defaultRoomFormState: RoomFormState = {
@@ -30,6 +29,7 @@ export const defaultRoomFormState: RoomFormState = {
     bedAmount: "0",
     facilities: "",
     amountOfRooms: "0",
+    photos: "",
 };
 
 interface Props {
@@ -83,6 +83,7 @@ export function AddRoomForm(props: Props) {
                         title="Удобства"
                         register={register("facilities")}
                     />
+                    <InputRow title="Фото" register={register("photos")} />
                 </TableBody>
             </Table>
         </>

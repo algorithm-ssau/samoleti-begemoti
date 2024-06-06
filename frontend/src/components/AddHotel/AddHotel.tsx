@@ -20,12 +20,11 @@ import {
     AddReviewForm,
     type ReviewFormState,
 } from "../../forms/AddRoomForm/AddReviewForm.tsx/AddReviewForm";
-import type { Room } from "samolet-common";
 
 interface HotelInputs {
     name: string;
     description: string;
-    photos: string[];
+    photos: string;
     country: string;
     city: string;
     place: string;
@@ -37,13 +36,21 @@ export type HotelFormState = {
 } & HotelInputs;
 
 function convertToApiType(room: RoomFormState) {
-    const { amountOfRooms, bedAmount, facilities, price, roomCategory } = room;
+    const {
+        amountOfRooms,
+        bedAmount,
+        facilities,
+        price,
+        roomCategory,
+        photos,
+    } = room;
     return {
         amountOfRooms: +amountOfRooms,
         bedAmount: +bedAmount,
         facilities: [],
         price: +price,
         roomCategory,
+        photos: photos ? [photos] : [],
     };
 }
 
@@ -86,6 +93,7 @@ export function AddHotel() {
                     city: data.city,
                     place: data.place,
                 },
+                photos: data.photos ? [data.photos] : [],
                 rooms: form.rooms.map(convertToApiType),
             }),
         );
@@ -120,11 +128,7 @@ export function AddHotel() {
                     </RowContainer>
                     <RowContainer>
                         <H2PrimaryColor>Добавить фото отеля:</H2PrimaryColor>
-                        <InputButton
-                            type="file"
-                            {...register("photos")}
-                            multiple
-                        />
+                        <InputButton {...register("photos")} />
                     </RowContainer>
                     <InputButton type="submit" />
                 </form>

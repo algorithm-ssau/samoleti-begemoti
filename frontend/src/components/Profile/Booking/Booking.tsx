@@ -33,6 +33,7 @@ import { Category } from "@mui/icons-material";
 import { network } from "../../../network";
 import type { THotel } from "samolet-common/src/network/hotel";
 import type { TRoom } from "samolet-common/src/network/room";
+import { formatAddress } from "../../../util";
 
 export interface BookingProps {
     idroom?: string;
@@ -132,9 +133,7 @@ export function Booking() {
 export function onButtonClick(string: string) {
     return alert(string);
 }
-export function formatAddress({ country, city, place }: Address) {
-    return `${country} ${city} ${place}`;
-}
+
 function roomCategoryRoom(category: RoomCategory): string {
     switch (category) {
         case "bad":

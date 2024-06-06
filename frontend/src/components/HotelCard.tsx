@@ -9,6 +9,7 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 
 import type { Address } from "samolet-common";
 import { lightPrimary, primaryText, baseText } from "./BaseStyle";
+import { formatAddress } from "../util";
 
 const Container = styled.div`
     display: flex;
@@ -122,30 +123,31 @@ function RightButtonClick() {
     alert("RightButton was pressed");
 }
 
-export interface hotelCardProps {
+export interface HotelCardProps {
     id?: string;
     name: string;
     price: number;
     address: Address;
+    photos: string[];
 
     isFood: boolean;
     isWiFi: boolean;
     raiting: number;
 }
 
-export function HotelCard(props: hotelCardProps) {
-    const { id } = props;
+export function HotelCard(props: HotelCardProps) {
+    const { id, photos, address, price } = props;
+
+    const navigate = useNavigate();
+
+    const photoUrl = photos[0] ?? "hotel1.jpg";
     const foodMessage = props.isFood
         ? "Питание включено"
         : "Питание не включено";
     const wifiMessage = props.isWiFi ? "Бесплатный Wi-Fi" : "Нет интернета";
     let rooms = "";
-    const addressMessage =
-        props.address.country + props.address.city + props.address.place;
-    // rooms = props.luxary ? rooms + "Люкс " : rooms + "";
-    // rooms = props.luxary ? rooms + "Стандарт " : rooms + "";
-    // rooms = props.luxary ? rooms + "Эконом " : rooms + "";
-    const navigate = useNavigate();
+    const addressMessage = formatAddress(address);
+
     return (
         <Container>
             <LeftContainer>
@@ -162,7 +164,7 @@ export function HotelCard(props: hotelCardProps) {
                 </RowContainer>
                 <RowContainer>
                     <H2SecondaryColor>Цена за ночь:</H2SecondaryColor>
-                    <H2PrimaryColor>{props.price} ₽</H2PrimaryColor>
+                    <H2PrimaryColor>от {price ?? 9999}₽</H2PrimaryColor>
                 </RowContainer>
                 <RowContainer>
                     <Place sx={{ fontSize: 30 }} />
@@ -194,7 +196,7 @@ export function HotelCard(props: hotelCardProps) {
                 </RowContainer>
             </LeftContainer>
             <RightContainer>
-                <Photo src="" alt="фото комнаты" />
+                <Photo src={photoUrl} alt="фото отеля" />
                 <LeftButton onClick={LeftButtonClick} />
                 <RightButton onClick={RightButtonClick} />
             </RightContainer>
