@@ -185,7 +185,7 @@ export function HotelCard(props: HotelCardProps) {
                 <RowContainer>
                     <BookButton
                         onClick={() => {
-                            navigate("hotelpage");
+                            id && navigate(id);
                         }}
                     >
                         Забронировать
